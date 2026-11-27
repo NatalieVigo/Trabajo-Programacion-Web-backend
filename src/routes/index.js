@@ -1,5 +1,6 @@
 import { Router } from 'express'
 import authRoutes from './auth.routes.js'
+import categoriasRoutes from './categorias.routes.js'
 import cuentaRoutes from './cuenta.routes.js'
 import invitacionesRoutes from './invitaciones.routes.js'
 import solicitudesAccesoRoutes from './solicitudesAcceso.routes.js'
@@ -12,3 +13,6 @@ rutas.use('/auth', authRoutes)
 rutas.use('/cuenta', cuentaRoutes)
 rutas.use('/invitaciones', invitacionesRoutes)
 rutas.use('/solicitudes-acceso', solicitudesAccesoRoutes)
+
+// HU-2 Catálogo de servicios
+rutas.use('/categorias', categoriasRoutes)
