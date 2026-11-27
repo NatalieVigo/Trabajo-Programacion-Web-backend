@@ -18,7 +18,7 @@ npm run dev
 
 La API queda en http://localhost:3000/api.
 
-`npm run db:reset` borra la base `mesa_ayuda` y la vuelve a crear con los archivos de `database/esquema` y los datos de `database/seed.json`, que es una copia del seed de la entrega 1.
+`npm run db:reset` borra la base `mesa_ayuda` y la vuelve a crear con los archivos de `database/esquema` y los datos de `database/seed.json`, que es una copia del seed de la entrega 1. Hay que volver a correrlo cada vez que cambie algo en `database/`.
 
 Para las pruebas (`npm test`) MySQL debe estar encendido; usan una base aparte, `mesa_ayuda_test`.
 
@@ -65,7 +65,7 @@ Son las 17 tablas del `seed.json` de la entrega 1. En SQL se escriben en minúsc
 | HU-6 Encuesta de satisfacción | encuestas |
 | HU-7 Métricas y usuarios | unidades, vinculos |
 
-Por ahora `categorias` y `ambientes` (HU-2), `tickets` (HU-3) y `encuestas` (HU-6) tienen solo las columnas que lee HU-1. Cada responsable reemplaza su archivo de `database/esquema` y de `database/semilla` por su versión completa.
+Por ahora `tickets` (HU-3) tiene solo las columnas que leen HU-1 y HU-2, y `encuestas` (HU-6) solo las que lee HU-1. Cada responsable reemplaza su archivo de `database/esquema` y de `database/semilla` por su versión completa.
 
 ### Tablas compartidas
 
@@ -101,3 +101,34 @@ Por ahora `categorias` y `ambientes` (HU-2), `tickets` (HU-3) y `encuestas` (HU-
 | POST   | /api/solicitudes-acceso                    | Cualquiera | p11    |
 
 Las sesiones no se guardan en la base: el token dice de quién es y cuándo vence, y el servidor recuerda en memoria las que se cerraron (al cerrar sesión o al restablecer la contraseña) para responder 401. Si el servidor se reinicia, esa memoria se pierde y un token cerrado vuelve a servir hasta que vence.
+
+## HU-2 Catálogo de servicios
+
+| Método | Ruta                                       | Sesión     | Mockup |
+| ------ | ------------------------------------------ | ---------- | ------ |
+| GET    | /api/categorias                            | Supervisor | p12    |
+| GET    | /api/categorias/disponibles                | Cualquiera | p17 (Nuevo ticket de HU-3) |
+| GET    | /api/categorias/:id                        | Supervisor | p13    |
+| POST   | /api/categorias                            | Supervisor | p13    |
+| PATCH  | /api/categorias/:id                        | Supervisor | p13    |
+| PATCH  | /api/categorias/:id/estado                 | Supervisor | p12    |
+| DELETE | /api/categorias/:id                        | Supervisor | p12    |
+| GET    | /api/sedes                                 | Supervisor | p14    |
+| POST   | /api/sedes                                 | Supervisor | p14    |
+| PATCH  | /api/sedes/:id                             | Supervisor | p14    |
+| DELETE | /api/sedes/:id                             | Supervisor | p14    |
+| POST   | /api/pabellones                            | Supervisor | p14    |
+| PATCH  | /api/pabellones/:id                        | Supervisor | p14    |
+| DELETE | /api/pabellones/:id                        | Supervisor | p14    |
+| GET    | /api/ambientes                             | Cualquiera | p14, p17 (Nuevo ticket de HU-3) |
+| POST   | /api/ambientes                             | Supervisor | p15    |
+| PATCH  | /api/ambientes/:id                         | Supervisor | p15    |
+| DELETE | /api/ambientes/:id                         | Supervisor | p14    |
+| GET    | /api/habilitaciones                        | Supervisor | p16    |
+| PUT    | /api/habilitaciones                        | Supervisor | p16    |
+
+- `/api/categorias/:id` sirve para categorías (`cat-01`) y subcategorías (`sub-01`). Si el `POST` trae `categoriaId`, se crea una subcategoría de esa categoría.
+- Desactivar algo con tickets en curso responde `409 OPEN_TICKETS`; se confirma volviendo a enviarlo con `confirmado: true`.
+- Lo que está en uso no se elimina (`409 IN_USE`, con el motivo); en su lugar se puede desactivar.
+- `PUT /api/habilitaciones` recibe `{ "usr-002": ["cat-01", "cat-07"] }`; los técnicos que no vienen no cambian.
+- Para contar los tickets por categoría, subcategoría y ambiente, HU-2 agregó `categoria_id`, `subcategoria_id` y `ambiente_id` a `tickets`; el responsable de HU-3 las conserva al completar la tabla.
