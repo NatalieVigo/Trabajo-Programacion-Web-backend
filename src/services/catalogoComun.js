@@ -16,6 +16,16 @@ export function enumerar(partes) {
   return partes.length > 1 ? `${partes.slice(0, -1).join(', ')} y ${partes.at(-1)}` : partes[0]
 }
 
+// las filas sin ese campo no se cuentan
+export function contarPor(filas, campo) {
+  const conteo = new Map()
+  for (const fila of filas) {
+    const clave = fila[campo]
+    if (clave !== undefined && clave !== null) conteo.set(clave, (conteo.get(clave) ?? 0) + 1)
+  }
+  return conteo
+}
+
 export const porNombre = (a, b) => a.nombre.localeCompare(b.nombre, 'es', { numeric: true })
 
 export function nombreTomado(mensaje) {
