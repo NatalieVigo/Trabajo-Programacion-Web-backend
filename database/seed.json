@@ -1,0 +1,2153 @@
+{
+  "version": 5,
+  "usuarios": [
+    {
+      "id": "usr-001",
+      "nombres": "Camila Alejandra",
+      "apellidos": "Quispe Ramos",
+      "correo": "camila.quispe@aloe.ulima.edu.pe",
+      "telefono": "987654321",
+      "rol": "usuario",
+      "unidad": "Ingeniería de Sistemas",
+      "vinculo": "Estudiante",
+      "especialidades": [],
+      "ambienteHabitualId": "amb-01",
+      "estado": "activo",
+      "motivoBloqueo": null,
+      "passwordHash": "9ef1b20089d9f59c0860ee7e0d14adf195f102e435bd5d004601686c41cc86e1",
+      "passwordSalt": "b6fe7b392a33ebe6890c3e65a011bd56",
+      "intentosFallidos": 0,
+      "bloqueadoHasta": null,
+      "aceptaTerminos": true,
+      "invitacionId": null,
+      "creadoEn": "2026-03-14T15:20:00.000Z",
+      "actualizadoEn": "2026-03-14T15:20:00.000Z"
+    },
+    {
+      "id": "usr-002",
+      "nombres": "Julio César",
+      "apellidos": "Paredes Soto",
+      "correo": "jparedes@ulima.edu.pe",
+      "telefono": "956314220",
+      "rol": "tecnico",
+      "unidad": "Dirección de Infraestructura y Servicios",
+      "vinculo": null,
+      "especialidades": [
+        "cat-01",
+        "cat-02"
+      ],
+      "ambienteHabitualId": null,
+      "estado": "activo",
+      "motivoBloqueo": null,
+      "passwordHash": "97f5009d9da7a5c369c1e52044d4b426b48eb98eb9c77ee06330f405aa471c21",
+      "passwordSalt": "2a515487d16093ec03b2f8ae2de80b32",
+      "intentosFallidos": 0,
+      "bloqueadoHasta": null,
+      "aceptaTerminos": true,
+      "invitacionId": "inv-004",
+      "creadoEn": "2026-03-02T14:15:00.000Z",
+      "actualizadoEn": "2026-03-02T14:15:00.000Z"
+    },
+    {
+      "id": "usr-003",
+      "nombres": "Lucía",
+      "apellidos": "Mendoza Ríos",
+      "correo": "lmendoza@ulima.edu.pe",
+      "telefono": "998102345",
+      "rol": "supervisor",
+      "unidad": "Dirección de Infraestructura y Servicios",
+      "vinculo": null,
+      "especialidades": [
+        "cat-03",
+        "cat-04"
+      ],
+      "ambienteHabitualId": null,
+      "estado": "activo",
+      "motivoBloqueo": null,
+      "passwordHash": "50564cb5e6cdd33bc27561131d43291f217027797f4c7a0819ee846edb2c348b",
+      "passwordSalt": "0bac04b2b28af8bee3ec23380bb98412",
+      "intentosFallidos": 0,
+      "bloqueadoHasta": null,
+      "aceptaTerminos": true,
+      "invitacionId": null,
+      "creadoEn": "2026-01-12T13:30:00.000Z",
+      "actualizadoEn": "2026-01-12T13:30:00.000Z"
+    },
+    {
+      "id": "usr-004",
+      "nombres": "Diego",
+      "apellidos": "Salas Vera",
+      "correo": "diego.salas@aloe.ulima.edu.pe",
+      "telefono": "934567120",
+      "rol": "usuario",
+      "unidad": "Derecho",
+      "vinculo": "Estudiante",
+      "especialidades": [],
+      "ambienteHabitualId": null,
+      "estado": "bloqueado",
+      "motivoBloqueo": "Reportes falsos reiterados.",
+      "passwordHash": "ee353316ef65254c5b3a518d59cfdb204dac726d6d49c1cc191a694aa39d3bcc",
+      "passwordSalt": "0bdf343ce1f5962429085005bb4fc132",
+      "intentosFallidos": 0,
+      "bloqueadoHasta": null,
+      "aceptaTerminos": true,
+      "invitacionId": null,
+      "creadoEn": "2026-04-02T21:45:00.000Z",
+      "actualizadoEn": "2026-09-10T16:05:00.000Z"
+    },
+    {
+      "id": "usr-005",
+      "nombres": "Renzo",
+      "apellidos": "Salazar Núñez",
+      "correo": "renzo.salazar@aloe.ulima.edu.pe",
+      "telefono": "945120337",
+      "rol": "usuario",
+      "unidad": "Ingeniería Industrial",
+      "vinculo": "Estudiante",
+      "especialidades": [],
+      "ambienteHabitualId": "amb-06",
+      "estado": "activo",
+      "motivoBloqueo": null,
+      "passwordHash": "b34b65cf121902d2206b69efb9de382faecb81eef1e38f519d5229a48942210a",
+      "passwordSalt": "55eba5630e4686b9679a1c9d729b1ba1",
+      "intentosFallidos": 0,
+      "bloqueadoHasta": null,
+      "aceptaTerminos": true,
+      "invitacionId": null,
+      "creadoEn": "2026-03-20T17:10:00.000Z",
+      "actualizadoEn": "2026-03-20T17:10:00.000Z"
+    },
+    {
+      "id": "usr-006",
+      "nombres": "Milagros",
+      "apellidos": "Ccahuana Ríos",
+      "correo": "mccahuana@ulima.edu.pe",
+      "telefono": "961843205",
+      "rol": "usuario",
+      "unidad": "Comunicación",
+      "vinculo": "Docente",
+      "especialidades": [],
+      "ambienteHabitualId": "amb-09",
+      "estado": "activo",
+      "motivoBloqueo": null,
+      "passwordHash": "b643c9232b7a7a58d94d838c6cd54318b7b13af5174a26673ebbd9863862f77d",
+      "passwordSalt": "d65b77ba24e68c396e166c1eca1c06d7",
+      "intentosFallidos": 0,
+      "bloqueadoHasta": null,
+      "aceptaTerminos": true,
+      "invitacionId": null,
+      "creadoEn": "2026-03-25T14:40:00.000Z",
+      "actualizadoEn": "2026-03-25T14:40:00.000Z"
+    },
+    {
+      "id": "usr-007",
+      "nombres": "Andrea",
+      "apellidos": "Chávez Loayza",
+      "correo": "achavez@ulima.edu.pe",
+      "telefono": "979305611",
+      "rol": "usuario",
+      "unidad": "Arquitectura",
+      "vinculo": "Docente",
+      "especialidades": [],
+      "ambienteHabitualId": null,
+      "estado": "activo",
+      "motivoBloqueo": null,
+      "passwordHash": "27de677974837d7dcfb27bfe617d610649341436c2ae42c2775d33f7dd697c28",
+      "passwordSalt": "f717f21181e5bd4951bbcf025efb46fd",
+      "intentosFallidos": 0,
+      "bloqueadoHasta": null,
+      "aceptaTerminos": true,
+      "invitacionId": null,
+      "creadoEn": "2026-04-08T20:00:00.000Z",
+      "actualizadoEn": "2026-04-08T20:00:00.000Z"
+    },
+    {
+      "id": "usr-008",
+      "nombres": "Marco",
+      "apellidos": "Huamán Vela",
+      "correo": "mhuaman@ulima.edu.pe",
+      "telefono": "952780164",
+      "rol": "tecnico",
+      "unidad": "Dirección de Infraestructura y Servicios",
+      "vinculo": null,
+      "especialidades": [
+        "cat-05",
+        "cat-01"
+      ],
+      "ambienteHabitualId": null,
+      "estado": "activo",
+      "motivoBloqueo": null,
+      "passwordHash": "86c4390edbc31897b5fb019f63e9c4b2cfdf6a9d8ae2f3028df1c53ea0f9f2e8",
+      "passwordSalt": "a986ca12903847304559b6baee1581f2",
+      "intentosFallidos": 0,
+      "bloqueadoHasta": null,
+      "aceptaTerminos": true,
+      "invitacionId": null,
+      "creadoEn": "2026-02-03T13:00:00.000Z",
+      "actualizadoEn": "2026-02-03T13:00:00.000Z"
+    },
+    {
+      "id": "usr-009",
+      "nombres": "Iván",
+      "apellidos": "Zegarra Pinto",
+      "correo": "izegarra@ulima.edu.pe",
+      "telefono": "983416702",
+      "rol": "tecnico",
+      "unidad": "Dirección de Infraestructura y Servicios",
+      "vinculo": null,
+      "especialidades": [
+        "cat-04",
+        "cat-07"
+      ],
+      "ambienteHabitualId": null,
+      "estado": "activo",
+      "motivoBloqueo": null,
+      "passwordHash": "e2a71cd41250b3714218fac683e80824b0bb69283d0028c3db3ed12a0eb68abc",
+      "passwordSalt": "10d8194e1747e99193e3d5152a9e0588",
+      "intentosFallidos": 0,
+      "bloqueadoHasta": null,
+      "aceptaTerminos": true,
+      "invitacionId": null,
+      "creadoEn": "2026-02-03T13:10:00.000Z",
+      "actualizadoEn": "2026-02-03T13:10:00.000Z"
+    },
+    {
+      "id": "usr-010",
+      "nombres": "Sandra",
+      "apellidos": "Nolasco Ríos",
+      "correo": "snolasco@ulima.edu.pe",
+      "telefono": "946205871",
+      "rol": "tecnico",
+      "unidad": "Dirección de Infraestructura y Servicios",
+      "vinculo": null,
+      "especialidades": [
+        "cat-02",
+        "cat-03"
+      ],
+      "ambienteHabitualId": null,
+      "estado": "activo",
+      "motivoBloqueo": null,
+      "passwordHash": "8951d68477d83022e16131e8dfa26fb4abb3564638e66ba5152126a497581264",
+      "passwordSalt": "d2df7179e8d37b2949766cfae4c4bf73",
+      "intentosFallidos": 0,
+      "bloqueadoHasta": null,
+      "aceptaTerminos": true,
+      "invitacionId": null,
+      "creadoEn": "2026-02-04T14:30:00.000Z",
+      "actualizadoEn": "2026-02-04T14:30:00.000Z"
+    }
+  ],
+  "invitaciones": [
+    {
+      "id": "inv-001",
+      "token": "INV-TEC-2026-DEMO",
+      "nombres": "Rosa Elena",
+      "apellidos": "Huamán Torres",
+      "correo": "rhuaman@ulima.edu.pe",
+      "rol": "tecnico",
+      "telefono": "951220874",
+      "invitadoPor": "usr-003",
+      "estado": "pendiente",
+      "venceEn": "2027-01-01T04:59:59.000Z",
+      "creadaEn": "2026-09-29T15:00:00.000Z",
+      "respondidaEn": null
+    },
+    {
+      "id": "inv-002",
+      "token": "INV-SUP-2026-DEMO",
+      "nombres": "Martín Alonso",
+      "apellidos": "Cárdenas Vela",
+      "correo": "mcardenas@ulima.edu.pe",
+      "rol": "supervisor",
+      "telefono": "962418305",
+      "invitadoPor": "usr-003",
+      "estado": "pendiente",
+      "venceEn": "2027-01-01T04:59:59.000Z",
+      "creadaEn": "2026-09-29T15:05:00.000Z",
+      "respondidaEn": null
+    },
+    {
+      "id": "inv-003",
+      "token": "INV-TEC-2026-VENCIDA",
+      "nombres": "Hernán",
+      "apellidos": "Loayza Pomar",
+      "correo": "hloayza@ulima.edu.pe",
+      "rol": "tecnico",
+      "telefono": "958031476",
+      "invitadoPor": "usr-003",
+      "estado": "pendiente",
+      "venceEn": "2026-09-12T15:00:00.000Z",
+      "creadaEn": "2026-09-05T15:00:00.000Z",
+      "respondidaEn": null
+    },
+    {
+      "id": "inv-004",
+      "token": "INV-TEC-2026-USADA",
+      "nombres": "Julio César",
+      "apellidos": "Paredes Soto",
+      "correo": "jparedes@ulima.edu.pe",
+      "rol": "tecnico",
+      "telefono": "956314220",
+      "invitadoPor": "usr-003",
+      "estado": "aceptada",
+      "venceEn": "2026-03-04T23:00:00.000Z",
+      "creadaEn": "2026-02-25T23:00:00.000Z",
+      "respondidaEn": "2026-03-02T14:15:00.000Z"
+    }
+  ],
+  "tokensRecuperacion": [],
+  "solicitudesAcceso": [],
+  "intentosAcceso": [],
+  "categorias": [
+    {
+      "id": "cat-01",
+      "nombre": "Audiovisuales",
+      "descripcion": "Proyectores, ecran, audio, micrófonos y pantallas de aulas y auditorios.",
+      "activa": true,
+      "prioridadPorDefecto": "alta",
+      "tiempoEsperadoHoras": 4
+    },
+    {
+      "id": "cat-02",
+      "nombre": "Redes y conectividad",
+      "descripcion": "Puntos de red, wifi y conexión de los equipos del campus.",
+      "activa": true,
+      "prioridadPorDefecto": "critica",
+      "tiempoEsperadoHoras": 2
+    },
+    {
+      "id": "cat-03",
+      "nombre": "Climatización",
+      "descripcion": "Aire acondicionado, ventilación y fugas de condensado.",
+      "activa": true,
+      "prioridadPorDefecto": "alta",
+      "tiempoEsperadoHoras": 8
+    },
+    {
+      "id": "cat-04",
+      "nombre": "Eléctrico",
+      "descripcion": "Tomacorrientes, luminarias, extensiones y tableros eléctricos.",
+      "activa": true,
+      "prioridadPorDefecto": "alta",
+      "tiempoEsperadoHoras": 8
+    },
+    {
+      "id": "cat-05",
+      "nombre": "Mobiliario",
+      "descripcion": "Sillas, carpetas, mesas, pizarras y cortinas dañadas.",
+      "activa": true,
+      "prioridadPorDefecto": "baja",
+      "tiempoEsperadoHoras": 48
+    },
+    {
+      "id": "cat-06",
+      "nombre": "Limpieza",
+      "descripcion": "Derrames, residuos y limpieza de aulas, baños y pasillos.",
+      "activa": true,
+      "prioridadPorDefecto": "media",
+      "tiempoEsperadoHoras": 24
+    },
+    {
+      "id": "cat-07",
+      "nombre": "Accesos y cerraduras",
+      "descripcion": "Chapas, puertas, cerraduras y control de acceso a los ambientes.",
+      "activa": true,
+      "prioridadPorDefecto": "alta",
+      "tiempoEsperadoHoras": 8
+    }
+  ],
+  "subcategorias": [
+    {
+      "id": "sub-01",
+      "categoriaId": "cat-01",
+      "nombre": "Proyector no enciende",
+      "descripcion": "El proyector no prende o se apaga a los pocos minutos de uso.",
+      "activa": true,
+      "prioridadPorDefecto": "critica",
+      "tiempoEsperadoHoras": 2
+    },
+    {
+      "id": "sub-02",
+      "categoriaId": "cat-01",
+      "nombre": "Imagen distorsionada",
+      "descripcion": "Colores alterados, imagen borrosa, cortada o parpadeante.",
+      "activa": true,
+      "prioridadPorDefecto": "media",
+      "tiempoEsperadoHoras": 8
+    },
+    {
+      "id": "sub-03",
+      "categoriaId": "cat-01",
+      "nombre": "Audio sin señal",
+      "descripcion": "Parlantes o micrófonos del ambiente sin sonido.",
+      "activa": true,
+      "prioridadPorDefecto": "media",
+      "tiempoEsperadoHoras": 8
+    },
+    {
+      "id": "sub-04",
+      "categoriaId": "cat-01",
+      "nombre": "Ecran atascado",
+      "descripcion": "El ecran no baja o no se recoge por completo.",
+      "activa": true,
+      "prioridadPorDefecto": "baja",
+      "tiempoEsperadoHoras": 24
+    },
+    {
+      "id": "sub-05",
+      "categoriaId": "cat-02",
+      "nombre": "Punto de red caído",
+      "descripcion": "El punto de red del ambiente no da conexión.",
+      "activa": true,
+      "prioridadPorDefecto": "critica",
+      "tiempoEsperadoHoras": 2
+    },
+    {
+      "id": "sub-06",
+      "categoriaId": "cat-02",
+      "nombre": "Señal intermitente",
+      "descripcion": "La conexión wifi o cableada se corta cada cierto tiempo.",
+      "activa": true,
+      "prioridadPorDefecto": "media",
+      "tiempoEsperadoHoras": 12
+    },
+    {
+      "id": "sub-07",
+      "categoriaId": "cat-02",
+      "nombre": "Wifi sin acceso",
+      "descripcion": "La red inalámbrica aparece pero no permite navegar.",
+      "activa": true,
+      "prioridadPorDefecto": "alta",
+      "tiempoEsperadoHoras": 4
+    },
+    {
+      "id": "sub-08",
+      "categoriaId": "cat-03",
+      "nombre": "Aire sin frío",
+      "descripcion": "El aire acondicionado enciende pero no enfría el ambiente.",
+      "activa": true,
+      "prioridadPorDefecto": "alta",
+      "tiempoEsperadoHoras": 8
+    },
+    {
+      "id": "sub-09",
+      "categoriaId": "cat-03",
+      "nombre": "Fuga de condensado",
+      "descripcion": "Goteo de agua desde el equipo de aire acondicionado.",
+      "activa": true,
+      "prioridadPorDefecto": "alta",
+      "tiempoEsperadoHoras": 8
+    },
+    {
+      "id": "sub-10",
+      "categoriaId": "cat-03",
+      "nombre": "Calefacción sin funcionar",
+      "descripcion": "La calefacción del ambiente no enciende.",
+      "activa": false,
+      "prioridadPorDefecto": "baja",
+      "tiempoEsperadoHoras": 48
+    },
+    {
+      "id": "sub-11",
+      "categoriaId": "cat-04",
+      "nombre": "Tomacorriente sin energía",
+      "descripcion": "Uno o más tomacorrientes del ambiente no tienen energía.",
+      "activa": true,
+      "prioridadPorDefecto": "alta",
+      "tiempoEsperadoHoras": 8
+    },
+    {
+      "id": "sub-12",
+      "categoriaId": "cat-04",
+      "nombre": "Luminaria apagada",
+      "descripcion": "Fluorescentes o paneles LED que no encienden o parpadean.",
+      "activa": true,
+      "prioridadPorDefecto": "media",
+      "tiempoEsperadoHoras": 24
+    },
+    {
+      "id": "sub-13",
+      "categoriaId": "cat-04",
+      "nombre": "Tablero eléctrico con falla",
+      "descripcion": "Llaves que saltan, olor a quemado o chispas en el tablero.",
+      "activa": true,
+      "prioridadPorDefecto": "critica",
+      "tiempoEsperadoHoras": 2
+    },
+    {
+      "id": "sub-14",
+      "categoriaId": "cat-05",
+      "nombre": "Silla rota",
+      "descripcion": "Sillas con el asiento, el respaldo o las patas dañadas.",
+      "activa": true,
+      "prioridadPorDefecto": "baja",
+      "tiempoEsperadoHoras": 48
+    },
+    {
+      "id": "sub-15",
+      "categoriaId": "cat-05",
+      "nombre": "Carpeta o mesa dañada",
+      "descripcion": "Carpetas o mesas inestables, rotas o con piezas sueltas.",
+      "activa": true,
+      "prioridadPorDefecto": "baja",
+      "tiempoEsperadoHoras": 48
+    },
+    {
+      "id": "sub-16",
+      "categoriaId": "cat-05",
+      "nombre": "Pizarra suelta",
+      "descripcion": "Pizarra floja o desprendida de la pared.",
+      "activa": true,
+      "prioridadPorDefecto": "media",
+      "tiempoEsperadoHoras": 24
+    },
+    {
+      "id": "sub-17",
+      "categoriaId": "cat-06",
+      "nombre": "Derrame o residuos",
+      "descripcion": "Líquidos derramados o residuos que impiden usar el ambiente.",
+      "activa": true,
+      "prioridadPorDefecto": "media",
+      "tiempoEsperadoHoras": 8
+    },
+    {
+      "id": "sub-18",
+      "categoriaId": "cat-06",
+      "nombre": "Baño sin insumos",
+      "descripcion": "Falta de papel, jabón o toallas en los servicios higiénicos.",
+      "activa": true,
+      "prioridadPorDefecto": "media",
+      "tiempoEsperadoHoras": 24
+    },
+    {
+      "id": "sub-19",
+      "categoriaId": "cat-07",
+      "nombre": "Chapa trabada",
+      "descripcion": "La cerradura no abre, no cierra o la llave no gira.",
+      "activa": true,
+      "prioridadPorDefecto": "alta",
+      "tiempoEsperadoHoras": 8
+    },
+    {
+      "id": "sub-20",
+      "categoriaId": "cat-07",
+      "nombre": "Control de acceso sin respuesta",
+      "descripcion": "El lector de tarjetas o el control de acceso no responde.",
+      "activa": true,
+      "prioridadPorDefecto": "alta",
+      "tiempoEsperadoHoras": 4
+    }
+  ],
+  "sedes": [
+    {
+      "id": "sed-01",
+      "nombre": "Campus Monterrico"
+    }
+  ],
+  "pabellones": [
+    {
+      "id": "pab-01",
+      "sedeId": "sed-01",
+      "nombre": "A"
+    },
+    {
+      "id": "pab-02",
+      "sedeId": "sed-01",
+      "nombre": "C"
+    },
+    {
+      "id": "pab-03",
+      "sedeId": "sed-01",
+      "nombre": "E"
+    },
+    {
+      "id": "pab-04",
+      "sedeId": "sed-01",
+      "nombre": "H"
+    },
+    {
+      "id": "pab-05",
+      "sedeId": "sed-01",
+      "nombre": "L"
+    },
+    {
+      "id": "pab-06",
+      "sedeId": "sed-01",
+      "nombre": "N"
+    },
+    {
+      "id": "pab-07",
+      "sedeId": "sed-01",
+      "nombre": "Q"
+    },
+    {
+      "id": "pab-08",
+      "sedeId": "sed-01",
+      "nombre": "Biblioteca"
+    },
+    {
+      "id": "pab-09",
+      "sedeId": "sed-01",
+      "nombre": "Central"
+    }
+  ],
+  "ambientes": [
+    {
+      "id": "amb-01",
+      "codigo": "A-201",
+      "nombre": "Aula A-201",
+      "tipo": "aula",
+      "pabellonId": "pab-01",
+      "piso": 2,
+      "capacidad": 68
+    },
+    {
+      "id": "amb-02",
+      "codigo": "A-305",
+      "nombre": "Aula A-305",
+      "tipo": "aula",
+      "pabellonId": "pab-01",
+      "piso": 3,
+      "capacidad": 54
+    },
+    {
+      "id": "amb-03",
+      "codigo": "E-304",
+      "nombre": "Aula magna E-304",
+      "tipo": "aula",
+      "pabellonId": "pab-03",
+      "piso": 3,
+      "capacidad": 120
+    },
+    {
+      "id": "amb-04",
+      "codigo": "H-105",
+      "nombre": "Laboratorio de cómputo",
+      "tipo": "laboratorio",
+      "pabellonId": "pab-04",
+      "piso": 1,
+      "capacidad": 32
+    },
+    {
+      "id": "amb-05",
+      "codigo": "H-210",
+      "nombre": "Laboratorio de Redes",
+      "tipo": "laboratorio",
+      "pabellonId": "pab-04",
+      "piso": 2,
+      "capacidad": 28
+    },
+    {
+      "id": "amb-06",
+      "codigo": "N-402",
+      "nombre": "Aula N-402",
+      "tipo": "aula",
+      "pabellonId": "pab-06",
+      "piso": 4,
+      "capacidad": 48
+    },
+    {
+      "id": "amb-07",
+      "codigo": "Q-101",
+      "nombre": "Auditorio Q-101",
+      "tipo": "auditorio",
+      "pabellonId": "pab-07",
+      "piso": 1,
+      "capacidad": 180
+    },
+    {
+      "id": "amb-08",
+      "codigo": "BIB-P2",
+      "nombre": "Biblioteca piso 2",
+      "tipo": "biblioteca",
+      "pabellonId": "pab-08",
+      "piso": 2,
+      "capacidad": 210
+    },
+    {
+      "id": "amb-09",
+      "codigo": "AUD-CEN",
+      "nombre": "Auditorio Central",
+      "tipo": "auditorio",
+      "pabellonId": "pab-09",
+      "piso": 1,
+      "capacidad": 420
+    },
+    {
+      "id": "amb-10",
+      "codigo": "L-108",
+      "nombre": "Laboratorio de Física",
+      "tipo": "laboratorio",
+      "pabellonId": "pab-05",
+      "piso": 1,
+      "capacidad": 30
+    },
+    {
+      "id": "amb-11",
+      "codigo": "C-102",
+      "nombre": "Oficina de Bienestar Universitario",
+      "tipo": "oficina",
+      "pabellonId": "pab-02",
+      "piso": 1,
+      "capacidad": 8
+    }
+  ],
+  "habilitaciones": [
+    {
+      "id": "hab-001",
+      "tecnicoId": "usr-002",
+      "categoriaId": "cat-01"
+    },
+    {
+      "id": "hab-002",
+      "tecnicoId": "usr-002",
+      "categoriaId": "cat-02"
+    },
+    {
+      "id": "hab-003",
+      "tecnicoId": "usr-002",
+      "categoriaId": "cat-07"
+    },
+    {
+      "id": "hab-004",
+      "tecnicoId": "usr-008",
+      "categoriaId": "cat-01"
+    },
+    {
+      "id": "hab-005",
+      "tecnicoId": "usr-008",
+      "categoriaId": "cat-05"
+    },
+    {
+      "id": "hab-006",
+      "tecnicoId": "usr-009",
+      "categoriaId": "cat-04"
+    },
+    {
+      "id": "hab-007",
+      "tecnicoId": "usr-009",
+      "categoriaId": "cat-05"
+    },
+    {
+      "id": "hab-008",
+      "tecnicoId": "usr-009",
+      "categoriaId": "cat-07"
+    },
+    {
+      "id": "hab-009",
+      "tecnicoId": "usr-010",
+      "categoriaId": "cat-02"
+    },
+    {
+      "id": "hab-010",
+      "tecnicoId": "usr-010",
+      "categoriaId": "cat-03"
+    }
+  ],
+  "unidades": [
+    "Ingeniería de Sistemas",
+    "Ingeniería Industrial",
+    "Ingeniería Civil",
+    "Arquitectura",
+    "Administración",
+    "Contabilidad y Finanzas",
+    "Economía",
+    "Marketing",
+    "Negocios Internacionales",
+    "Comunicación",
+    "Derecho",
+    "Psicología",
+    "Dirección de Infraestructura y Servicios",
+    "Biblioteca",
+    "Bienestar Universitario"
+  ],
+  "vinculos": [
+    "Estudiante",
+    "Docente",
+    "Personal administrativo",
+    "Egresado"
+  ],
+  "tickets": [
+    {
+      "id": "tck-00103",
+      "codigo": "TCK-2026-00103",
+      "asunto": "Ecran no baja en aula A-305",
+      "usuarioId": "usr-001",
+      "categoriaId": "cat-01",
+      "ambienteId": "amb-02",
+      "asignadoA": "usr-002",
+      "estado": "cerrado",
+      "prioridad": "baja",
+      "creadoEn": "2026-08-04T14:20:00.000Z",
+      "cerradoEn": "2026-08-05T16:45:00.000Z"
+    },
+    {
+      "id": "tck-00109",
+      "codigo": "TCK-2026-00109",
+      "asunto": "Silla rota en aula",
+      "usuarioId": "usr-001",
+      "categoriaId": "cat-05",
+      "ambienteId": "amb-01",
+      "asignadoA": "usr-008",
+      "estado": "cerrado",
+      "prioridad": "baja",
+      "creadoEn": "2026-08-12T15:05:00.000Z",
+      "cerradoEn": "2026-08-14T21:30:00.000Z"
+    },
+    {
+      "id": "tck-00114",
+      "codigo": "TCK-2026-00114",
+      "asunto": "Audio sin señal en auditorio",
+      "usuarioId": "usr-001",
+      "categoriaId": "cat-01",
+      "ambienteId": "amb-07",
+      "asignadoA": "usr-002",
+      "estado": "cerrado",
+      "prioridad": "media",
+      "creadoEn": "2026-08-17T13:40:00.000Z",
+      "cerradoEn": "2026-08-18T17:10:00.000Z"
+    },
+    {
+      "id": "tck-00118",
+      "codigo": "TCK-2026-00118",
+      "asunto": "Proyector no enciende",
+      "usuarioId": "usr-001",
+      "categoriaId": "cat-01",
+      "ambienteId": "amb-01",
+      "asignadoA": "usr-002",
+      "estado": "cerrado",
+      "prioridad": "critica",
+      "creadoEn": "2026-08-20T12:55:00.000Z",
+      "cerradoEn": "2026-08-21T14:30:00.000Z"
+    },
+    {
+      "id": "tck-00122",
+      "codigo": "TCK-2026-00122",
+      "asunto": "Aire acondicionado sin frío",
+      "usuarioId": "usr-001",
+      "categoriaId": "cat-03",
+      "ambienteId": "amb-03",
+      "asignadoA": "usr-010",
+      "estado": "cerrado",
+      "prioridad": "alta",
+      "creadoEn": "2026-08-25T16:15:00.000Z",
+      "cerradoEn": "2026-08-27T20:40:00.000Z"
+    },
+    {
+      "id": "tck-00126",
+      "codigo": "TCK-2026-00126",
+      "asunto": "Punto de red sin enlace",
+      "usuarioId": "usr-001",
+      "categoriaId": "cat-02",
+      "ambienteId": "amb-04",
+      "asignadoA": "usr-002",
+      "estado": "cerrado",
+      "prioridad": "alta",
+      "creadoEn": "2026-08-29T19:20:00.000Z",
+      "cerradoEn": "2026-08-30T15:05:00.000Z"
+    },
+    {
+      "id": "tck-00130",
+      "codigo": "TCK-2026-00130",
+      "asunto": "Extensión eléctrica en mal estado",
+      "usuarioId": "usr-001",
+      "categoriaId": "cat-04",
+      "ambienteId": "amb-03",
+      "asignadoA": "usr-009",
+      "estado": "cerrado",
+      "prioridad": "alta",
+      "creadoEn": "2026-08-31T14:04:00.000Z",
+      "cerradoEn": "2026-09-01T20:16:00.000Z"
+    },
+    {
+      "id": "tck-00131",
+      "codigo": "TCK-2026-00131",
+      "asunto": "Micrófono inalámbrico sin señal",
+      "usuarioId": "usr-001",
+      "categoriaId": "cat-01",
+      "ambienteId": "amb-09",
+      "asignadoA": "usr-002",
+      "estado": "cerrado",
+      "prioridad": "media",
+      "creadoEn": "2026-09-24T13:30:00.000Z",
+      "cerradoEn": "2026-09-28T22:20:00.000Z"
+    },
+    {
+      "id": "tck-00138",
+      "codigo": "TCK-2026-00138",
+      "asunto": "Aire acondicionado gotea sobre las carpetas",
+      "usuarioId": "usr-001",
+      "categoriaId": "cat-03",
+      "ambienteId": "amb-05",
+      "asignadoA": "usr-010",
+      "estado": "en_espera",
+      "prioridad": "alta",
+      "creadoEn": "2026-09-25T15:15:00.000Z",
+      "cerradoEn": null
+    },
+    {
+      "id": "tck-00141",
+      "codigo": "TCK-2026-00141",
+      "asunto": "Imagen distorsionada del proyector",
+      "usuarioId": "usr-001",
+      "categoriaId": "cat-01",
+      "ambienteId": "amb-07",
+      "asignadoA": "usr-002",
+      "estado": "resuelto",
+      "prioridad": "media",
+      "creadoEn": "2026-09-27T14:00:00.000Z",
+      "cerradoEn": null
+    },
+    {
+      "id": "tck-00143",
+      "codigo": "TCK-2026-00143",
+      "asunto": "Parlantes del auditorio con ruido",
+      "usuarioId": "usr-006",
+      "categoriaId": "cat-01",
+      "ambienteId": "amb-09",
+      "asignadoA": "usr-002",
+      "estado": "en_espera",
+      "prioridad": "media",
+      "creadoEn": "2026-09-29T16:20:00.000Z",
+      "cerradoEn": null
+    },
+    {
+      "id": "tck-00144",
+      "codigo": "TCK-2026-00144",
+      "asunto": "Punto de red caído en laboratorio",
+      "usuarioId": "usr-001",
+      "categoriaId": "cat-02",
+      "ambienteId": "amb-05",
+      "asignadoA": "usr-002",
+      "estado": "en_atencion",
+      "prioridad": "critica",
+      "creadoEn": "2026-09-29T20:40:00.000Z",
+      "cerradoEn": null
+    },
+    {
+      "id": "tck-00146",
+      "codigo": "TCK-2026-00146",
+      "asunto": "Tomacorriente sin energía",
+      "usuarioId": "usr-005",
+      "categoriaId": "cat-04",
+      "ambienteId": "amb-06",
+      "asignadoA": null,
+      "estado": "abierto",
+      "prioridad": "alta",
+      "creadoEn": "2026-09-30T12:45:00.000Z",
+      "cerradoEn": null
+    },
+    {
+      "id": "tck-00147",
+      "codigo": "TCK-2026-00147",
+      "asunto": "Proyector no enciende en aula A-201",
+      "usuarioId": "usr-001",
+      "categoriaId": "cat-01",
+      "ambienteId": "amb-01",
+      "asignadoA": null,
+      "estado": "abierto",
+      "prioridad": "critica",
+      "creadoEn": "2026-09-30T13:12:00.000Z",
+      "cerradoEn": null
+    }
+  ],
+  "encuestas": [
+    {
+      "id": "enc-001",
+      "ticketId": "tck-00103",
+      "usuarioId": "usr-001",
+      "puntaje": 5,
+      "respondidaEn": "2026-08-05T23:00:00.000Z"
+    },
+    {
+      "id": "enc-002",
+      "ticketId": "tck-00109",
+      "usuarioId": "usr-001",
+      "puntaje": 4,
+      "respondidaEn": "2026-08-15T13:20:00.000Z"
+    },
+    {
+      "id": "enc-003",
+      "ticketId": "tck-00114",
+      "usuarioId": "usr-001",
+      "puntaje": 4,
+      "respondidaEn": "2026-08-19T01:10:00.000Z"
+    },
+    {
+      "id": "enc-004",
+      "ticketId": "tck-00118",
+      "usuarioId": "usr-001",
+      "puntaje": 5,
+      "respondidaEn": "2026-08-21T17:00:00.000Z"
+    },
+    {
+      "id": "enc-005",
+      "ticketId": "tck-00122",
+      "usuarioId": "usr-001",
+      "puntaje": 3,
+      "respondidaEn": "2026-08-28T14:35:00.000Z"
+    },
+    {
+      "id": "enc-006",
+      "ticketId": "tck-00126",
+      "usuarioId": "usr-001",
+      "puntaje": 5,
+      "respondidaEn": "2026-08-31T00:00:00.000Z"
+    },
+    {
+      "id": "enc-007",
+      "ticketId": "tck-00130",
+      "usuarioId": "usr-001",
+      "puntaje": 4,
+      "respondidaEn": "2026-09-01T23:40:00.000Z"
+    }
+  ],
+  "bitacora": [
+    {
+      "id": "bit-001",
+      "ticketId": "tck-00103",
+      "autorId": "usr-001",
+      "tipo": "publico",
+      "mensaje": "El ecran del aula A-305 se queda arriba y no baja con el control ni con el botón de la pared.",
+      "creadoEn": "2026-08-04T14:20:00.000Z"
+    },
+    {
+      "id": "bit-002",
+      "ticketId": "tck-00103",
+      "autorId": "usr-002",
+      "tipo": "interno",
+      "mensaje": "La guía izquierda está doblada. Necesito la escalera alta del almacén para desmontarla.",
+      "creadoEn": "2026-08-04T19:35:00.000Z"
+    },
+    {
+      "id": "bit-003",
+      "ticketId": "tck-00103",
+      "autorId": "usr-002",
+      "tipo": "publico",
+      "mensaje": "El ecran ya sube y baja con normalidad. Se enderezó la guía y se lubricó el eje.",
+      "creadoEn": "2026-08-05T15:55:00.000Z"
+    },
+    {
+      "id": "bit-004",
+      "ticketId": "tck-00109",
+      "autorId": "usr-001",
+      "tipo": "publico",
+      "mensaje": "Una silla de la tercera fila tiene el respaldo roto y puede lastimar a alguien.",
+      "creadoEn": "2026-08-12T15:05:00.000Z"
+    },
+    {
+      "id": "bit-005",
+      "ticketId": "tck-00109",
+      "autorId": "usr-008",
+      "tipo": "publico",
+      "mensaje": "Retiré la silla dañada. La de reemplazo llega mañana del almacén.",
+      "creadoEn": "2026-08-13T14:45:00.000Z"
+    },
+    {
+      "id": "bit-006",
+      "ticketId": "tck-00109",
+      "autorId": "usr-008",
+      "tipo": "publico",
+      "mensaje": "Ya está colocada la silla nueva.",
+      "creadoEn": "2026-08-14T21:05:00.000Z"
+    },
+    {
+      "id": "bit-007",
+      "ticketId": "tck-00114",
+      "autorId": "usr-001",
+      "tipo": "publico",
+      "mensaje": "Los parlantes del auditorio Q-101 no emiten sonido, aunque la consola está encendida.",
+      "creadoEn": "2026-08-17T13:40:00.000Z"
+    },
+    {
+      "id": "bit-008",
+      "ticketId": "tck-00114",
+      "autorId": "usr-002",
+      "tipo": "interno",
+      "mensaje": "La consola envía señal, pero el amplificador no la recibe. Sospecho del cable XLR del canal principal.",
+      "creadoEn": "2026-08-17T16:20:00.000Z"
+    },
+    {
+      "id": "bit-009",
+      "ticketId": "tck-00114",
+      "autorId": "usr-002",
+      "tipo": "publico",
+      "mensaje": "Cambié el cable entre la consola y el amplificador. El audio funciona en todos los parlantes.",
+      "creadoEn": "2026-08-18T16:35:00.000Z"
+    },
+    {
+      "id": "bit-010",
+      "ticketId": "tck-00118",
+      "autorId": "usr-001",
+      "tipo": "publico",
+      "mensaje": "El proyector del aula A-201 no enciende. La luz del equipo parpadea en rojo.",
+      "creadoEn": "2026-08-20T12:55:00.000Z"
+    },
+    {
+      "id": "bit-011",
+      "ticketId": "tck-00118",
+      "autorId": "usr-003",
+      "tipo": "publico",
+      "mensaje": "Asignamos tu ticket a Julio Paredes. Lo revisará antes de la clase de las 10:00.",
+      "creadoEn": "2026-08-20T13:06:00.000Z"
+    },
+    {
+      "id": "bit-012",
+      "ticketId": "tck-00118",
+      "autorId": "usr-002",
+      "tipo": "interno",
+      "mensaje": "Luz roja intermitente: lámpara agotada (3900 h de uso). No hay repuesto en el pañol del pabellón.",
+      "creadoEn": "2026-08-20T13:35:00.000Z"
+    },
+    {
+      "id": "bit-013",
+      "ticketId": "tck-00118",
+      "autorId": "usr-002",
+      "tipo": "publico",
+      "mensaje": "El proyector necesita una lámpara nueva, que llega mañana. Hoy dejé un proyector portátil en el aula.",
+      "creadoEn": "2026-08-20T14:12:00.000Z"
+    },
+    {
+      "id": "bit-014",
+      "ticketId": "tck-00118",
+      "autorId": "usr-002",
+      "tipo": "publico",
+      "mensaje": "Lámpara reemplazada. El proyector enciende y proyecta con normalidad.",
+      "creadoEn": "2026-08-21T14:18:00.000Z"
+    },
+    {
+      "id": "bit-015",
+      "ticketId": "tck-00122",
+      "autorId": "usr-001",
+      "tipo": "publico",
+      "mensaje": "El aire acondicionado del aula magna E-304 enciende pero no enfría.",
+      "creadoEn": "2026-08-25T16:15:00.000Z"
+    },
+    {
+      "id": "bit-016",
+      "ticketId": "tck-00122",
+      "autorId": "usr-010",
+      "tipo": "interno",
+      "mensaje": "Presión baja en el circuito: hay una fuga en la unión de la tubería exterior.",
+      "creadoEn": "2026-08-25T21:35:00.000Z"
+    },
+    {
+      "id": "bit-017",
+      "ticketId": "tck-00122",
+      "autorId": "usr-010",
+      "tipo": "publico",
+      "mensaje": "El equipo tiene una fuga de gas. El proveedor trae la recarga el 27/08.",
+      "creadoEn": "2026-08-25T21:40:00.000Z"
+    },
+    {
+      "id": "bit-018",
+      "ticketId": "tck-00122",
+      "autorId": "usr-010",
+      "tipo": "publico",
+      "mensaje": "Fuga sellada y gas recargado. El aula ya enfría.",
+      "creadoEn": "2026-08-27T20:05:00.000Z"
+    },
+    {
+      "id": "bit-019",
+      "ticketId": "tck-00126",
+      "autorId": "usr-001",
+      "tipo": "publico",
+      "mensaje": "El punto de red de la mesa 14 del laboratorio H-105 no da conexión.",
+      "creadoEn": "2026-08-29T19:20:00.000Z"
+    },
+    {
+      "id": "bit-020",
+      "ticketId": "tck-00126",
+      "autorId": "usr-002",
+      "tipo": "interno",
+      "mensaje": "El punto 14 no enlaza con el switch. El conector de la roseta está sulfatado.",
+      "creadoEn": "2026-08-29T20:45:00.000Z"
+    },
+    {
+      "id": "bit-021",
+      "ticketId": "tck-00126",
+      "autorId": "usr-002",
+      "tipo": "publico",
+      "mensaje": "Cambié el conector del punto de red. Ya tiene enlace.",
+      "creadoEn": "2026-08-30T14:45:00.000Z"
+    },
+    {
+      "id": "bit-022",
+      "ticketId": "tck-00130",
+      "autorId": "usr-001",
+      "tipo": "publico",
+      "mensaje": "La extensión que alimenta el podio del aula E-304 tiene el cable pelado y hace chispas.",
+      "creadoEn": "2026-08-31T14:04:00.000Z"
+    },
+    {
+      "id": "bit-023",
+      "ticketId": "tck-00130",
+      "autorId": "usr-009",
+      "tipo": "publico",
+      "mensaje": "Retiré la extensión para evitar riesgos. Instalaré tomacorrientes fijos junto al podio.",
+      "creadoEn": "2026-08-31T15:20:00.000Z"
+    },
+    {
+      "id": "bit-024",
+      "ticketId": "tck-00130",
+      "autorId": "usr-009",
+      "tipo": "interno",
+      "mensaje": "Falta un tramo de canaleta de 2 m. El almacén lo entrega mañana temprano.",
+      "creadoEn": "2026-08-31T21:02:00.000Z"
+    },
+    {
+      "id": "bit-025",
+      "ticketId": "tck-00130",
+      "autorId": "usr-009",
+      "tipo": "publico",
+      "mensaje": "Quedaron instalados dos tomacorrientes fijos junto al podio.",
+      "creadoEn": "2026-09-01T15:35:00.000Z"
+    },
+    {
+      "id": "bit-026",
+      "ticketId": "tck-00131",
+      "autorId": "usr-001",
+      "tipo": "publico",
+      "mensaje": "El micrófono inalámbrico del Auditorio Central se corta cada pocos segundos.",
+      "creadoEn": "2026-09-24T13:30:00.000Z"
+    },
+    {
+      "id": "bit-027",
+      "ticketId": "tck-00131",
+      "autorId": "usr-002",
+      "tipo": "publico",
+      "mensaje": "El receptor del micrófono falla y lo enviamos al proveedor. Mientras tanto dejé un micrófono de cable.",
+      "creadoEn": "2026-09-24T16:35:00.000Z"
+    },
+    {
+      "id": "bit-028",
+      "ticketId": "tck-00131",
+      "autorId": "usr-002",
+      "tipo": "interno",
+      "mensaje": "Guía de envío al proveedor: 4471. Ofrecen devolverlo el lunes 28.",
+      "creadoEn": "2026-09-24T16:40:00.000Z"
+    },
+    {
+      "id": "bit-029",
+      "ticketId": "tck-00131",
+      "autorId": "usr-002",
+      "tipo": "publico",
+      "mensaje": "Receptor reemplazado. Los dos micrófonos inalámbricos funcionan.",
+      "creadoEn": "2026-09-28T21:45:00.000Z"
+    },
+    {
+      "id": "bit-030",
+      "ticketId": "tck-00138",
+      "autorId": "usr-001",
+      "tipo": "publico",
+      "mensaje": "El aire acondicionado del laboratorio H-210 gotea sobre las carpetas de la segunda fila.",
+      "creadoEn": "2026-09-25T15:15:00.000Z"
+    },
+    {
+      "id": "bit-031",
+      "ticketId": "tck-00138",
+      "autorId": "usr-010",
+      "tipo": "publico",
+      "mensaje": "Coloqué un recipiente y moví las carpetas. Revisaré el drenaje del equipo.",
+      "creadoEn": "2026-09-25T16:45:00.000Z"
+    },
+    {
+      "id": "bit-032",
+      "ticketId": "tck-00138",
+      "autorId": "usr-010",
+      "tipo": "interno",
+      "mensaje": "Bandeja de condensado rajada. La cotización del proveedor está pendiente de aprobación.",
+      "creadoEn": "2026-09-26T14:05:00.000Z"
+    },
+    {
+      "id": "bit-033",
+      "ticketId": "tck-00141",
+      "autorId": "usr-001",
+      "tipo": "publico",
+      "mensaje": "La imagen del proyector del auditorio Q-101 sale con franjas verdes.",
+      "creadoEn": "2026-09-27T14:00:00.000Z"
+    },
+    {
+      "id": "bit-034",
+      "ticketId": "tck-00141",
+      "autorId": "usr-002",
+      "tipo": "interno",
+      "mensaje": "El cable VGA del podio tiene un pin doblado. Lo cambio por HDMI con adaptador.",
+      "creadoEn": "2026-09-27T15:30:00.000Z"
+    },
+    {
+      "id": "bit-035",
+      "ticketId": "tck-00141",
+      "autorId": "usr-002",
+      "tipo": "publico",
+      "mensaje": "Cambié el cable del podio. La imagen se ve bien; por favor confírmalo en tu próxima clase.",
+      "creadoEn": "2026-09-29T21:12:00.000Z"
+    },
+    {
+      "id": "bit-036",
+      "ticketId": "tck-00143",
+      "autorId": "usr-006",
+      "tipo": "publico",
+      "mensaje": "Los parlantes del Auditorio Central tienen un zumbido constante, incluso sin micrófonos.",
+      "creadoEn": "2026-09-29T16:20:00.000Z"
+    },
+    {
+      "id": "bit-037",
+      "ticketId": "tck-00143",
+      "autorId": "usr-002",
+      "tipo": "interno",
+      "mensaje": "Zumbido de 60 Hz: lazo de tierra entre la consola y el amplificador.",
+      "creadoEn": "2026-09-29T19:20:00.000Z"
+    },
+    {
+      "id": "bit-038",
+      "ticketId": "tck-00143",
+      "autorId": "usr-002",
+      "tipo": "publico",
+      "mensaje": "El ruido viene de la instalación eléctrica del amplificador. Pedimos un filtro que llega la próxima semana.",
+      "creadoEn": "2026-09-30T14:35:00.000Z"
+    },
+    {
+      "id": "bit-039",
+      "ticketId": "tck-00144",
+      "autorId": "usr-001",
+      "tipo": "publico",
+      "mensaje": "No hay red en ninguna computadora del laboratorio H-210. Mañana hay práctica calificada a las 8:00.",
+      "creadoEn": "2026-09-29T20:40:00.000Z"
+    },
+    {
+      "id": "bit-040",
+      "ticketId": "tck-00144",
+      "autorId": "usr-003",
+      "tipo": "publico",
+      "mensaje": "Asignamos tu ticket a Julio Paredes con prioridad crítica por la práctica de mañana.",
+      "creadoEn": "2026-09-29T20:52:00.000Z"
+    },
+    {
+      "id": "bit-041",
+      "ticketId": "tck-00144",
+      "autorId": "usr-002",
+      "tipo": "interno",
+      "mensaje": "El switch del gabinete del piso 2 está apagado: no le llega energía del tomacorriente del rack.",
+      "creadoEn": "2026-09-29T21:30:00.000Z"
+    },
+    {
+      "id": "bit-042",
+      "ticketId": "tck-00144",
+      "autorId": "usr-002",
+      "tipo": "publico",
+      "mensaje": "El equipo de red del piso está sin energía. Conecté el laboratorio a otro gabinete de forma provisional.",
+      "creadoEn": "2026-09-29T21:45:00.000Z"
+    },
+    {
+      "id": "bit-043",
+      "ticketId": "tck-00146",
+      "autorId": "usr-005",
+      "tipo": "publico",
+      "mensaje": "El tomacorriente junto a la pizarra del aula N-402 no tiene energía.",
+      "creadoEn": "2026-09-30T12:45:00.000Z"
+    },
+    {
+      "id": "bit-044",
+      "ticketId": "tck-00147",
+      "autorId": "usr-001",
+      "tipo": "publico",
+      "mensaje": "El proyector enciende el foco pero la imagen no llega a la pantalla. Probé con dos laptops y el mismo cable HDMI de la mesa. Hay clase de 10:00 a 13:00.",
+      "creadoEn": "2026-09-30T13:12:00.000Z"
+    }
+  ],
+  "historial": [
+    {
+      "id": "his-001",
+      "ticketId": "tck-00103",
+      "tipo": "estado",
+      "estado": "abierto",
+      "asignadoA": null,
+      "autorId": "usr-001",
+      "motivo": null,
+      "retornoEstimado": null,
+      "solucion": null,
+      "creadoEn": "2026-08-04T14:20:00.000Z"
+    },
+    {
+      "id": "his-002",
+      "ticketId": "tck-00103",
+      "tipo": "asignacion",
+      "estado": null,
+      "asignadoA": "usr-002",
+      "autorId": "usr-003",
+      "motivo": null,
+      "retornoEstimado": null,
+      "solucion": null,
+      "creadoEn": "2026-08-04T15:05:00.000Z"
+    },
+    {
+      "id": "his-003",
+      "ticketId": "tck-00103",
+      "tipo": "estado",
+      "estado": "en_atencion",
+      "asignadoA": null,
+      "autorId": "usr-002",
+      "motivo": null,
+      "retornoEstimado": null,
+      "solucion": null,
+      "creadoEn": "2026-08-04T19:30:00.000Z"
+    },
+    {
+      "id": "his-004",
+      "ticketId": "tck-00103",
+      "tipo": "estado",
+      "estado": "resuelto",
+      "asignadoA": null,
+      "autorId": "usr-002",
+      "motivo": null,
+      "retornoEstimado": null,
+      "solucion": null,
+      "creadoEn": "2026-08-05T15:50:00.000Z"
+    },
+    {
+      "id": "his-005",
+      "ticketId": "tck-00103",
+      "tipo": "estado",
+      "estado": "cerrado",
+      "asignadoA": null,
+      "autorId": "usr-002",
+      "motivo": null,
+      "retornoEstimado": null,
+      "solucion": "Se enderezó la guía izquierda del ecran, que estaba doblada, y se lubricó el eje. Se probó subiendo y bajando cinco veces.",
+      "creadoEn": "2026-08-05T16:45:00.000Z"
+    },
+    {
+      "id": "his-006",
+      "ticketId": "tck-00109",
+      "tipo": "estado",
+      "estado": "abierto",
+      "asignadoA": null,
+      "autorId": "usr-001",
+      "motivo": null,
+      "retornoEstimado": null,
+      "solucion": null,
+      "creadoEn": "2026-08-12T15:05:00.000Z"
+    },
+    {
+      "id": "his-007",
+      "ticketId": "tck-00109",
+      "tipo": "asignacion",
+      "estado": null,
+      "asignadoA": "usr-008",
+      "autorId": "usr-003",
+      "motivo": null,
+      "retornoEstimado": null,
+      "solucion": null,
+      "creadoEn": "2026-08-12T16:30:00.000Z"
+    },
+    {
+      "id": "his-008",
+      "ticketId": "tck-00109",
+      "tipo": "estado",
+      "estado": "en_atencion",
+      "asignadoA": null,
+      "autorId": "usr-008",
+      "motivo": null,
+      "retornoEstimado": null,
+      "solucion": null,
+      "creadoEn": "2026-08-13T14:00:00.000Z"
+    },
+    {
+      "id": "his-009",
+      "ticketId": "tck-00109",
+      "tipo": "estado",
+      "estado": "en_espera",
+      "asignadoA": null,
+      "autorId": "usr-008",
+      "motivo": "Se pidió una silla de reemplazo al almacén de mobiliario.",
+      "retornoEstimado": "2026-08-15T04:59:59.000Z",
+      "solucion": null,
+      "creadoEn": "2026-08-13T14:40:00.000Z"
+    },
+    {
+      "id": "his-010",
+      "ticketId": "tck-00109",
+      "tipo": "estado",
+      "estado": "en_atencion",
+      "asignadoA": null,
+      "autorId": "usr-008",
+      "motivo": null,
+      "retornoEstimado": null,
+      "solucion": null,
+      "creadoEn": "2026-08-14T20:10:00.000Z"
+    },
+    {
+      "id": "his-011",
+      "ticketId": "tck-00109",
+      "tipo": "estado",
+      "estado": "resuelto",
+      "asignadoA": null,
+      "autorId": "usr-008",
+      "motivo": null,
+      "retornoEstimado": null,
+      "solucion": null,
+      "creadoEn": "2026-08-14T21:00:00.000Z"
+    },
+    {
+      "id": "his-012",
+      "ticketId": "tck-00109",
+      "tipo": "estado",
+      "estado": "cerrado",
+      "asignadoA": null,
+      "autorId": "usr-008",
+      "motivo": null,
+      "retornoEstimado": null,
+      "solucion": "Se retiró la silla con el respaldo roto y se colocó una silla de reemplazo del almacén.",
+      "creadoEn": "2026-08-14T21:30:00.000Z"
+    },
+    {
+      "id": "his-013",
+      "ticketId": "tck-00114",
+      "tipo": "estado",
+      "estado": "abierto",
+      "asignadoA": null,
+      "autorId": "usr-001",
+      "motivo": null,
+      "retornoEstimado": null,
+      "solucion": null,
+      "creadoEn": "2026-08-17T13:40:00.000Z"
+    },
+    {
+      "id": "his-014",
+      "ticketId": "tck-00114",
+      "tipo": "asignacion",
+      "estado": null,
+      "asignadoA": "usr-002",
+      "autorId": "usr-003",
+      "motivo": null,
+      "retornoEstimado": null,
+      "solucion": null,
+      "creadoEn": "2026-08-17T14:15:00.000Z"
+    },
+    {
+      "id": "his-015",
+      "ticketId": "tck-00114",
+      "tipo": "estado",
+      "estado": "en_atencion",
+      "asignadoA": null,
+      "autorId": "usr-002",
+      "motivo": null,
+      "retornoEstimado": null,
+      "solucion": null,
+      "creadoEn": "2026-08-17T16:00:00.000Z"
+    },
+    {
+      "id": "his-016",
+      "ticketId": "tck-00114",
+      "tipo": "estado",
+      "estado": "resuelto",
+      "asignadoA": null,
+      "autorId": "usr-002",
+      "motivo": null,
+      "retornoEstimado": null,
+      "solucion": null,
+      "creadoEn": "2026-08-18T16:30:00.000Z"
+    },
+    {
+      "id": "his-017",
+      "ticketId": "tck-00114",
+      "tipo": "estado",
+      "estado": "cerrado",
+      "asignadoA": null,
+      "autorId": "usr-002",
+      "motivo": null,
+      "retornoEstimado": null,
+      "solucion": "Se reemplazó el cable XLR de la consola al amplificador y se recalibró la ganancia del canal principal.",
+      "creadoEn": "2026-08-18T17:10:00.000Z"
+    },
+    {
+      "id": "his-018",
+      "ticketId": "tck-00118",
+      "tipo": "estado",
+      "estado": "abierto",
+      "asignadoA": null,
+      "autorId": "usr-001",
+      "motivo": null,
+      "retornoEstimado": null,
+      "solucion": null,
+      "creadoEn": "2026-08-20T12:55:00.000Z"
+    },
+    {
+      "id": "his-019",
+      "ticketId": "tck-00118",
+      "tipo": "asignacion",
+      "estado": null,
+      "asignadoA": "usr-002",
+      "autorId": "usr-003",
+      "motivo": null,
+      "retornoEstimado": null,
+      "solucion": null,
+      "creadoEn": "2026-08-20T13:05:00.000Z"
+    },
+    {
+      "id": "his-020",
+      "ticketId": "tck-00118",
+      "tipo": "estado",
+      "estado": "en_atencion",
+      "asignadoA": null,
+      "autorId": "usr-002",
+      "motivo": null,
+      "retornoEstimado": null,
+      "solucion": null,
+      "creadoEn": "2026-08-20T13:20:00.000Z"
+    },
+    {
+      "id": "his-021",
+      "ticketId": "tck-00118",
+      "tipo": "estado",
+      "estado": "en_espera",
+      "asignadoA": null,
+      "autorId": "usr-002",
+      "motivo": "La lámpara del proyector llegó al fin de su vida útil; se pidió el repuesto al almacén.",
+      "retornoEstimado": "2026-08-22T04:59:59.000Z",
+      "solucion": null,
+      "creadoEn": "2026-08-20T14:10:00.000Z"
+    },
+    {
+      "id": "his-022",
+      "ticketId": "tck-00118",
+      "tipo": "estado",
+      "estado": "en_atencion",
+      "asignadoA": null,
+      "autorId": "usr-002",
+      "motivo": null,
+      "retornoEstimado": null,
+      "solucion": null,
+      "creadoEn": "2026-08-21T13:40:00.000Z"
+    },
+    {
+      "id": "his-023",
+      "ticketId": "tck-00118",
+      "tipo": "estado",
+      "estado": "resuelto",
+      "asignadoA": null,
+      "autorId": "usr-002",
+      "motivo": null,
+      "retornoEstimado": null,
+      "solucion": null,
+      "creadoEn": "2026-08-21T14:15:00.000Z"
+    },
+    {
+      "id": "his-024",
+      "ticketId": "tck-00118",
+      "tipo": "estado",
+      "estado": "cerrado",
+      "asignadoA": null,
+      "autorId": "usr-002",
+      "motivo": null,
+      "retornoEstimado": null,
+      "solucion": "Se reemplazó la lámpara del proyector y se reinició el contador de horas de uso.",
+      "creadoEn": "2026-08-21T14:30:00.000Z"
+    },
+    {
+      "id": "his-025",
+      "ticketId": "tck-00122",
+      "tipo": "estado",
+      "estado": "abierto",
+      "asignadoA": null,
+      "autorId": "usr-001",
+      "motivo": null,
+      "retornoEstimado": null,
+      "solucion": null,
+      "creadoEn": "2026-08-25T16:15:00.000Z"
+    },
+    {
+      "id": "his-026",
+      "ticketId": "tck-00122",
+      "tipo": "asignacion",
+      "estado": null,
+      "asignadoA": "usr-010",
+      "autorId": "usr-003",
+      "motivo": null,
+      "retornoEstimado": null,
+      "solucion": null,
+      "creadoEn": "2026-08-25T17:00:00.000Z"
+    },
+    {
+      "id": "his-027",
+      "ticketId": "tck-00122",
+      "tipo": "estado",
+      "estado": "en_atencion",
+      "asignadoA": null,
+      "autorId": "usr-010",
+      "motivo": null,
+      "retornoEstimado": null,
+      "solucion": null,
+      "creadoEn": "2026-08-25T19:20:00.000Z"
+    },
+    {
+      "id": "his-028",
+      "ticketId": "tck-00122",
+      "tipo": "estado",
+      "estado": "en_espera",
+      "asignadoA": null,
+      "autorId": "usr-010",
+      "motivo": "Falta gas refrigerante; el proveedor lo entrega en dos días.",
+      "retornoEstimado": "2026-08-28T04:59:59.000Z",
+      "solucion": null,
+      "creadoEn": "2026-08-25T21:30:00.000Z"
+    },
+    {
+      "id": "his-029",
+      "ticketId": "tck-00122",
+      "tipo": "estado",
+      "estado": "en_atencion",
+      "asignadoA": null,
+      "autorId": "usr-010",
+      "motivo": null,
+      "retornoEstimado": null,
+      "solucion": null,
+      "creadoEn": "2026-08-27T16:00:00.000Z"
+    },
+    {
+      "id": "his-030",
+      "ticketId": "tck-00122",
+      "tipo": "estado",
+      "estado": "resuelto",
+      "asignadoA": null,
+      "autorId": "usr-010",
+      "motivo": null,
+      "retornoEstimado": null,
+      "solucion": null,
+      "creadoEn": "2026-08-27T20:00:00.000Z"
+    },
+    {
+      "id": "his-031",
+      "ticketId": "tck-00122",
+      "tipo": "estado",
+      "estado": "cerrado",
+      "asignadoA": null,
+      "autorId": "usr-010",
+      "motivo": null,
+      "retornoEstimado": null,
+      "solucion": "Se selló la fuga de la tubería de cobre y se recargó el gas refrigerante. El equipo enfría a 22 °C.",
+      "creadoEn": "2026-08-27T20:40:00.000Z"
+    },
+    {
+      "id": "his-032",
+      "ticketId": "tck-00126",
+      "tipo": "estado",
+      "estado": "abierto",
+      "asignadoA": null,
+      "autorId": "usr-001",
+      "motivo": null,
+      "retornoEstimado": null,
+      "solucion": null,
+      "creadoEn": "2026-08-29T19:20:00.000Z"
+    },
+    {
+      "id": "his-033",
+      "ticketId": "tck-00126",
+      "tipo": "asignacion",
+      "estado": null,
+      "asignadoA": "usr-002",
+      "autorId": "usr-003",
+      "motivo": null,
+      "retornoEstimado": null,
+      "solucion": null,
+      "creadoEn": "2026-08-29T19:50:00.000Z"
+    },
+    {
+      "id": "his-034",
+      "ticketId": "tck-00126",
+      "tipo": "estado",
+      "estado": "en_atencion",
+      "asignadoA": null,
+      "autorId": "usr-002",
+      "motivo": null,
+      "retornoEstimado": null,
+      "solucion": null,
+      "creadoEn": "2026-08-29T20:30:00.000Z"
+    },
+    {
+      "id": "his-035",
+      "ticketId": "tck-00126",
+      "tipo": "estado",
+      "estado": "resuelto",
+      "asignadoA": null,
+      "autorId": "usr-002",
+      "motivo": null,
+      "retornoEstimado": null,
+      "solucion": null,
+      "creadoEn": "2026-08-30T14:40:00.000Z"
+    },
+    {
+      "id": "his-036",
+      "ticketId": "tck-00126",
+      "tipo": "estado",
+      "estado": "cerrado",
+      "asignadoA": null,
+      "autorId": "usr-002",
+      "motivo": null,
+      "retornoEstimado": null,
+      "solucion": "Se rehízo el conector RJ-45 del punto 14 y se certificó el enlace a 1 Gbps.",
+      "creadoEn": "2026-08-30T15:05:00.000Z"
+    },
+    {
+      "id": "his-037",
+      "ticketId": "tck-00130",
+      "tipo": "estado",
+      "estado": "abierto",
+      "asignadoA": null,
+      "autorId": "usr-001",
+      "motivo": null,
+      "retornoEstimado": null,
+      "solucion": null,
+      "creadoEn": "2026-08-31T14:04:00.000Z"
+    },
+    {
+      "id": "his-038",
+      "ticketId": "tck-00130",
+      "tipo": "asignacion",
+      "estado": null,
+      "asignadoA": "usr-009",
+      "autorId": "usr-003",
+      "motivo": null,
+      "retornoEstimado": null,
+      "solucion": null,
+      "creadoEn": "2026-08-31T14:50:00.000Z"
+    },
+    {
+      "id": "his-039",
+      "ticketId": "tck-00130",
+      "tipo": "estado",
+      "estado": "en_atencion",
+      "asignadoA": null,
+      "autorId": "usr-009",
+      "motivo": null,
+      "retornoEstimado": null,
+      "solucion": null,
+      "creadoEn": "2026-08-31T15:12:00.000Z"
+    },
+    {
+      "id": "his-040",
+      "ticketId": "tck-00130",
+      "tipo": "estado",
+      "estado": "en_espera",
+      "asignadoA": null,
+      "autorId": "usr-009",
+      "motivo": "Repuesto de canaleta: el almacén lo entrega al día siguiente.",
+      "retornoEstimado": "2026-09-02T04:59:59.000Z",
+      "solucion": null,
+      "creadoEn": "2026-08-31T21:00:00.000Z"
+    },
+    {
+      "id": "his-041",
+      "ticketId": "tck-00130",
+      "tipo": "estado",
+      "estado": "resuelto",
+      "asignadoA": null,
+      "autorId": "usr-009",
+      "motivo": null,
+      "retornoEstimado": null,
+      "solucion": null,
+      "creadoEn": "2026-09-01T15:30:00.000Z"
+    },
+    {
+      "id": "his-042",
+      "ticketId": "tck-00130",
+      "tipo": "estado",
+      "estado": "cerrado",
+      "asignadoA": null,
+      "autorId": "usr-009",
+      "motivo": null,
+      "retornoEstimado": null,
+      "solucion": "Se retiró la extensión dañada y se instaló una canaleta con dos tomacorrientes fijos junto al podio.",
+      "creadoEn": "2026-09-01T20:16:00.000Z"
+    },
+    {
+      "id": "his-043",
+      "ticketId": "tck-00131",
+      "tipo": "estado",
+      "estado": "abierto",
+      "asignadoA": null,
+      "autorId": "usr-001",
+      "motivo": null,
+      "retornoEstimado": null,
+      "solucion": null,
+      "creadoEn": "2026-09-24T13:30:00.000Z"
+    },
+    {
+      "id": "his-044",
+      "ticketId": "tck-00131",
+      "tipo": "asignacion",
+      "estado": null,
+      "asignadoA": "usr-002",
+      "autorId": "usr-003",
+      "motivo": null,
+      "retornoEstimado": null,
+      "solucion": null,
+      "creadoEn": "2026-09-24T14:10:00.000Z"
+    },
+    {
+      "id": "his-045",
+      "ticketId": "tck-00131",
+      "tipo": "estado",
+      "estado": "en_atencion",
+      "asignadoA": null,
+      "autorId": "usr-002",
+      "motivo": null,
+      "retornoEstimado": null,
+      "solucion": null,
+      "creadoEn": "2026-09-24T15:00:00.000Z"
+    },
+    {
+      "id": "his-046",
+      "ticketId": "tck-00131",
+      "tipo": "estado",
+      "estado": "en_espera",
+      "asignadoA": null,
+      "autorId": "usr-002",
+      "motivo": "El receptor del micrófono se envió al proveedor para su revisión.",
+      "retornoEstimado": "2026-09-29T04:59:59.000Z",
+      "solucion": null,
+      "creadoEn": "2026-09-24T16:30:00.000Z"
+    },
+    {
+      "id": "his-047",
+      "ticketId": "tck-00131",
+      "tipo": "estado",
+      "estado": "en_atencion",
+      "asignadoA": null,
+      "autorId": "usr-002",
+      "motivo": null,
+      "retornoEstimado": null,
+      "solucion": null,
+      "creadoEn": "2026-09-28T20:00:00.000Z"
+    },
+    {
+      "id": "his-048",
+      "ticketId": "tck-00131",
+      "tipo": "estado",
+      "estado": "resuelto",
+      "asignadoA": null,
+      "autorId": "usr-002",
+      "motivo": null,
+      "retornoEstimado": null,
+      "solucion": null,
+      "creadoEn": "2026-09-28T21:40:00.000Z"
+    },
+    {
+      "id": "his-049",
+      "ticketId": "tck-00131",
+      "tipo": "estado",
+      "estado": "cerrado",
+      "asignadoA": null,
+      "autorId": "usr-002",
+      "motivo": null,
+      "retornoEstimado": null,
+      "solucion": "El proveedor reemplazó el receptor inalámbrico. Se sincronizaron los dos micrófonos en una frecuencia libre.",
+      "creadoEn": "2026-09-28T22:20:00.000Z"
+    },
+    {
+      "id": "his-050",
+      "ticketId": "tck-00138",
+      "tipo": "estado",
+      "estado": "abierto",
+      "asignadoA": null,
+      "autorId": "usr-001",
+      "motivo": null,
+      "retornoEstimado": null,
+      "solucion": null,
+      "creadoEn": "2026-09-25T15:15:00.000Z"
+    },
+    {
+      "id": "his-051",
+      "ticketId": "tck-00138",
+      "tipo": "asignacion",
+      "estado": null,
+      "asignadoA": "usr-010",
+      "autorId": "usr-003",
+      "motivo": null,
+      "retornoEstimado": null,
+      "solucion": null,
+      "creadoEn": "2026-09-25T15:40:00.000Z"
+    },
+    {
+      "id": "his-052",
+      "ticketId": "tck-00138",
+      "tipo": "estado",
+      "estado": "en_atencion",
+      "asignadoA": null,
+      "autorId": "usr-010",
+      "motivo": null,
+      "retornoEstimado": null,
+      "solucion": null,
+      "creadoEn": "2026-09-25T16:30:00.000Z"
+    },
+    {
+      "id": "his-053",
+      "ticketId": "tck-00138",
+      "tipo": "estado",
+      "estado": "en_espera",
+      "asignadoA": null,
+      "autorId": "usr-010",
+      "motivo": "La bandeja de condensado está rota; se pidió el repuesto al proveedor.",
+      "retornoEstimado": "2026-10-03T04:59:59.000Z",
+      "solucion": null,
+      "creadoEn": "2026-09-26T14:00:00.000Z"
+    },
+    {
+      "id": "his-054",
+      "ticketId": "tck-00141",
+      "tipo": "estado",
+      "estado": "abierto",
+      "asignadoA": null,
+      "autorId": "usr-001",
+      "motivo": null,
+      "retornoEstimado": null,
+      "solucion": null,
+      "creadoEn": "2026-09-27T14:00:00.000Z"
+    },
+    {
+      "id": "his-055",
+      "ticketId": "tck-00141",
+      "tipo": "asignacion",
+      "estado": null,
+      "asignadoA": "usr-002",
+      "autorId": "usr-003",
+      "motivo": null,
+      "retornoEstimado": null,
+      "solucion": null,
+      "creadoEn": "2026-09-27T14:30:00.000Z"
+    },
+    {
+      "id": "his-056",
+      "ticketId": "tck-00141",
+      "tipo": "estado",
+      "estado": "en_atencion",
+      "asignadoA": null,
+      "autorId": "usr-002",
+      "motivo": null,
+      "retornoEstimado": null,
+      "solucion": null,
+      "creadoEn": "2026-09-27T15:15:00.000Z"
+    },
+    {
+      "id": "his-057",
+      "ticketId": "tck-00141",
+      "tipo": "estado",
+      "estado": "resuelto",
+      "asignadoA": null,
+      "autorId": "usr-002",
+      "motivo": null,
+      "retornoEstimado": null,
+      "solucion": null,
+      "creadoEn": "2026-09-29T21:10:00.000Z"
+    },
+    {
+      "id": "his-058",
+      "ticketId": "tck-00143",
+      "tipo": "estado",
+      "estado": "abierto",
+      "asignadoA": null,
+      "autorId": "usr-006",
+      "motivo": null,
+      "retornoEstimado": null,
+      "solucion": null,
+      "creadoEn": "2026-09-29T16:20:00.000Z"
+    },
+    {
+      "id": "his-059",
+      "ticketId": "tck-00143",
+      "tipo": "asignacion",
+      "estado": null,
+      "asignadoA": "usr-002",
+      "autorId": "usr-003",
+      "motivo": null,
+      "retornoEstimado": null,
+      "solucion": null,
+      "creadoEn": "2026-09-29T16:45:00.000Z"
+    },
+    {
+      "id": "his-060",
+      "ticketId": "tck-00143",
+      "tipo": "estado",
+      "estado": "en_atencion",
+      "asignadoA": null,
+      "autorId": "usr-002",
+      "motivo": null,
+      "retornoEstimado": null,
+      "solucion": null,
+      "creadoEn": "2026-09-29T19:00:00.000Z"
+    },
+    {
+      "id": "his-061",
+      "ticketId": "tck-00143",
+      "tipo": "estado",
+      "estado": "en_espera",
+      "asignadoA": null,
+      "autorId": "usr-002",
+      "motivo": "Se solicitó al proveedor un filtro de línea para el amplificador.",
+      "retornoEstimado": "2026-10-06T04:59:59.000Z",
+      "solucion": null,
+      "creadoEn": "2026-09-30T14:30:00.000Z"
+    },
+    {
+      "id": "his-062",
+      "ticketId": "tck-00144",
+      "tipo": "estado",
+      "estado": "abierto",
+      "asignadoA": null,
+      "autorId": "usr-001",
+      "motivo": null,
+      "retornoEstimado": null,
+      "solucion": null,
+      "creadoEn": "2026-09-29T20:40:00.000Z"
+    },
+    {
+      "id": "his-063",
+      "ticketId": "tck-00144",
+      "tipo": "asignacion",
+      "estado": null,
+      "asignadoA": "usr-002",
+      "autorId": "usr-003",
+      "motivo": null,
+      "retornoEstimado": null,
+      "solucion": null,
+      "creadoEn": "2026-09-29T20:50:00.000Z"
+    },
+    {
+      "id": "his-064",
+      "ticketId": "tck-00144",
+      "tipo": "estado",
+      "estado": "en_atencion",
+      "asignadoA": null,
+      "autorId": "usr-002",
+      "motivo": null,
+      "retornoEstimado": null,
+      "solucion": null,
+      "creadoEn": "2026-09-29T21:10:00.000Z"
+    },
+    {
+      "id": "his-065",
+      "ticketId": "tck-00146",
+      "tipo": "estado",
+      "estado": "abierto",
+      "asignadoA": null,
+      "autorId": "usr-005",
+      "motivo": null,
+      "retornoEstimado": null,
+      "solucion": null,
+      "creadoEn": "2026-09-30T12:45:00.000Z"
+    },
+    {
+      "id": "his-066",
+      "ticketId": "tck-00147",
+      "tipo": "estado",
+      "estado": "abierto",
+      "asignadoA": null,
+      "autorId": "usr-001",
+      "motivo": null,
+      "retornoEstimado": null,
+      "solucion": null,
+      "creadoEn": "2026-09-30T13:12:00.000Z"
+    }
+  ]
+}
