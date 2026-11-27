@@ -16,7 +16,7 @@ const contarPor = (filas) => new Map(filas.map((fila) => [fila.clave, Number(fil
 // usuarios.especialidades es una columna JSON: llega como texto en MariaDB (XAMPP) y ya convertida en MySQL
 const leerLista = (valor) => (typeof valor === 'string' ? JSON.parse(valor) : (valor ?? []))
 
-// Lo que HU-2 lee de otras historias para saber si algo se usa: tickets (HU-3) y cuentas (HU-1).
+// Lo que HU-2 lee de otras historias, sin modificarlo: tickets (HU-3) y cuentas (HU-1).
 export const usosCatalogoRepository = {
   // Map de { total, enCurso } por categoría, subcategoría, ambiente o técnico
   async ticketsPor(campo, db = pool) {
@@ -37,6 +37,18 @@ export const usosCatalogoRepository = {
       for (const categoriaId of leerLista(fila.especialidades)) conteo.set(categoriaId, (conteo.get(categoriaId) ?? 0) + 1)
     }
     return conteo
+  },
+
+  async tecnicosActivos(db = pool) {
+    const [filas] = await db.query(
+      "SELECT id, nombres, apellidos, especialidades FROM usuarios WHERE rol = 'tecnico' AND estado = 'activo'",
+    )
+    return filas.map(({ id, nombres, apellidos, especialidades }) => ({
+      id,
+      nombres,
+      apellidos,
+      especialidades: leerLista(especialidades),
+    }))
   },
 
   async usuariosPorAmbienteHabitual(db = pool) {

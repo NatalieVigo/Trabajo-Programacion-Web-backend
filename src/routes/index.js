@@ -3,6 +3,7 @@ import ambientesRoutes from './ambientes.routes.js'
 import authRoutes from './auth.routes.js'
 import categoriasRoutes from './categorias.routes.js'
 import cuentaRoutes from './cuenta.routes.js'
+import habilitacionesRoutes from './habilitaciones.routes.js'
 import invitacionesRoutes from './invitaciones.routes.js'
 import pabellonesRoutes from './pabellones.routes.js'
 import sedesRoutes from './sedes.routes.js'
@@ -22,3 +23,4 @@ rutas.use('/categorias', categoriasRoutes)
 rutas.use('/sedes', sedesRoutes)
 rutas.use('/pabellones', pabellonesRoutes)
 rutas.use('/ambientes', ambientesRoutes)
+rutas.use('/habilitaciones', habilitacionesRoutes)
