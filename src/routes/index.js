@@ -9,6 +9,7 @@ import invitacionesRoutes from './invitaciones.routes.js'
 import pabellonesRoutes from './pabellones.routes.js'
 import sedesRoutes from './sedes.routes.js'
 import solicitudesAccesoRoutes from './solicitudesAcceso.routes.js'
+import ticketsRoutes from './tickets.routes.js'
 
 // Todas las rutas de la API; cada historia agrega aquí las suyas.
 export const rutas = Router()
@@ -25,6 +26,9 @@ rutas.use('/sedes', sedesRoutes)
 rutas.use('/pabellones', pabellonesRoutes)
 rutas.use('/ambientes', ambientesRoutes)
 rutas.use('/habilitaciones', habilitacionesRoutes)
+
+// HU-3 Registro de tickets
+rutas.use('/tickets', ticketsRoutes)
 
 // HU-4 Cola y asignación
 rutas.use('/cola', colaRoutes)
