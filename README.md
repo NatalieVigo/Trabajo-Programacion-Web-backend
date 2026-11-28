@@ -75,7 +75,7 @@ Son las 17 tablas del `seed.json` de la entrega 1. En MySQL se escriben en minú
 | HU-6 Encuesta de satisfacción | encuestas |
 | HU-7 Métricas y usuarios | unidades, vinculos |
 
-Por ahora `categorias` y `ambientes` (HU-2), `tickets` (HU-3) y `encuestas` (HU-6) tienen solo las columnas que lee HU-1. Cada responsable reemplaza su modelo, su migración y su seeder por la versión completa.
+Por ahora `tickets` (HU-3) tiene solo las columnas que leen HU-1 y HU-2, y `encuestas` (HU-6) solo las que lee HU-1. Cada responsable reemplaza su modelo, su migración y su seeder por la versión completa.
 
 ### Tablas compartidas
 
@@ -142,3 +142,4 @@ El token de sesión (JWT) dice de quién es, cuándo vence y la versión de sesi
 - Lo que está en uso no se elimina (`409 IN_USE`, con el motivo); en su lugar se puede desactivar.
 - `PUT /api/habilitaciones` recibe `{ "usr-002": ["cat-01", "cat-07"] }`; los técnicos que no vienen no cambian.
 - Para contar los tickets por categoría, subcategoría y ambiente, HU-2 agregó `categoria_id`, `subcategoria_id` y `ambiente_id` a `tickets`; el responsable de HU-3 las conserva al completar la tabla.
+- Las migraciones de HU-2 van antes que las de HU-1, porque `usuarios` apunta a `ambientes`. La de `habilitaciones` y su seeder van después, porque apuntan a los técnicos.
