@@ -194,3 +194,21 @@ Al crear, cancelar o reabrir un ticket se registra el evento de estado en `histo
 - Cambiar estado: `{ estado, motivo, retornoEstimado }`. Solo el técnico asignado. Desde abierto o reabierto se pasa a en atención; desde en atención, a en espera o resuelto; desde en espera, a en atención o resuelto; desde resuelto, a en atención. La espera pide motivo (hasta 240 caracteres) y fecha de retorno (`AAAA-MM-DD`, de hoy en adelante), que se guarda como el fin de ese día en Lima.
 - Cerrar: `{ solucion }`, de 10 a 600 caracteres. Solo el técnico asignado, con el ticket en atención o resuelto. Guarda `cerradoEn`; desde ahí quien lo reportó puede responder la encuesta (HU-6).
 - Cada cambio de estado y el cierre dejan su evento en `historial` (tipo `estado`). Los tiempos no cuentan las esperas y se comparan con el tiempo esperado del ticket, de su subcategoría o de su categoría.
+
+## HU-7 Métricas y usuarios
+
+| Método | Ruta                          | Sesión     | Mockup |
+| ------ | ----------------------------- | ---------- | ------ |
+| GET    | /api/metricas/tablero         | Supervisor | p30    |
+| GET    | /api/metricas/carga-tecnicos  | Supervisor | p31    |
+| GET    | /api/usuarios                 | Supervisor | p32    |
+| GET    | /api/usuarios/:id             | Supervisor | p33    |
+| PATCH  | /api/usuarios/:id/bloqueo     | Supervisor | p33    |
+| PATCH  | /api/usuarios/:id/desbloqueo  | Supervisor | p33    |
+
+- Las métricas reciben el periodo como `?desde=AAAA-MM-DD&hasta=AAAA-MM-DD`, en días de Lima; si falta, la fecha no existe o el fin va antes del inicio, responden 400.
+- Tablero: tickets del periodo, abiertos y sin asignar (cifras de ahora), tiempo promedio de atención sin las esperas, tickets fuera del tiempo esperado y la variación frente al periodo anterior de la misma duración. Trae la distribución por estado, por categoría y los seis ambientes con más tickets.
+- Carga por técnico: cada técnico activo con sus tickets en curso, en espera, los resueltos del periodo (cuentan para quien tenía el ticket al resolverlo) y su promedio de atención. El aviso sugiere repartir los tickets críticos con un técnico habilitado en esa categoría.
+- La satisfacción por técnico y en la ficha usa el `puntaje` y `respondidaEn` de `encuestas`; hasta que HU-6 agregue esas columnas sale `null`.
+- Bloquear: `{ motivo }`, hasta 240 caracteres. No se puede bloquear la propia cuenta ni a quien tiene tickets críticos en curso (409). Guarda el motivo en `motivoBloqueo` y cierra las sesiones de la cuenta; desde ahí no puede ingresar (HU-1 responde 403 `ACCOUNT_BLOCKED`).
+- Desbloquear borra el motivo. Si la cuenta ya cambió de estado, ambas operaciones responden 409 `ACCOUNT_CHANGED`.
