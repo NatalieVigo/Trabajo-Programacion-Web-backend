@@ -1,6 +1,7 @@
 'use strict'
 
-// HU-3 (provisional): solo las columnas que lee HU-1; el responsable de HU-3 completa el resto.
+// HU-3 (provisional): solo las columnas que leen HU-1 y HU-2 (tickets por categoría, subcategoría y ambiente);
+// el responsable de HU-3 completa el resto.
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
   async up(queryInterface, Sequelize) {
@@ -11,6 +12,21 @@ module.exports = {
         type: Sequelize.STRING(10),
         allowNull: false,
         references: { model: 'usuarios', key: 'id' },
+      },
+      categoria_id: {
+        type: Sequelize.STRING(10),
+        allowNull: false,
+        references: { model: 'categorias', key: 'id' },
+      },
+      subcategoria_id: {
+        type: Sequelize.STRING(10),
+        allowNull: true,
+        references: { model: 'subcategorias', key: 'id' },
+      },
+      ambiente_id: {
+        type: Sequelize.STRING(10),
+        allowNull: false,
+        references: { model: 'ambientes', key: 'id' },
       },
       asignado_a: {
         type: Sequelize.STRING(10),
