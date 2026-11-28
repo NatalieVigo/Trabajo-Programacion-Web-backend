@@ -1,6 +1,6 @@
 'use strict'
 
-// HU-5 (provisional): la bitácora del seed de la entrega 1, para que HU-4 pueda agregar notas internas.
+// HU-5: la bitácora del seed de la entrega 1 (comentarios públicos y notas internas).
 const seed = require('../data/seed.json')
 
 /** @type {import('sequelize-cli').Migration} */

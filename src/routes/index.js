@@ -1,5 +1,6 @@
 import { Router } from 'express'
 import ambientesRoutes from './ambientes.routes.js'
+import atencionRoutes from './atencion.routes.js'
 import authRoutes from './auth.routes.js'
 import categoriasRoutes from './categorias.routes.js'
 import colaRoutes from './cola.routes.js'
@@ -32,3 +33,6 @@ rutas.use('/tickets', ticketsRoutes)
 
 // HU-4 Cola y asignación
 rutas.use('/cola', colaRoutes)
+
+// HU-5 Atención y cierre
+rutas.use('/atencion', atencionRoutes)

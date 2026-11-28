@@ -1,8 +1,8 @@
 'use strict'
 const { Model } = require('sequelize')
 
-// HU-5 Atención y cierre (provisional): solo los campos que escribe HU-4 (nota interna al asignar);
-// el responsable de HU-5 completa el resto.
+// HU-5 Atención y cierre: comentarios públicos y notas internas de un ticket (p25).
+// HU-4 también agrega la nota interna al asignar o reasignar.
 module.exports = (sequelize, DataTypes) => {
   class bitacora extends Model {
     static associate(models) {
