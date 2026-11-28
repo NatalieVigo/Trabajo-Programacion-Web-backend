@@ -1,6 +1,6 @@
 'use strict'
 
-// HU-3 (provisional): tickets del seed de la entrega 1, solo las columnas que leen HU-1, HU-2 y HU-4.
+// HU-3: tickets del seed de la entrega 1.
 const seed = require('../data/seed.json')
 
 /** @type {import('sequelize-cli').Migration} */
@@ -15,10 +15,11 @@ module.exports = {
         categoria_id: ticket.categoriaId,
         subcategoria_id: ticket.subcategoriaId ?? null,
         ambiente_id: ticket.ambienteId,
-        asunto: ticket.asunto,
+        asunto: ticket.asunto ?? '',
+        descripcion: ticket.descripcion ?? '',
         asignado_a: ticket.asignadoA,
         estado: ticket.estado,
-        prioridad: ticket.prioridad,
+        prioridad: ticket.prioridad ?? 'media',
         tiempo_esperado_horas: ticket.tiempoEsperadoHoras ?? null,
         creado_en: new Date(ticket.creadoEn),
         cerrado_en: ticket.cerradoEn ? new Date(ticket.cerradoEn) : null,

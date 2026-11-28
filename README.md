@@ -75,7 +75,7 @@ Son las 17 tablas del `seed.json` de la entrega 1. En MySQL se escriben en minú
 | HU-6 Encuesta de satisfacción | encuestas |
 | HU-7 Métricas y usuarios | unidades, vinculos |
 
-Por ahora `tickets` (HU-3) tiene solo las columnas que leen HU-1, HU-2 y HU-4, `bitacora` (HU-5) solo las que escribe HU-4, y `encuestas` (HU-6) solo las que lee HU-1. Cada responsable reemplaza su modelo, su migración y su seeder por la versión completa.
+`tickets` conserva los campos compartidos por HU-1, HU-2 y HU-4, y HU-3 añade los datos del reporte. `bitacora` contiene por ahora las notas internas que escribe HU-4; HU-5 puede ampliarla para su flujo de atención. `encuestas` incluye los campos que HU-1 necesita para mostrar las encuestas pendientes.
 
 ### Tablas compartidas
 
@@ -141,8 +141,22 @@ El token de sesión (JWT) dice de quién es, cuándo vence y la versión de sesi
 - Desactivar algo con tickets en curso responde `409 OPEN_TICKETS`; se confirma volviendo a enviarlo con `confirmado: true`.
 - Lo que está en uso no se elimina (`409 IN_USE`, con el motivo); en su lugar se puede desactivar.
 - `PUT /api/habilitaciones` recibe `{ "usr-002": ["cat-01", "cat-07"] }`; los técnicos que no vienen no cambian.
-- Para contar los tickets por categoría, subcategoría y ambiente, HU-2 agregó `categoria_id`, `subcategoria_id` y `ambiente_id` a `tickets`; el responsable de HU-3 las conserva al completar la tabla.
+- Para contar los tickets por categoría, subcategoría y ambiente, HU-2 agregó `categoria_id`, `subcategoria_id` y `ambiente_id` a `tickets`; HU-3 conserva estas columnas.
 - Las migraciones de HU-2 van antes que las de HU-1, porque `usuarios` apunta a `ambientes`. La de `habilitaciones` y su seeder van después, porque apuntan a los técnicos.
+
+## HU-3 Registro de tickets
+
+| Método | Ruta | Sesión |
+| ------ | ---- | ------ |
+| GET | /api/tickets | Usuario |
+| GET | /api/tickets/duplicados?categoriaId=&ambienteId= | Usuario |
+| POST | /api/tickets | Usuario |
+| PATCH | /api/tickets/:ticketId/cancelacion | Usuario |
+| PATCH | /api/tickets/:ticketId/reapertura | Usuario |
+
+El alta requiere `categoriaId`, `subcategoriaId`, `ambienteId`, `asunto` (máximo 120 caracteres) y `descripcion` (máximo 600). La prioridad y el tiempo esperado se toman de la subcategoría seleccionada. El aviso de duplicado no bloquea el alta y no revela el código de tickets reportados por otras personas.
+
+Al crear, cancelar o reabrir un ticket se registra el evento de estado en `historial` dentro de la misma transacción. La reapertura requiere `{ "motivo": "..." }` y solo se permite dentro de los 7 días posteriores al cierre.
 
 ## HU-4 Cola y asignación
 
@@ -160,4 +174,5 @@ El token de sesión (JWT) dice de quién es, cuándo vence y la versión de sesi
 - Cambiar prioridad: `{ ids, prioridad, motivo }`, con motivo de 10 a 240 caracteres. Fija el tiempo esperado de la nueva prioridad (crítica 2 h, alta 8 h, media 24 h, baja 72 h).
 - Devolver a la cola: `{ ids }`. El ticket queda abierto y sin técnico.
 - Cada acción deja su evento en `historial` (tipos `asignacion` y `prioridad`; la devolución agrega además el estado `abierto`).
-- Para la cola, HU-4 agregó a `tickets` las columnas `asunto`, `prioridad`, `tiempo_esperado_horas` y `creado_en`; el responsable de HU-3 las conserva al completar la tabla. La tabla `bitacora` es provisional, con lo que escribe HU-4; el responsable de HU-5 la completa.
+- Para la cola, HU-4 utiliza `asunto`, `prioridad`, `tiempo_esperado_horas` y `creado_en` de `tickets`.
+- La tabla `bitacora` contiene las notas internas que registra HU-4; HU-5 la utiliza para el flujo de atención.

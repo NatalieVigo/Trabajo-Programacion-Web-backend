@@ -1,8 +1,7 @@
 'use strict'
 const { Model } = require('sequelize')
 
-// HU-3 Registro de tickets. Por ahora solo los campos que leen HU-1 (resumen de Mi cuenta y contadores), HU-2
-// (tickets por categoría, subcategoría y ambiente) y HU-4 (cola y asignación); el responsable de HU-3 completa el resto.
+// HU-3 Registro de tickets.
 module.exports = (sequelize, DataTypes) => {
   class ticket extends Model {
     static associate(models) {
@@ -24,6 +23,7 @@ module.exports = (sequelize, DataTypes) => {
       subcategoriaId: { type: DataTypes.STRING(10), allowNull: true },
       ambienteId: { type: DataTypes.STRING(10), allowNull: false },
       asunto: { type: DataTypes.STRING(120), allowNull: false, defaultValue: '' },
+      descripcion: { type: DataTypes.STRING(600), allowNull: false, defaultValue: '' },
       asignadoA: { type: DataTypes.STRING(10), allowNull: true },
       estado: { type: DataTypes.STRING(20), allowNull: false },
       prioridad: { type: DataTypes.ENUM('critica', 'alta', 'media', 'baja'), allowNull: false, defaultValue: 'media' },
