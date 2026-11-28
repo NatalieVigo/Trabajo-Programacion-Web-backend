@@ -11,7 +11,7 @@ module.exports = (sequelize, DataTypes) => {
     }
   }
   // un objeto por campo: Sequelize le agrega a cada uno el nombre de su columna
-  const puntaje = () => ({ type: DataTypes.TINYINT.UNSIGNED, allowNull: false })
+  const puntaje = () => ({ type: DataTypes.SMALLINT, allowNull: false })
   encuesta.init(
     {
       id: { type: DataTypes.STRING(10), primaryKey: true },

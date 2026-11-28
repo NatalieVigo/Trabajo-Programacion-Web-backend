@@ -10,10 +10,12 @@ const CAMPOS_TICKET = Object.freeze(['categoriaId', 'subcategoriaId', 'ambienteI
 const tickets = new RepositoryBase(db.ticket)
 const usuarios = new RepositoryBase(db.usuario)
 
-// 1 si el ticket sigue en curso; Sequelize escapa los estados
-const enCurso = literal(`estado IN (${ESTADOS_EN_CURSO.map((estado) => db.sequelize.escape(estado)).join(', ')})`)
+// 1 si el ticket sigue en curso (CASE funciona en MySQL y en PostgreSQL); Sequelize escapa los estados
+const enCurso = literal(
+  `CASE WHEN estado IN (${ESTADOS_EN_CURSO.map((estado) => db.sequelize.escape(estado)).join(', ')}) THEN 1 ELSE 0 END`,
+)
 
-// columna de MySQL de un campo del modelo (categoriaId → categoria_id)
+// columna de la base de un campo del modelo (categoriaId → categoria_id)
 const columna = (modelo, campo) => col(modelo.getAttributes()[campo].field)
 
 const contarPor = (filas) => new Map(filas.map((fila) => [fila.clave, Number(fila.total)]))

@@ -11,7 +11,7 @@ module.exports = {
       descripcion: { type: Sequelize.STRING(240), allowNull: false, defaultValue: '' },
       activa: { type: Sequelize.BOOLEAN, allowNull: false, defaultValue: true },
       prioridad_por_defecto: { type: Sequelize.ENUM('critica', 'alta', 'media', 'baja'), allowNull: false },
-      tiempo_esperado_horas: { type: Sequelize.SMALLINT.UNSIGNED, allowNull: false },
+      tiempo_esperado_horas: { type: Sequelize.SMALLINT, allowNull: false },
     })
   },
   async down(queryInterface) {

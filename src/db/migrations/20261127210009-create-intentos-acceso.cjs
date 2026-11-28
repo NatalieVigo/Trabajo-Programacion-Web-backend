@@ -6,7 +6,7 @@ module.exports = {
   async up(queryInterface, Sequelize) {
     await queryInterface.createTable('intentos_acceso', {
       correo: { type: Sequelize.STRING(120), primaryKey: true },
-      intentos_fallidos: { type: Sequelize.INTEGER.UNSIGNED, allowNull: false },
+      intentos_fallidos: { type: Sequelize.INTEGER, allowNull: false },
       bloqueado_hasta: { type: Sequelize.DATE, allowNull: true },
     })
   },

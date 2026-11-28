@@ -7,7 +7,7 @@ module.exports = (sequelize, DataTypes) => {
   intentoAcceso.init(
     {
       correo: { type: DataTypes.STRING(120), primaryKey: true },
-      intentosFallidos: { type: DataTypes.INTEGER.UNSIGNED, allowNull: false },
+      intentosFallidos: { type: DataTypes.INTEGER, allowNull: false },
       bloqueadoHasta: { type: DataTypes.DATE, allowNull: true },
     },
     { sequelize, modelName: 'intentoAcceso', tableName: 'intentos_acceso' },

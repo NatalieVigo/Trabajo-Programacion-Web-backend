@@ -44,13 +44,13 @@ module.exports = (sequelize, DataTypes) => {
       motivoBloqueo: { type: DataTypes.STRING(255), allowNull: true },
       // cifrada con bcrypt (§7), nunca en texto plano
       passwordHash: { type: DataTypes.STRING(100), allowNull: false },
-      intentosFallidos: { type: DataTypes.INTEGER.UNSIGNED, allowNull: false, defaultValue: 0 },
+      intentosFallidos: { type: DataTypes.INTEGER, allowNull: false, defaultValue: 0 },
       bloqueadoHasta: { type: DataTypes.DATE, allowNull: true },
       aceptaTerminos: { type: DataTypes.BOOLEAN, allowNull: false },
       invitacionId: { type: DataTypes.STRING(10), allowNull: true },
       ultimoAccesoEn: { type: DataTypes.DATE, allowNull: true },
       // va en cada token de sesión; al subir, los tokens con una versión anterior dejan de servir
-      versionSesion: { type: DataTypes.INTEGER.UNSIGNED, allowNull: false, defaultValue: 0 },
+      versionSesion: { type: DataTypes.INTEGER, allowNull: false, defaultValue: 0 },
       creadoEn: { type: DataTypes.DATE, allowNull: false },
       actualizadoEn: { type: DataTypes.DATE, allowNull: false },
     },
