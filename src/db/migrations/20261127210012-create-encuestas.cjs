@@ -5,7 +5,7 @@
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
   async up(queryInterface, Sequelize) {
-    const puntaje = () => ({ type: Sequelize.TINYINT.UNSIGNED, allowNull: false })
+    const puntaje = () => ({ type: Sequelize.SMALLINT, allowNull: false })
     await queryInterface.createTable('encuestas', {
       id: { type: Sequelize.STRING(10), primaryKey: true },
       ticket_id: {

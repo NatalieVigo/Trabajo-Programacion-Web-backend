@@ -16,15 +16,23 @@ const FILAS_DEL_SEED = [
   ['categoria', seed.categorias],
 ]
 
+// apagar y volver a prender las llaves foráneas en la conexión de la transacción
+const LLAVES_FORANEAS = Object.freeze({
+  mysql: ['SET FOREIGN_KEY_CHECKS = 0', 'SET FOREIGN_KEY_CHECKS = 1'],
+  // SET LOCAL dura hasta el fin de la transacción; el usuario de la base de prueba local es superusuario
+  postgres: ['SET LOCAL session_replication_role = replica', 'SET LOCAL session_replication_role = DEFAULT'],
+})
+
 // Deja el catálogo y los tickets como en el seed, para que cada prueba de HU-2 empiece igual.
 // Con las llaves foráneas apagadas el borrado no toca las cuentas de HU-1. Va en una transacción para que todo use
-// la misma conexión, que es donde vale el SET FOREIGN_KEY_CHECKS.
+// la misma conexión, que es donde vale apagarlas.
 export async function restaurarCatalogo() {
+  const [apagar, prender] = LLAVES_FORANEAS[db.sequelize.getDialect()]
   await db.sequelize.transaction(async (transaction) => {
-    await db.sequelize.query('SET FOREIGN_KEY_CHECKS = 0', { transaction })
+    await db.sequelize.query(apagar, { transaction })
     for (const [modelo] of FILAS_DEL_SEED) await db[modelo].destroy({ where: {}, transaction })
     for (const [modelo, filas] of [...FILAS_DEL_SEED].reverse()) await db[modelo].bulkCreate(filas, { transaction })
-    await db.sequelize.query('SET FOREIGN_KEY_CHECKS = 1', { transaction })
+    await db.sequelize.query(prender, { transaction })
   })
 }
 

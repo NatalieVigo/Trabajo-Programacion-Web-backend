@@ -18,8 +18,8 @@ module.exports = {
         allowNull: false,
         references: { model: 'pabellones', key: 'id' },
       },
-      piso: { type: Sequelize.TINYINT, allowNull: false },
-      capacidad: { type: Sequelize.SMALLINT.UNSIGNED, allowNull: false },
+      piso: { type: Sequelize.SMALLINT, allowNull: false },
+      capacidad: { type: Sequelize.SMALLINT, allowNull: false },
     })
   },
   async down(queryInterface) {

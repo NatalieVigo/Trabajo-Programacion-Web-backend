@@ -16,7 +16,7 @@ module.exports = (sequelize, DataTypes) => {
       descripcion: { type: DataTypes.STRING(240), allowNull: false, defaultValue: '' },
       activa: { type: DataTypes.BOOLEAN, allowNull: false, defaultValue: true },
       prioridadPorDefecto: { type: DataTypes.ENUM('critica', 'alta', 'media', 'baja'), allowNull: false },
-      tiempoEsperadoHoras: { type: DataTypes.SMALLINT.UNSIGNED, allowNull: false },
+      tiempoEsperadoHoras: { type: DataTypes.SMALLINT, allowNull: false },
     },
     { sequelize, modelName: 'subcategoria', tableName: 'subcategorias' },
   )

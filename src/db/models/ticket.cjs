@@ -27,7 +27,7 @@ module.exports = (sequelize, DataTypes) => {
       asignadoA: { type: DataTypes.STRING(10), allowNull: true },
       estado: { type: DataTypes.STRING(20), allowNull: false },
       prioridad: { type: DataTypes.ENUM('critica', 'alta', 'media', 'baja'), allowNull: false, defaultValue: 'media' },
-      tiempoEsperadoHoras: { type: DataTypes.SMALLINT.UNSIGNED, allowNull: true },
+      tiempoEsperadoHoras: { type: DataTypes.SMALLINT, allowNull: true },
       creadoEn: { type: DataTypes.DATE, allowNull: false, defaultValue: DataTypes.NOW },
       cerradoEn: { type: DataTypes.DATE, allowNull: true },
     },

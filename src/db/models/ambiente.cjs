@@ -16,8 +16,8 @@ module.exports = (sequelize, DataTypes) => {
       nombre: { type: DataTypes.STRING(80), allowNull: false },
       tipo: { type: DataTypes.ENUM('aula', 'laboratorio', 'auditorio', 'oficina', 'biblioteca'), allowNull: false },
       pabellonId: { type: DataTypes.STRING(10), allowNull: false },
-      piso: { type: DataTypes.TINYINT, allowNull: false },
-      capacidad: { type: DataTypes.SMALLINT.UNSIGNED, allowNull: false },
+      piso: { type: DataTypes.SMALLINT, allowNull: false },
+      capacidad: { type: DataTypes.SMALLINT, allowNull: false },
     },
     { sequelize, modelName: 'ambiente', tableName: 'ambientes' },
   )

@@ -53,11 +53,20 @@ export class RepositoryBase {
   // ids del contrato de datos, como 'usr-011'; el bloqueo evita que dos altas tomen el mismo número
   async siguienteId(prefijo, t, digitos = 3) {
     const desde = prefijo.length + 2
+    const postgres = db.sequelize.getDialect() === 'postgres'
+    // PostgreSQL no bloquea filas en una consulta con MAX: reserva el prefijo de esta tabla hasta que la transacción
+    // termine; MySQL bloquea las filas con FOR UPDATE
+    if (postgres && t) {
+      await db.sequelize.query('SELECT pg_advisory_xact_lock(hashtext(:clave))', {
+        replacements: { clave: `${this.modelo.tableName}:${prefijo}` },
+        transaction: t,
+      })
+    }
     const fila = await this.modelo.findOne({
-      attributes: [[fn('MAX', literal(`CAST(SUBSTRING(id, ${desde}) AS UNSIGNED)`)), 'ultimo']],
+      attributes: [[fn('MAX', literal(`CAST(SUBSTRING(id, ${desde}) AS ${postgres ? 'INTEGER' : 'UNSIGNED'})`)), 'ultimo']],
       where: { id: { [Op.like]: `${prefijo}-%` } },
       raw: true,
-      ...this.opciones(t, { bloquear: true }),
+      ...this.opciones(t, { bloquear: !postgres }),
     })
     return `${prefijo}-${String(Number(fila?.ultimo ?? 0) + 1).padStart(digitos, '0')}`
   }
@@ -70,7 +79,7 @@ export function enTransaccion(operacion) {
   return db.sequelize.transaction(operacion)
 }
 
-// lo lanza MySQL cuando se repite un valor UNIQUE (por ejemplo, dos registros a la vez con el mismo correo)
+// lo lanza la base cuando se repite un valor UNIQUE (por ejemplo, dos registros a la vez con el mismo correo)
 export function esDuplicado(error) {
   return error?.name === 'SequelizeUniqueConstraintError'
 }
