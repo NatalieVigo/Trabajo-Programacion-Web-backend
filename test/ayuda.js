@@ -7,18 +7,14 @@ import db from '../src/db/models/index.cjs'
 
 const SEQUELIZE_CLI = createRequire(import.meta.url).resolve('sequelize-cli/lib/sequelize')
 
-// lo mismo que npm run db:reset, sobre la base de prueba (DB_NAME de vitest.config.js)
-const PASOS_DEL_REINICIO = [
-  ['db:drop'],
-  ['db:create', '--charset', 'utf8mb4', '--collate', 'utf8mb4_unicode_ci'],
-  ['db:migrate'],
-  ['db:seed:all'],
-]
-
+// lo mismo que npm run db:reset, sobre la base de prueba (DB_NAME de vitest.config.js), con MySQL o PostgreSQL
 function reiniciarBase() {
-  for (const paso of PASOS_DEL_REINICIO) {
-    execFileSync(process.execPath, [SEQUELIZE_CLI, ...paso, '--options-path', '.sequelizerc.cjs'], { stdio: 'pipe' })
-  }
+  const sequelize = (paso) =>
+    execFileSync(process.execPath, [SEQUELIZE_CLI, paso, '--options-path', '.sequelizerc.cjs'], { stdio: 'pipe' })
+  sequelize('db:drop')
+  execFileSync(process.execPath, ['src/db/crearBase.js'], { stdio: 'pipe' })
+  sequelize('db:migrate')
+  sequelize('db:seed:all')
 }
 
 // mismo reloj que las pruebas del frontend

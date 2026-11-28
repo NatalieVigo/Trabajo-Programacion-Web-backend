@@ -13,6 +13,8 @@ export default defineConfig({
     hookTimeout: 60000,
     env: {
       DB_NAME: `${process.env.DB_NAME ?? 'mesa_ayuda'}_test`,
+      // las pruebas borran y recrean su base: nunca usan la del despliegue aunque el .env la tenga
+      DATABASE_URL: '',
       JWT_SECRET: 'clave-solo-para-pruebas',
       CORREOS_SIMULADOS: 'true',
     },
