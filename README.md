@@ -39,6 +39,8 @@ El despliegue usa Neon (base de datos), Render (esta API) y Vercel (el frontend)
 2. **Render**: crea un *Web Service* con este repositorio. Build command: `npm install`; start command: `npm start`. Variables de entorno: `DATABASE_URL` (la de Neon), `JWT_SECRET` (una frase larga y secreta), `CORS_ORIGIN` (la URL del frontend en Vercel, sin `/` al final) y `CORREOS_SIMULADOS=true`. Render pone `PORT` y toma la versión de Node de `engines` en `package.json`.
 3. **Vercel**: ver el README del frontend; su `VITE_API_URL` es la URL de Render más `/api`.
 
+Render y Vercel están conectados a estos repositorios: cada cambio que llega a `main` se publica solo en unos minutos.
+
 En el plan gratis, Render apaga la API después de un rato sin uso; la primera petición después tarda cerca de un minuto en responder.
 
 ## Cuentas de prueba
