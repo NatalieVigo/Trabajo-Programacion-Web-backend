@@ -33,7 +33,7 @@ Para las pruebas (`npm test`) MySQL debe estar encendido; usan una base aparte, 
 
 La base se elige con `DB_DIALECT`: `mysql` (por defecto) o `postgres`. Para usar un PostgreSQL local, pon en el `.env` `DB_DIALECT=postgres`, `DB_PORT=5432` y el usuario y la contraseña de PostgreSQL; los comandos de arriba y `npm test` funcionan igual. Si `DATABASE_URL` existe, se usa en lugar de las variables `DB_*` (con SSL si la cadena trae `sslmode=require`); las pruebas nunca la usan.
 
-El despliegue usa Neon (base de datos), Render (esta API) y Vercel (el frontend):
+El despliegue usa Neon (base de datos), Render (esta API) y Vercel (el frontend). La API está publicada en https://mesa-ayuda-api-2uei.onrender.com/api y la aplicación en https://mesa-ayuda-gilt.vercel.app.
 
 1. **Neon**: crea un proyecto y copia su cadena de conexión (`postgresql://…?sslmode=require`). Carga las tablas y el seed una sola vez desde tu computadora, con la cadena en `DATABASE_URL`: en PowerShell, `$env:DATABASE_URL="<cadena>"; npm run db:deploy`.
 2. **Render**: crea un *Web Service* con este repositorio. Build command: `npm install`; start command: `npm start`. Variables de entorno: `DATABASE_URL` (la de Neon), `JWT_SECRET` (una frase larga y secreta), `CORS_ORIGIN` (la URL del frontend en Vercel, sin `/` al final) y `CORREOS_SIMULADOS=true`. Render pone `PORT` y toma la versión de Node de `engines` en `package.json`.
