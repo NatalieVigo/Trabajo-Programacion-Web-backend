@@ -154,7 +154,7 @@ El token de sesión (JWT) dice de quién es, cuándo vence y la versión de sesi
 | PATCH | /api/tickets/:ticketId/cancelacion | Usuario |
 | PATCH | /api/tickets/:ticketId/reapertura | Usuario |
 
-El alta requiere `categoriaId`, `subcategoriaId`, `ambienteId`, `asunto` (máximo 120 caracteres) y `descripcion` (máximo 600). La prioridad y el tiempo esperado se toman de la subcategoría seleccionada. El aviso de duplicado no bloquea el alta y no revela el código de tickets reportados por otras personas.
+Para crear un ticket nuevo se requieren `categoriaId`, `subcategoriaId`, `ambienteId`, `asunto` (máximo 120 caracteres) y `descripcion` (máximo 600). La prioridad y el tiempo esperado se toman de la subcategoría seleccionada. Si ya existe un ticket en curso para la misma categoría y ambiente, se muestra un aviso, pero se puede continuar con el registro; tampoco se revela el código de un ticket reportado por otra persona.
 
 Al crear, cancelar o reabrir un ticket se registra el evento de estado en `historial` dentro de la misma transacción. La reapertura requiere `{ "motivo": "..." }` y solo se permite dentro de los 7 días posteriores al cierre.
 
