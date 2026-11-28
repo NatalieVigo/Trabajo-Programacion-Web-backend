@@ -32,6 +32,11 @@ class UsuariosRepository extends RepositoryBase {
     await this.actualizar({ id }, { passwordHash, actualizadoEn: fecha }, t)
   }
 
+  // los tokens llevan la versión de sesión de su cuenta: al subirla, todos los anteriores dejan de servir
+  async cerrarSesiones(id, t) {
+    await this.modelo.increment('versionSesion', { where: { id }, ...this.opciones(t) })
+  }
+
   // al restablecer también se quita el bloqueo por intentos (no el del supervisor)
   async restablecerPassword(id, passwordHash, fecha, t) {
     await this.actualizar({ id }, { passwordHash, intentosFallidos: 0, bloqueadoHasta: null, actualizadoEn: fecha }, t)

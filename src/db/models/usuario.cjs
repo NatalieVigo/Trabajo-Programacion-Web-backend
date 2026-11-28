@@ -49,6 +49,8 @@ module.exports = (sequelize, DataTypes) => {
       aceptaTerminos: { type: DataTypes.BOOLEAN, allowNull: false },
       invitacionId: { type: DataTypes.STRING(10), allowNull: true },
       ultimoAccesoEn: { type: DataTypes.DATE, allowNull: true },
+      // va en cada token de sesión; al subir, los tokens con una versión anterior dejan de servir
+      versionSesion: { type: DataTypes.INTEGER.UNSIGNED, allowNull: false, defaultValue: 0 },
       creadoEn: { type: DataTypes.DATE, allowNull: false },
       actualizadoEn: { type: DataTypes.DATE, allowNull: false },
     },

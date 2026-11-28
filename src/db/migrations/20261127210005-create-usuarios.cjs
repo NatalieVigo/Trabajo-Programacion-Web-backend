@@ -36,6 +36,7 @@ module.exports = {
       acepta_terminos: { type: Sequelize.BOOLEAN, allowNull: false },
       invitacion_id: { type: Sequelize.STRING(10), allowNull: true },
       ultimo_acceso_en: { type: Sequelize.DATE, allowNull: true },
+      version_sesion: { type: Sequelize.INTEGER.UNSIGNED, allowNull: false, defaultValue: 0 },
       creado_en: { type: Sequelize.DATE, allowNull: false },
       actualizado_en: { type: Sequelize.DATE, allowNull: false },
     })
