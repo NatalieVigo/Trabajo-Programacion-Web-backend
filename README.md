@@ -1,6 +1,6 @@
 # Mesa de ayuda de servicios del campus — Backend
 
-API REST de la entrega final, hecha con Node.js, Express y Sequelize. En local usa MySQL (XAMPP) y en el despliegue PostgreSQL (Neon); el código es el mismo para las dos. El frontend está en [Trabajo-Programacion-Web](https://github.com/NatalieVigo/Trabajo-Programacion-Web).
+API REST de la entrega final, hecha con Node.js, Express y Sequelize. En local usa MySQL (XAMPP) y en el despliegue PostgreSQL (Neon); el código es el mismo para las dos. El frontend está en [Trabajo-Programacion-Web](https://github.com/Nevetzzz15/Trabajo-Programacion-Web).
 
 ## Cómo probarlo
 
