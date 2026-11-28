@@ -1,6 +1,6 @@
 # Mesa de ayuda de servicios del campus — Backend
 
-API REST de la entrega final, hecha con Node.js, Express, Sequelize y MySQL (XAMPP). El frontend está en [Trabajo-Programacion-Web](https://github.com/NatalieVigo/Trabajo-Programacion-Web).
+API REST de la entrega final, hecha con Node.js, Express y Sequelize. En local usa MySQL (XAMPP) y en el despliegue PostgreSQL (Neon); el código es el mismo para las dos. El frontend está en [Trabajo-Programacion-Web](https://github.com/NatalieVigo/Trabajo-Programacion-Web).
 
 ## Cómo probarlo
 
@@ -25,8 +25,21 @@ La API queda en http://localhost:3000/api.
 | `npm run db:create`  | Crea la base (`sequelize db:create`)               |
 | `npm run db:migrate` | Crea las tablas que falten (`sequelize db:migrate`) |
 | `npm run db:seed`    | Carga los datos del seed (`sequelize db:seed:all`)  |
+| `npm run db:deploy`  | Corre las migraciones y el seed sin borrar la base  |
 
 Para las pruebas (`npm test`) MySQL debe estar encendido; usan una base aparte, `mesa_ayuda_test`, que se crea con las mismas migraciones y seeders.
+
+## PostgreSQL y despliegue
+
+La base se elige con `DB_DIALECT`: `mysql` (por defecto) o `postgres`. Para usar un PostgreSQL local, pon en el `.env` `DB_DIALECT=postgres`, `DB_PORT=5432` y el usuario y la contraseña de PostgreSQL; los comandos de arriba y `npm test` funcionan igual. Si `DATABASE_URL` existe, se usa en lugar de las variables `DB_*` (con SSL si la cadena trae `sslmode=require`); las pruebas nunca la usan.
+
+El despliegue usa Neon (base de datos), Render (esta API) y Vercel (el frontend):
+
+1. **Neon**: crea un proyecto y copia su cadena de conexión (`postgresql://…?sslmode=require`). Carga las tablas y el seed una sola vez desde tu computadora, con la cadena en `DATABASE_URL`: en PowerShell, `$env:DATABASE_URL="<cadena>"; npm run db:deploy`.
+2. **Render**: crea un *Web Service* con este repositorio. Build command: `npm install`; start command: `npm start`. Variables de entorno: `DATABASE_URL` (la de Neon), `JWT_SECRET` (una frase larga y secreta), `CORS_ORIGIN` (la URL del frontend en Vercel, sin `/` al final) y `CORREOS_SIMULADOS=true`. Render pone `PORT` y toma la versión de Node de `engines` en `package.json`.
+3. **Vercel**: ver el README del frontend; su `VITE_API_URL` es la URL de Render más `/api`.
+
+En el plan gratis, Render apaga la API después de un rato sin uso; la primera petición después tarda cerca de un minuto en responder.
 
 ## Cuentas de prueba
 
