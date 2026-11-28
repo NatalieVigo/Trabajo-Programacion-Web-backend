@@ -1,7 +1,7 @@
 'use strict'
 
-// HU-5 (provisional): solo las columnas que escribe HU-4 al asignar o reasignar con una nota interna;
-// el responsable de HU-5 completa el resto.
+// HU-5 Atención y cierre: bitácora del ticket, con comentarios públicos y notas internas (p25).
+// HU-4 también escribe aquí la nota interna al asignar o reasignar.
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
   async up(queryInterface, Sequelize) {

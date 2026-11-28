@@ -1,0 +1,83 @@
+// Validaciones de la atención (HU-5), con los mismos mensajes que el frontend.
+import { ESTADOS } from './estadosTicket.js'
+import { esFechaDeCalendario, hoyEnLima } from './fechaLima.js'
+
+// el público lo ve quien reportó, el interno solo el equipo
+export const TIPOS_ENTRADA = Object.freeze(['publico', 'interno'])
+
+export const MENSAJE_MAX_LENGTH = 600
+export const MOTIVO_MAX_LENGTH = 240
+export const SOLUCION_MIN_LENGTH = 10
+export const SOLUCION_MAX_LENGTH = 600
+
+export const ATENCION_MESSAGES = Object.freeze({
+  tipoRequired: 'Elige si es un comentario público o una nota interna.',
+  mensajeRequired: 'Escribe un mensaje antes de guardar.',
+  mensajeMax: `Usa como máximo ${MENSAJE_MAX_LENGTH} caracteres.`,
+  estadoRequired: 'Elige el nuevo estado.',
+  motivoRequired: 'Indica el motivo de la espera.',
+  motivoMax: `Usa como máximo ${MOTIVO_MAX_LENGTH} caracteres.`,
+  retornoRequired: 'Indica la fecha estimada de retorno.',
+  retornoInvalido: 'Ingresa una fecha válida.',
+  retornoPasado: 'La fecha de retorno no puede ser anterior a hoy.',
+  solucionRequired: 'Describe la solución aplicada.',
+  solucionMin: `Describe la solución con al menos ${SOLUCION_MIN_LENGTH} caracteres.`,
+  solucionMax: `Usa como máximo ${SOLUCION_MAX_LENGTH} caracteres.`,
+})
+
+const asText = (value) => (typeof value === 'string' ? value : '')
+
+export function normalizeTexto(value) {
+  return asText(value).trim()
+}
+
+function soloErrores(results) {
+  return Object.fromEntries(Object.entries(results).filter(([, message]) => message))
+}
+
+export function validateEntrada(values) {
+  const mensaje = normalizeTexto(values.mensaje)
+  return soloErrores({
+    tipo: TIPOS_ENTRADA.includes(values.tipo) ? null : ATENCION_MESSAGES.tipoRequired,
+    mensaje: !mensaje
+      ? ATENCION_MESSAGES.mensajeRequired
+      : mensaje.length > MENSAJE_MAX_LENGTH
+        ? ATENCION_MESSAGES.mensajeMax
+        : null,
+  })
+}
+
+export function validateNuevoEstado(value) {
+  return ESTADOS.includes(value) ? null : ATENCION_MESSAGES.estadoRequired
+}
+
+function validateMotivoEspera(value) {
+  const motivo = normalizeTexto(value)
+  if (!motivo) return ATENCION_MESSAGES.motivoRequired
+  return motivo.length > MOTIVO_MAX_LENGTH ? ATENCION_MESSAGES.motivoMax : null
+}
+
+function validateRetornoEstimado(value, hoy) {
+  if (asText(value).trim() === '') return ATENCION_MESSAGES.retornoRequired
+  if (!esFechaDeCalendario(value)) return ATENCION_MESSAGES.retornoInvalido
+  return value < hoy ? ATENCION_MESSAGES.retornoPasado : null
+}
+
+// si el cambio se permite desde el estado actual lo revisa el servicio
+export function validateCambioEstado(values, { hoy = hoyEnLima() } = {}) {
+  const enEspera = values.estado === 'en_espera'
+  return soloErrores({
+    estado: validateNuevoEstado(values.estado),
+    motivo: enEspera ? validateMotivoEspera(values.motivo) : null,
+    retornoEstimado: enEspera ? validateRetornoEstimado(values.retornoEstimado, hoy) : null,
+  })
+}
+
+export function validateCierre(values) {
+  const solucion = normalizeTexto(values.solucion)
+  let error = null
+  if (!solucion) error = ATENCION_MESSAGES.solucionRequired
+  else if (solucion.length < SOLUCION_MIN_LENGTH) error = ATENCION_MESSAGES.solucionMin
+  else if (solucion.length > SOLUCION_MAX_LENGTH) error = ATENCION_MESSAGES.solucionMax
+  return soloErrores({ solucion: error })
+}
