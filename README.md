@@ -111,3 +111,34 @@ Por ahora `categorias` y `ambientes` (HU-2), `tickets` (HU-3) y `encuestas` (HU-
 | POST   | /api/solicitudes-acceso                    | Cualquiera | p11    |
 
 El token de sesión (JWT) dice de quién es, cuándo vence y la versión de sesión de la cuenta, que se guarda en la columna `version_sesion` de `usuarios`. Al cerrar sesión o al restablecer la contraseña esa versión sube, y los tokens anteriores responden 401 aunque el servidor se reinicie. Como la versión es de la cuenta, cerrar sesión la cierra en todos los equipos.
+
+## HU-2 Catálogo de servicios
+
+| Método | Ruta                                       | Sesión     | Mockup |
+| ------ | ------------------------------------------ | ---------- | ------ |
+| GET    | /api/categorias                            | Supervisor | p12    |
+| GET    | /api/categorias/disponibles                | Cualquiera | p17 (Nuevo ticket de HU-3) |
+| GET    | /api/categorias/:id                        | Supervisor | p13    |
+| POST   | /api/categorias                            | Supervisor | p13    |
+| PATCH  | /api/categorias/:id                        | Supervisor | p13    |
+| PATCH  | /api/categorias/:id/estado                 | Supervisor | p12    |
+| DELETE | /api/categorias/:id                        | Supervisor | p12    |
+| GET    | /api/sedes                                 | Supervisor | p14    |
+| POST   | /api/sedes                                 | Supervisor | p14    |
+| PATCH  | /api/sedes/:id                             | Supervisor | p14    |
+| DELETE | /api/sedes/:id                             | Supervisor | p14    |
+| POST   | /api/pabellones                            | Supervisor | p14    |
+| PATCH  | /api/pabellones/:id                        | Supervisor | p14    |
+| DELETE | /api/pabellones/:id                        | Supervisor | p14    |
+| GET    | /api/ambientes                             | Cualquiera | p14, p17 (Nuevo ticket de HU-3) |
+| POST   | /api/ambientes                             | Supervisor | p15    |
+| PATCH  | /api/ambientes/:id                         | Supervisor | p15    |
+| DELETE | /api/ambientes/:id                         | Supervisor | p14    |
+| GET    | /api/habilitaciones                        | Supervisor | p16    |
+| PUT    | /api/habilitaciones                        | Supervisor | p16    |
+
+- `/api/categorias/:id` sirve para categorías (`cat-01`) y subcategorías (`sub-01`). Si el `POST` trae `categoriaId`, se crea una subcategoría de esa categoría.
+- Desactivar algo con tickets en curso responde `409 OPEN_TICKETS`; se confirma volviendo a enviarlo con `confirmado: true`.
+- Lo que está en uso no se elimina (`409 IN_USE`, con el motivo); en su lugar se puede desactivar.
+- `PUT /api/habilitaciones` recibe `{ "usr-002": ["cat-01", "cat-07"] }`; los técnicos que no vienen no cambian.
+- Para contar los tickets por categoría, subcategoría y ambiente, HU-2 agregó `categoria_id`, `subcategoria_id` y `ambiente_id` a `tickets`; el responsable de HU-3 las conserva al completar la tabla.
