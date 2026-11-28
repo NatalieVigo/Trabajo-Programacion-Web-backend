@@ -1,25 +1,28 @@
-import { pool } from '../db/pool.js'
+import { RepositoryBase, db } from './RepositoryBase.js'
 
-// Listas que usan los formularios de HU-1. Unidades y vínculos son de HU-1;
-// categorías y ambientes son de HU-2 y aquí solo se leen.
+// Listas que usan los formularios de HU-1. Unidades y vínculos son de HU-7; categorías y ambientes son de HU-2.
+// HU-1 solo las lee.
+const unidades = new RepositoryBase(db.unidad)
+const vinculos = new RepositoryBase(db.vinculo)
+const categorias = new RepositoryBase(db.categoria)
+const ambientes = new RepositoryBase(db.ambiente)
+
 export const catalogoRepository = {
   async listarUnidades() {
-    const [filas] = await pool.query('SELECT nombre FROM unidades ORDER BY id')
+    const filas = await unidades.listar({ attributes: ['nombre'], order: [['id', 'ASC']] })
     return filas.map((fila) => fila.nombre)
   },
 
   async listarVinculos() {
-    const [filas] = await pool.query('SELECT nombre FROM vinculos ORDER BY id')
+    const filas = await vinculos.listar({ attributes: ['nombre'], order: [['id', 'ASC']] })
     return filas.map((fila) => fila.nombre)
   },
 
-  async listarCategoriasActivas() {
-    const [filas] = await pool.query('SELECT id, nombre FROM categorias WHERE activa = TRUE ORDER BY id')
-    return filas
+  listarCategoriasActivas() {
+    return categorias.listar({ attributes: ['id', 'nombre'], where: { activa: true }, order: [['id', 'ASC']] })
   },
 
-  async listarAmbientes() {
-    const [filas] = await pool.query('SELECT id, codigo, nombre FROM ambientes ORDER BY codigo')
-    return filas
+  listarAmbientes() {
+    return ambientes.listar({ attributes: ['id', 'codigo', 'nombre'], order: [['codigo', 'ASC']] })
   },
 }

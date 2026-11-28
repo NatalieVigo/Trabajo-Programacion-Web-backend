@@ -1,3 +1,4 @@
+import { esDuplicado } from '../repositories/RepositoryBase.js'
 import { solicitudesAccesoRepository } from '../repositories/solicitudesAcceso.repository.js'
 import { ServiceError, validationError } from '../utils/ServiceError.js'
 
@@ -24,7 +25,7 @@ export async function solicitar(usuarioId, datos) {
     return await solicitudesAccesoRepository.insertar({ usuarioId, recurso: nombre, creadaEn: new Date() })
   } catch (error) {
     // dos clics a la vez: el UNIQUE (usuario_id, recurso) frena el segundo
-    if (error.code === 'ER_DUP_ENTRY') throw solicitudRepetida(nombre)
+    if (esDuplicado(error)) throw solicitudRepetida(nombre)
     throw error
   }
 }

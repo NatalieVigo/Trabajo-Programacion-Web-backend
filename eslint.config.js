@@ -14,6 +14,16 @@ export default defineConfig([
     },
   },
   {
+    // modelos, migraciones y seeders de Sequelize, en CommonJS como los genera sequelize-cli
+    files: ['**/*.cjs'],
+    extends: [js.configs.recommended],
+    languageOptions: {
+      ecmaVersion: 'latest',
+      sourceType: 'commonjs',
+      globals: globals.node,
+    },
+  },
+  {
     files: ['test/**/*.js'],
     languageOptions: {
       globals: globals.vitest,

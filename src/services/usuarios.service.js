@@ -1,4 +1,4 @@
-import { enTransaccion, siguienteId } from '../db/pool.js'
+import { enTransaccion, esDuplicado } from '../repositories/RepositoryBase.js'
 import { catalogoRepository } from '../repositories/catalogo.repository.js'
 import { usuariosRepository } from '../repositories/usuarios.repository.js'
 import { hashPassword } from '../utils/password.js'
@@ -36,21 +36,21 @@ export function emailTakenError() {
   })
 }
 
-// alta compartida por el registro y las invitaciones; db es la conexión de la transacción
-export async function insertarCuenta(datos, db) {
+// alta compartida por el registro y las invitaciones; t es la transacción
+export async function insertarCuenta(datos, t) {
   const ahora = new Date()
-  const id = await siguienteId(db, 'usuarios', 'usr')
+  const id = await usuariosRepository.siguienteId('usr', t)
   try {
     await usuariosRepository.insertar(
       { id, ...datos, ambienteHabitualId: null, estado: 'activo', creadoEn: ahora, actualizadoEn: ahora },
-      db,
+      t,
     )
   } catch (error) {
     // si dos personas se registran a la vez con el mismo correo, el UNIQUE de la base frena a la segunda
-    if (error.code === 'ER_DUP_ENTRY') throw emailTakenError()
+    if (esDuplicado(error)) throw emailTakenError()
     throw error
   }
-  return usuarioPublico(await usuariosRepository.buscarPorId(id, db))
+  return usuarioPublico(await usuariosRepository.buscarPorId(id, t))
 }
 
 // Registro público (p06). Siempre crea el rol usuario.
@@ -61,8 +61,8 @@ export async function registrar(datos) {
 
   const passwordHash = await hashPassword(datos.password)
   const correo = normalizeCorreo(datos.correo)
-  return enTransaccion(async (db) => {
-    if (await usuariosRepository.buscarPorCorreo(correo, db)) throw emailTakenError()
+  return enTransaccion(async (t) => {
+    if (await usuariosRepository.buscarPorCorreo(correo, t)) throw emailTakenError()
     return insertarCuenta(
       {
         nombres: normalizeNombre(datos.nombres),
@@ -77,7 +77,7 @@ export async function registrar(datos) {
         aceptaTerminos: true,
         invitacionId: null,
       },
-      db,
+      t,
     )
   })
 }

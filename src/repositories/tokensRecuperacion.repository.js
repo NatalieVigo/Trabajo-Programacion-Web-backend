@@ -1,37 +1,23 @@
-import { pool } from '../db/pool.js'
+import { RepositoryBase, db } from './RepositoryBase.js'
 
-function aEnlace(fila) {
-  if (!fila) return null
-  return {
-    token: fila.token,
-    usuarioId: fila.usuario_id,
-    creadoEn: fila.creado_en,
-    venceEn: fila.vence_en,
-    usadoEn: fila.usado_en,
+// HU-1: enlaces de recuperación de contraseña (p08 y p09).
+class TokensRecuperacionRepository extends RepositoryBase {
+  constructor() {
+    super(db.tokenRecuperacion)
+  }
+
+  // solo vale el último enlace: los anteriores sin usar se borran
+  async borrarSinUsar(usuarioId, t) {
+    await this.eliminar({ usuarioId, usadoEn: null }, t)
+  }
+
+  buscar(token, t, { bloquear = false } = {}) {
+    return this.buscarPorId(token, t, { bloquear })
+  }
+
+  async marcarUsado(token, fecha, t) {
+    await this.actualizar({ token }, { usadoEn: fecha }, t)
   }
 }
 
-export const tokensRecuperacionRepository = {
-  async crear({ token, usuarioId, creadoEn, venceEn }, db = pool) {
-    await db.query('INSERT INTO tokens_recuperacion (token, usuario_id, creado_en, vence_en) VALUES (?, ?, ?, ?)', [
-      token, usuarioId, creadoEn, venceEn,
-    ])
-  },
-
-  // solo vale el último enlace: los anteriores sin usar se borran
-  async borrarSinUsar(usuarioId, db = pool) {
-    await db.query('DELETE FROM tokens_recuperacion WHERE usuario_id = ? AND usado_en IS NULL', [usuarioId])
-  },
-
-  async buscar(token, db = pool, { bloquear = false } = {}) {
-    const [filas] = await db.query(
-      `SELECT * FROM tokens_recuperacion WHERE token = ?${bloquear ? ' FOR UPDATE' : ''}`,
-      [token],
-    )
-    return aEnlace(filas[0])
-  },
-
-  async marcarUsado(token, fecha, db = pool) {
-    await db.query('UPDATE tokens_recuperacion SET usado_en = ? WHERE token = ?', [fecha, token])
-  },
-}
+export const tokensRecuperacionRepository = new TokensRecuperacionRepository()

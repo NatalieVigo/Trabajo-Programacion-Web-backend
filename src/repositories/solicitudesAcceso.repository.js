@@ -1,19 +1,18 @@
-import { pool } from '../db/pool.js'
+import { RepositoryBase, db } from './RepositoryBase.js'
 
-// se llenan desde la vista 403
-export const solicitudesAccesoRepository = {
-  async existe(usuarioId, recurso, db = pool) {
-    const [filas] = await db.query('SELECT 1 FROM solicitudes_acceso WHERE usuario_id = ? AND recurso = ? LIMIT 1', [
-      usuarioId, recurso,
-    ])
-    return filas.length > 0
-  },
+// HU-1: se llenan desde la vista 403 (p11).
+class SolicitudesAccesoRepository extends RepositoryBase {
+  constructor() {
+    super(db.solicitudAcceso)
+  }
 
-  async insertar({ usuarioId, recurso, creadaEn }, db = pool) {
-    const [resultado] = await db.query(
-      'INSERT INTO solicitudes_acceso (usuario_id, recurso, creada_en) VALUES (?, ?, ?)',
-      [usuarioId, recurso, creadaEn],
-    )
-    return { id: resultado.insertId, usuarioId, recurso, creadaEn }
-  },
+  existe(usuarioId, recurso, t) {
+    return super.existe({ usuarioId, recurso }, t)
+  }
+
+  insertar({ usuarioId, recurso, creadaEn }, t) {
+    return this.crear({ usuarioId, recurso, creadaEn }, t)
+  }
 }
+
+export const solicitudesAccesoRepository = new SolicitudesAccesoRepository()

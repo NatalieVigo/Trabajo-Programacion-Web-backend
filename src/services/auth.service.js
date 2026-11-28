@@ -1,5 +1,5 @@
 import { config } from '../config.js'
-import { enTransaccion } from '../db/pool.js'
+import { enTransaccion } from '../repositories/RepositoryBase.js'
 import { intentosAccesoRepository } from '../repositories/intentosAcceso.repository.js'
 import { sesionesRepository } from '../repositories/sesiones.repository.js'
 import { tokensRecuperacionRepository } from '../repositories/tokensRecuperacion.repository.js'
@@ -139,11 +139,11 @@ export async function validarSesion(token) {
 async function crearEnlaceDeRecuperacion(usuarioId) {
   const creadoEn = new Date()
   const token = `REC-${textoAleatorio(16).toUpperCase()}`
-  await enTransaccion(async (db) => {
-    await tokensRecuperacionRepository.borrarSinUsar(usuarioId, db)
+  await enTransaccion(async (t) => {
+    await tokensRecuperacionRepository.borrarSinUsar(usuarioId, t)
     await tokensRecuperacionRepository.crear(
       { token, usuarioId, creadoEn, venceEn: new Date(creadoEn.getTime() + VIGENCIA_ENLACE_MS) },
-      db,
+      t,
     )
   })
   return token
@@ -163,9 +163,9 @@ export async function solicitarRecuperacion(datos) {
   return config.correosSimulados ? { ...respuesta, tokenDemo: token } : respuesta
 }
 
-async function buscarEnlaceVigente(token, db, opciones) {
-  const enlace = await tokensRecuperacionRepository.buscar(token, db, opciones)
-  const usuario = enlace && (await usuariosRepository.buscarPorId(enlace.usuarioId, db))
+async function buscarEnlaceVigente(token, t, opciones) {
+  const enlace = await tokensRecuperacionRepository.buscar(token, t, opciones)
+  const usuario = enlace && (await usuariosRepository.buscarPorId(enlace.usuarioId, t))
   if (!usuario) {
     throw new ServiceError(404, 'RESET_TOKEN_NOT_FOUND', 'Este enlace para restablecer la contraseña no es válido.')
   }
@@ -192,12 +192,12 @@ export async function restablecerPassword(token, datos) {
   if (hasErrors(fieldErrors)) throw validationError(fieldErrors)
 
   const passwordHash = await hashPassword(password)
-  const usuario = await enTransaccion(async (db) => {
+  const usuario = await enTransaccion(async (t) => {
     // se vuelve a leer con bloqueo para que el mismo enlace no se use dos veces
-    const { usuario } = await buscarEnlaceVigente(token, db, { bloquear: true })
+    const { usuario } = await buscarEnlaceVigente(token, t, { bloquear: true })
     const ahora = new Date()
-    await usuariosRepository.restablecerPassword(usuario.id, passwordHash, ahora, db)
-    await tokensRecuperacionRepository.marcarUsado(token, ahora, db)
+    await usuariosRepository.restablecerPassword(usuario.id, passwordHash, ahora, t)
+    await tokensRecuperacionRepository.marcarUsado(token, ahora, t)
     return usuario
   })
   // las sesiones viven en memoria, fuera de la transacción: se cierran solo si el cambio se guardó
