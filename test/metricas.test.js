@@ -107,7 +107,7 @@ describe('GET /api/metricas/carga-tecnicos (p31)', () => {
       asignados: 2,
       resueltos: 2,
       enEspera: 1,
-      // HU-6 todavía no guarda el puntaje de las encuestas
+      // en este periodo nadie respondió encuestas
       satisfaccion: null,
     })
     expect(respuesta.body).toMatchObject({ totalAsignados: 3, promedioAsignados: 0.75 })
@@ -115,6 +115,14 @@ describe('GET /api/metricas/carga-tecnicos (p31)', () => {
       'Julio Paredes Soto concentra 2 de los 3 tickets asignados. Considera repartir los tickets críticos con ' +
         'Sandra Nolasco Ríos, que cuenta con habilitación compatible.',
     )
+  })
+
+  it('promedia las encuestas (HU-6) respondidas en el periodo sobre los tickets que resolvió cada técnico', async () => {
+    const { body } = await carga('2026-08-01', '2026-09-01')
+
+    const satisfaccion = Object.fromEntries(body.filas.map(({ id, satisfaccion }) => [id, satisfaccion]))
+    // Julio: 5, 4, 5 y 5; Marco: 4; Iván: 4; Sandra: 3
+    expect(satisfaccion).toEqual({ 'usr-002': 4.75, 'usr-008': 4, 'usr-009': 4, 'usr-010': 3 })
   })
 
   it('atribuye el resuelto al técnico que lo tenía en esa fecha y descuenta la espera', async () => {

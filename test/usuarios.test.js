@@ -50,7 +50,8 @@ describe('GET /api/usuarios/:id (p33)', () => {
     expect(respuesta.status).toBe(200)
     expect(respuesta.body.cuenta).toMatchObject({ id: 'usr-001', nombre: 'Camila Quispe Ramos', estado: 'activo' })
     expect(respuesta.body.ambienteHabitual).toBe('A-201')
-    expect(respuesta.body.resumen).toEqual({ reportados: 12, abiertos: 3, cerrados: 8, satisfaccion: null })
+    // el promedio de sus 7 encuestas: 5, 4, 4, 5, 3, 5 y 4
+    expect(respuesta.body.resumen).toEqual({ reportados: 12, abiertos: 3, cerrados: 8, satisfaccion: 30 / 7 })
     expect(respuesta.body.reportes[0]).toMatchObject({
       codigo: 'TCK-2026-00147',
       categoria: 'Audiovisuales',

@@ -31,9 +31,6 @@ const CAMPOS_TICKET = [
   'cerradoEn',
 ]
 
-// el puntaje y la fecha de respuesta, como en el seed; HU-6 todavía no los agrega a la tabla
-const CAMPOS_DE_LA_RESPUESTA = ['puntaje', 'respondidaEn']
-
 export const metricasRepository = {
   listarTickets(t) {
     return tickets.listar({ attributes: CAMPOS_TICKET, order: POR_ID }, t)
@@ -83,12 +80,11 @@ export const metricasRepository = {
     return habilitaciones.listar({ attributes: ['tecnicoId', 'categoriaId'] }, t)
   },
 
-  // mientras HU-6 no guarde el puntaje, no hay encuestas que promediar; también las usa la ficha de usuario
-  async encuestasRespondidas({ usuarioId } = {}, t) {
-    const columnas = db.encuesta.getAttributes()
-    if (!CAMPOS_DE_LA_RESPUESTA.every((campo) => Object.hasOwn(columnas, campo))) return []
-    const where = { puntaje: { [Op.ne]: null } }
-    if (usuarioId) where.usuarioId = usuarioId
-    return encuestas.listar({ attributes: ['ticketId', 'usuarioId', ...CAMPOS_DE_LA_RESPUESTA], where }, t)
+  // el puntaje general de las encuestas (HU-6); también las usa la ficha de usuario
+  encuestasRespondidas({ usuarioId } = {}, t) {
+    return encuestas.listar(
+      { attributes: ['ticketId', 'usuarioId', 'puntaje', 'respondidaEn'], where: usuarioId ? { usuarioId } : {} },
+      t,
+    )
   },
 }
