@@ -9,10 +9,11 @@ export class RepositoryBase {
     this.modelo = modelo
   }
 
-  // opciones de Sequelize para participar de una transacción
+  // opciones de Sequelize para participar de una transacción. El bloqueo es solo de la tabla de este modelo (FOR UPDATE
+  // OF en PostgreSQL), porque PostgreSQL no bloquea las tablas que entran con un include (LEFT JOIN).
   opciones(t, { bloquear = false } = {}) {
     if (!t) return {}
-    return bloquear ? { transaction: t, lock: t.LOCK.UPDATE } : { transaction: t }
+    return bloquear ? { transaction: t, lock: { level: t.LOCK.UPDATE, of: this.modelo } } : { transaction: t }
   }
 
   async listar(consulta = {}, t) {
