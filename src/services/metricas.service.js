@@ -1,7 +1,7 @@
 import { metricasRepository } from '../repositories/metricas.repository.js'
 import { ESTADOS_EN_CURSO } from '../utils/estadosTicket.js'
-import { esFechaDeCalendario, fechaEnLima } from '../utils/fechaLima.js'
-import { validationError } from '../utils/ServiceError.js'
+import { fechaEnLima } from '../utils/fechaLima.js'
+import { validarPeriodo } from '../utils/periodo.js'
 import { tiemposDe } from '../utils/tiemposDeAtencion.js'
 import { HORAS_POR_PRIORIDAD } from './cola.service.js'
 
@@ -23,14 +23,6 @@ const enRango = (fecha, rango) => Boolean(fecha) && fechaEnLima(fecha) >= rango.
 const promedio = (valores) => (valores.length ? valores.reduce((a, b) => a + b, 0) / valores.length : null)
 // como getDisplayName del frontend: primer nombre y apellidos
 const nombreCorto = ({ nombres, apellidos }) => `${nombres.split(' ')[0]} ${apellidos}`.trim()
-
-// el rango llega como ?desde=AAAA-MM-DD&hasta=AAAA-MM-DD, en días de Lima
-export function validarRango({ desde, hasta } = {}) {
-  if (!esFechaDeCalendario(desde) || !esFechaDeCalendario(hasta) || desde > hasta) {
-    throw validationError({ periodo: 'Elige fechas válidas y una fecha final igual o posterior a la inicial.' })
-  }
-  return { desde, hasta }
-}
 
 // el periodo de la misma duración justo antes, para las variaciones
 function periodoAnterior({ desde, hasta }) {
@@ -109,7 +101,7 @@ function resumenPeriodo(tickets, rango) {
 
 // Tablero del periodo comparado con el periodo anterior. Abiertos y sin asignar son cifras de ahora, no del periodo.
 export async function obtenerTablero(consulta, ahora = Date.now()) {
-  const rango = validarRango(consulta)
+  const rango = validarPeriodo(consulta)
   const [{ tickets, categorias }, ambientes, sede] = await Promise.all([
     actividad(ahora),
     metricasRepository.listarAmbientes(),
@@ -169,7 +161,7 @@ function avisoDeCarga(filas, tickets, habilitaciones, totalAsignados) {
 // Carga actual de cada técnico activo junto a sus resultados del periodo. La satisfacción es la de las encuestas
 // respondidas en el periodo sobre tickets que resolvió ese técnico.
 export async function obtenerCargaTecnicos(consulta, ahora = Date.now()) {
-  const rango = validarRango(consulta)
+  const rango = validarPeriodo(consulta)
   const [{ tickets, categorias }, tecnicos, habilitaciones, encuestas] = await Promise.all([
     actividad(ahora),
     metricasRepository.tecnicosActivos(),
