@@ -75,7 +75,7 @@ Son las 17 tablas del `seed.json` de la entrega 1. En MySQL se escriben en minú
 | HU-6 Encuesta de satisfacción | encuestas |
 | HU-7 Métricas y usuarios | unidades, vinculos |
 
-`tickets` conserva los campos compartidos por HU-1, HU-2 y HU-4, y HU-3 añade los datos del reporte. `bitacora` contiene por ahora las notas internas que escribe HU-4; HU-5 puede ampliarla para su flujo de atención. `encuestas` incluye los campos que HU-1 necesita para mostrar las encuestas pendientes.
+`tickets` conserva los campos compartidos por HU-1, HU-2 y HU-4, y HU-3 añade los datos del reporte. `bitacora` guarda los comentarios públicos y las notas internas de la atención (HU-5), además de la nota interna que escribe HU-4 al asignar. `encuestas` incluye los campos que HU-1 necesita para mostrar las encuestas pendientes.
 
 ### Tablas compartidas
 
@@ -176,3 +176,21 @@ Al crear, cancelar o reabrir un ticket se registra el evento de estado en `histo
 - Cada acción deja su evento en `historial` (tipos `asignacion` y `prioridad`; la devolución agrega además el estado `abierto`).
 - Para la cola, HU-4 utiliza `asunto`, `prioridad`, `tiempo_esperado_horas` y `creado_en` de `tickets`.
 - La tabla `bitacora` contiene las notas internas que registra HU-4; HU-5 la utiliza para el flujo de atención.
+
+## HU-5 Atención y cierre
+
+| Método | Ruta                                  | Sesión     | Mockup |
+| ------ | ------------------------------------- | ---------- | ------ |
+| GET    | /api/atencion                         | Técnico    | p24    |
+| GET    | /api/atencion/:codigo                 | Cualquiera | p25    |
+| GET    | /api/atencion/:codigo/historial       | Cualquiera | p27    |
+| POST   | /api/atencion/:codigo/bitacora        | Cualquiera | p25    |
+| PATCH  | /api/atencion/:codigo/estado          | Técnico    | p26    |
+| PATCH  | /api/atencion/:codigo/cierre          | Técnico    | p26    |
+
+- `:codigo` es el código del ticket, como `TCK-2026-00144`.
+- Ver un ticket: lo ven quien lo reportó, cualquier técnico y el supervisor. Quien lo reportó solo ve los comentarios públicos de la bitácora; el equipo ve también las notas internas. La respuesta trae el reporte con su ambiente, la espera en curso, los tiempos, el desenlace, la bitácora, el historial y lo que la persona puede hacer (`permisos`).
+- Bitácora: `{ tipo: 'publico' | 'interno', mensaje }`, hasta 600 caracteres. Comentan quien reportó el ticket, el técnico asignado y el supervisor; las notas internas, solo los dos últimos. Un ticket cerrado o cancelado ya no admite entradas.
+- Cambiar estado: `{ estado, motivo, retornoEstimado }`. Solo el técnico asignado. Desde abierto o reabierto se pasa a en atención; desde en atención, a en espera o resuelto; desde en espera, a en atención o resuelto; desde resuelto, a en atención. La espera pide motivo (hasta 240 caracteres) y fecha de retorno (`AAAA-MM-DD`, de hoy en adelante), que se guarda como el fin de ese día en Lima.
+- Cerrar: `{ solucion }`, de 10 a 600 caracteres. Solo el técnico asignado, con el ticket en atención o resuelto. Guarda `cerradoEn`; desde ahí quien lo reportó puede responder la encuesta (HU-6).
+- Cada cambio de estado y el cierre dejan su evento en `historial` (tipo `estado`). Los tiempos no cuentan las esperas y se comparan con el tiempo esperado del ticket, de su subcategoría o de su categoría.
