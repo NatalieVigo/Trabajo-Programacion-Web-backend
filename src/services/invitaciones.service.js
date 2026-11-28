@@ -1,4 +1,4 @@
-import { enTransaccion, siguienteId } from '../db/pool.js'
+import { enTransaccion } from '../repositories/RepositoryBase.js'
 import { catalogoRepository } from '../repositories/catalogo.repository.js'
 import { invitacionesRepository } from '../repositories/invitaciones.repository.js'
 import { usuariosRepository } from '../repositories/usuarios.repository.js'
@@ -34,8 +34,8 @@ function estadoEfectivo(invitacion, ahora = Date.now()) {
 
 const presentar = (invitacion) => ({ ...invitacion, estadoEfectivo: estadoEfectivo(invitacion) })
 
-async function buscarPorToken(token, db, opciones) {
-  const invitacion = await invitacionesRepository.buscarPorToken(token, db, opciones)
+async function buscarPorToken(token, t, opciones) {
+  const invitacion = await invitacionesRepository.buscarPorToken(token, t, opciones)
   if (!invitacion) throw new ServiceError(404, 'INVITATION_NOT_FOUND', 'No encontramos esta invitación.')
   return invitacion
 }
@@ -71,10 +71,10 @@ export async function aceptar(token, datos) {
   if (hasErrors(fieldErrors)) throw validationError(fieldErrors)
 
   const passwordHash = await hashPassword(datos.password)
-  return enTransaccion(async (db) => {
+  return enTransaccion(async (t) => {
     // se relee con bloqueo para que nadie la acepte o rechace al mismo tiempo
-    const invitacion = assertPendiente(await buscarPorToken(token, db, { bloquear: true }))
-    if (await usuariosRepository.buscarPorCorreo(invitacion.correo, db)) throw emailTakenError()
+    const invitacion = assertPendiente(await buscarPorToken(token, t, { bloquear: true }))
+    if (await usuariosRepository.buscarPorCorreo(invitacion.correo, t)) throw emailTakenError()
 
     const usuario = await insertarCuenta(
       {
@@ -90,19 +90,19 @@ export async function aceptar(token, datos) {
         aceptaTerminos: true,
         invitacionId: invitacion.id,
       },
-      db,
+      t,
     )
-    await invitacionesRepository.responder(invitacion.id, 'aceptada', usuario.creadoEn, db)
+    await invitacionesRepository.responder(invitacion.id, 'aceptada', usuario.creadoEn, t)
     return usuario
   })
 }
 
 // "Rechazar invitación" (p07)
 export async function rechazar(token) {
-  return enTransaccion(async (db) => {
-    const invitacion = assertPendiente(await buscarPorToken(token, db, { bloquear: true }))
-    await invitacionesRepository.responder(invitacion.id, 'rechazada', new Date(), db)
-    return presentar(await buscarPorToken(token, db))
+  return enTransaccion(async (t) => {
+    const invitacion = assertPendiente(await buscarPorToken(token, t, { bloquear: true }))
+    await invitacionesRepository.responder(invitacion.id, 'rechazada', new Date(), t)
+    return presentar(await buscarPorToken(token, t))
   })
 }
 
@@ -112,17 +112,17 @@ export async function crear(datos, invitadoPorId) {
   if (hasErrors(fieldErrors)) throw validationError(fieldErrors)
 
   const correo = normalizeCorreo(datos.correo)
-  return enTransaccion(async (db) => {
+  return enTransaccion(async (t) => {
     const creadaEn = new Date()
-    if (await usuariosRepository.buscarPorCorreo(correo, db)) throw emailTakenError()
-    if (await invitacionesRepository.hayPendiente(correo, creadaEn, db)) {
+    if (await usuariosRepository.buscarPorCorreo(correo, t)) throw emailTakenError()
+    if (await invitacionesRepository.hayPendiente(correo, creadaEn, t)) {
       throw new ServiceError(409, 'INVITATION_PENDING', INVITACION_PENDIENTE, { correo: INVITACION_PENDIENTE })
     }
 
     const token = `INV-${textoAleatorio(12).toUpperCase()}`
     await invitacionesRepository.insertar(
       {
-        id: await siguienteId(db, 'invitaciones', 'inv'),
+        id: await invitacionesRepository.siguienteId('inv', t),
         token,
         nombres: normalizeNombre(datos.nombres),
         apellidos: normalizeNombre(datos.apellidos),
@@ -133,8 +133,8 @@ export async function crear(datos, invitadoPorId) {
         venceEn: new Date(creadaEn.getTime() + VIGENCIA_MS),
         creadaEn,
       },
-      db,
+      t,
     )
-    return presentar(await buscarPorToken(token, db))
+    return presentar(await buscarPorToken(token, t))
   })
 }

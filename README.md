@@ -1,6 +1,6 @@
 # Mesa de ayuda de servicios del campus — Backend
 
-API REST de la entrega final, hecha con Node.js, Express y MySQL (XAMPP). El frontend está en [Trabajo-Programacion-Web](https://github.com/NatalieVigo/Trabajo-Programacion-Web).
+API REST de la entrega final, hecha con Node.js, Express, Sequelize y MySQL (XAMPP). El frontend está en [Trabajo-Programacion-Web](https://github.com/NatalieVigo/Trabajo-Programacion-Web).
 
 ## Cómo probarlo
 
@@ -18,9 +18,15 @@ npm run dev
 
 La API queda en http://localhost:3000/api.
 
-`npm run db:reset` borra la base `mesa_ayuda` y la vuelve a crear con los archivos de `database/esquema` y los datos de `database/seed.json`, que es una copia del seed de la entrega 1. Hay que volver a correrlo cada vez que cambie algo en `database/`.
+`npm run db:reset` borra la base `mesa_ayuda`, la vuelve a crear, corre las migraciones y carga los seeders con `sequelize-cli`. Los datos salen de `src/db/data/seed.json`, que es una copia del seed de la entrega 1. También se pueden correr los pasos por separado:
 
-Para las pruebas (`npm test`) MySQL debe estar encendido; usan una base aparte, `mesa_ayuda_test`.
+| Comando              | Qué hace                                           |
+| -------------------- | -------------------------------------------------- |
+| `npm run db:create`  | Crea la base (`sequelize db:create`)               |
+| `npm run db:migrate` | Crea las tablas que falten (`sequelize db:migrate`) |
+| `npm run db:seed`    | Carga los datos del seed (`sequelize db:seed:all`)  |
+
+Para las pruebas (`npm test`) MySQL debe estar encendido; usan una base aparte, `mesa_ayuda_test`, que se crea con las mismas migraciones y seeders.
 
 ## Cuentas de prueba
 
@@ -36,24 +42,28 @@ Las demás cuentas del seed usan `Demo2026`. Invitaciones de prueba: `INV-TEC-20
 ## Estructura
 
 ```
-database/esquema/   tablas, un archivo por historia
-database/semilla/   carga del seed, un archivo por historia
-database/seed.json  copia del seed de la entrega 1
-src/routes/         rutas de la API
-src/controllers/    leen la petición y responden; no tocan la base
-src/services/       reglas de negocio y validaciones
-src/repositories/   consultas SQL
-src/middlewares/    sesión, roles y errores
-test/               pruebas con Vitest y Supertest
+.sequelizerc.cjs                    rutas que usa sequelize-cli
+src/db/config/database.js           configuración de la base (lee el .env)
+src/db/models/                      modelos de Sequelize con sus asociaciones, uno por tabla
+src/db/migrations/                  migraciones, una por tabla
+src/db/seeders/                     seeders, uno por historia
+src/db/data/seed.json               copia del seed de la entrega 1
+src/routes/                         rutas de la API
+src/controllers/                    leen la petición y responden; no tocan la base
+src/services/                       reglas de negocio y validaciones
+src/repositories/RepositoryBase.js  operaciones comunes sobre un modelo (listar, buscar, crear, actualizar...)
+src/repositories/                   un repositorio por tabla, que extiende RepositoryBase
+src/middlewares/                    sesión, roles y errores
+test/                               pruebas con Vitest y Supertest
 ```
 
-Las credenciales van en `.env`, que no se sube al repositorio.
+Las credenciales van en `.env`, que no se sube al repositorio. Los modelos, migraciones y seeders están en CommonJS (`.cjs`), como los genera `sequelize-cli`.
 
 Las rutas con sesión piden el encabezado `Authorization: Bearer <token>`. Los errores responden con el código HTTP que corresponde y un JSON `{ code, message, fieldErrors, details }`.
 
 ## Tablas por historia
 
-Son las 17 tablas del `seed.json` de la entrega 1. En SQL se escriben en minúsculas con guion bajo (`tokensRecuperacion` es `tokens_recuperacion`), y la API responde con los nombres del seed. Cada tabla la crea una sola historia, que también carga sus datos semilla. Las demás historias solo la leen, salvo lo indicado en «Tablas compartidas».
+Son las 17 tablas del `seed.json` de la entrega 1. En MySQL se escriben en minúsculas con guion bajo (`tokensRecuperacion` es `tokens_recuperacion`); los modelos y la API usan los nombres del seed (`underscored` en `database.js` hace la conversión). Cada tabla la crea una sola historia, con su modelo, su migración y su seeder. Las demás historias solo la leen, salvo lo indicado en «Tablas compartidas».
 
 | Historia | Tablas |
 | --- | --- |
@@ -65,7 +75,7 @@ Son las 17 tablas del `seed.json` de la entrega 1. En SQL se escriben en minúsc
 | HU-6 Encuesta de satisfacción | encuestas |
 | HU-7 Métricas y usuarios | unidades, vinculos |
 
-Por ahora `tickets` (HU-3) tiene solo las columnas que leen HU-1 y HU-2, y `encuestas` (HU-6) solo las que lee HU-1. Cada responsable reemplaza su archivo de `database/esquema` y de `database/semilla` por su versión completa.
+Por ahora `tickets` (HU-3) tiene solo las columnas que leen HU-1 y HU-2, y `encuestas` (HU-6) solo las que lee HU-1. Cada responsable reemplaza su modelo, su migración y su seeder por la versión completa.
 
 ### Tablas compartidas
 
@@ -100,7 +110,7 @@ Por ahora `tickets` (HU-3) tiene solo las columnas que leen HU-1 y HU-2, y `encu
 | PUT    | /api/cuenta/contrasena                     | Cualquiera | p10    |
 | POST   | /api/solicitudes-acceso                    | Cualquiera | p11    |
 
-Las sesiones no se guardan en la base: el token dice de quién es y cuándo vence, y el servidor recuerda en memoria las que se cerraron (al cerrar sesión o al restablecer la contraseña) para responder 401. Si el servidor se reinicia, esa memoria se pierde y un token cerrado vuelve a servir hasta que vence.
+El token de sesión (JWT) dice de quién es, cuándo vence y la versión de sesión de la cuenta, que se guarda en la columna `version_sesion` de `usuarios`. Al cerrar sesión o al restablecer la contraseña esa versión sube, y los tokens anteriores responden 401 aunque el servidor se reinicie. Como la versión es de la cuenta, cerrar sesión la cierra en todos los equipos.
 
 ## HU-2 Catálogo de servicios
 
@@ -132,3 +142,4 @@ Las sesiones no se guardan en la base: el token dice de quién es y cuándo venc
 - Lo que está en uso no se elimina (`409 IN_USE`, con el motivo); en su lugar se puede desactivar.
 - `PUT /api/habilitaciones` recibe `{ "usr-002": ["cat-01", "cat-07"] }`; los técnicos que no vienen no cambian.
 - Para contar los tickets por categoría, subcategoría y ambiente, HU-2 agregó `categoria_id`, `subcategoria_id` y `ambiente_id` a `tickets`; el responsable de HU-3 las conserva al completar la tabla.
+- Las migraciones de HU-2 van antes que las de HU-1, porque `usuarios` apunta a `ambientes`. La de `habilitaciones` y su seeder van después, porque apuntan a los técnicos.

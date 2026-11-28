@@ -1,7 +1,6 @@
 import { config } from '../config.js'
-import { enTransaccion } from '../db/pool.js'
+import { enTransaccion } from '../repositories/RepositoryBase.js'
 import { intentosAccesoRepository } from '../repositories/intentosAcceso.repository.js'
-import { sesionesRepository } from '../repositories/sesiones.repository.js'
 import { tokensRecuperacionRepository } from '../repositories/tokensRecuperacion.repository.js'
 import { usuariosRepository } from '../repositories/usuarios.repository.js'
 import { formatTime } from '../utils/format.js'
@@ -93,11 +92,10 @@ async function registrarFalloSinCuenta(correo, ahora) {
   return errorDelIntento(intento)
 }
 
-async function abrirSesion(usuarioId, recordar, ahora) {
-  const id = textoAleatorio(16)
+// el token lleva la versión de sesión actual de la cuenta
+function abrirSesion(usuario, recordar, ahora) {
   const venceEn = new Date(ahora + (recordar ? DURACION_RECORDADA_MS : DURACION_SESION_MS))
-  const sesion = sesionesRepository.crear({ id, usuarioId, venceEn })
-  return { token: firmarToken(sesion), venceEn }
+  return { token: firmarToken({ usuarioId: usuario.id, version: usuario.versionSesion, venceEn }), venceEn }
 }
 
 // Login (p04 y p05). El bloqueo del supervisor solo se avisa con la contraseña correcta.
@@ -117,21 +115,24 @@ export async function iniciarSesion(credenciales) {
   if (usuario.estado !== 'activo') throw cuentaBloqueada(usuario.motivoBloqueo)
 
   await usuariosRepository.registrarAcceso(usuario.id, new Date(ahora))
-  const { token, venceEn } = await abrirSesion(usuario.id, recordar === true, ahora)
+  const { token, venceEn } = abrirSesion(usuario, recordar === true, ahora)
   return { token, venceEn, usuario: usuarioPublico(await usuariosRepository.buscarPorId(usuario.id)) }
 }
 
-// desde aquí el token de esta sesión responde 401 aunque todavía no venza
+// Desde aquí los tokens de esta cuenta responden 401 aunque todavía no venzan. Como la versión es de la cuenta,
+// se cierran sus sesiones en todos los equipos.
 export async function cerrarSesion(sesion) {
-  sesionesRepository.cerrar(sesion, new Date())
+  await usuariosRepository.cerrarSesiones(sesion.usuarioId)
 }
 
 // La usa el middleware en cada petición con sesión: si bloquean la cuenta, la sesión cae al instante.
 export async function validarSesion(token) {
-  const delToken = leerToken(token)
-  const sesion = delToken && sesionesRepository.buscarVigente(delToken, new Date())
+  const sesion = leerToken(token)
   const usuario = sesion && (await usuariosRepository.buscarPorId(sesion.usuarioId))
-  if (usuario?.estado !== 'activo') throw noAutenticado('Tu sesión terminó. Inicia sesión otra vez.')
+  // una versión distinta a la de la cuenta es de una sesión que ya se cerró
+  if (usuario?.estado !== 'activo' || usuario.versionSesion !== sesion.version) {
+    throw noAutenticado('Tu sesión terminó. Inicia sesión otra vez.')
+  }
   return { sesion, usuario: usuarioPublico(usuario) }
 }
 
@@ -139,11 +140,11 @@ export async function validarSesion(token) {
 async function crearEnlaceDeRecuperacion(usuarioId) {
   const creadoEn = new Date()
   const token = `REC-${textoAleatorio(16).toUpperCase()}`
-  await enTransaccion(async (db) => {
-    await tokensRecuperacionRepository.borrarSinUsar(usuarioId, db)
+  await enTransaccion(async (t) => {
+    await tokensRecuperacionRepository.borrarSinUsar(usuarioId, t)
     await tokensRecuperacionRepository.crear(
       { token, usuarioId, creadoEn, venceEn: new Date(creadoEn.getTime() + VIGENCIA_ENLACE_MS) },
-      db,
+      t,
     )
   })
   return token
@@ -163,9 +164,9 @@ export async function solicitarRecuperacion(datos) {
   return config.correosSimulados ? { ...respuesta, tokenDemo: token } : respuesta
 }
 
-async function buscarEnlaceVigente(token, db, opciones) {
-  const enlace = await tokensRecuperacionRepository.buscar(token, db, opciones)
-  const usuario = enlace && (await usuariosRepository.buscarPorId(enlace.usuarioId, db))
+async function buscarEnlaceVigente(token, t, opciones) {
+  const enlace = await tokensRecuperacionRepository.buscar(token, t, opciones)
+  const usuario = enlace && (await usuariosRepository.buscarPorId(enlace.usuarioId, t))
   if (!usuario) {
     throw new ServiceError(404, 'RESET_TOKEN_NOT_FOUND', 'Este enlace para restablecer la contraseña no es válido.')
   }
@@ -192,16 +193,15 @@ export async function restablecerPassword(token, datos) {
   if (hasErrors(fieldErrors)) throw validationError(fieldErrors)
 
   const passwordHash = await hashPassword(password)
-  const usuario = await enTransaccion(async (db) => {
+  const usuario = await enTransaccion(async (t) => {
     // se vuelve a leer con bloqueo para que el mismo enlace no se use dos veces
-    const { usuario } = await buscarEnlaceVigente(token, db, { bloquear: true })
+    const { usuario } = await buscarEnlaceVigente(token, t, { bloquear: true })
     const ahora = new Date()
-    await usuariosRepository.restablecerPassword(usuario.id, passwordHash, ahora, db)
-    await tokensRecuperacionRepository.marcarUsado(token, ahora, db)
+    await usuariosRepository.restablecerPassword(usuario.id, passwordHash, ahora, t)
+    await tokensRecuperacionRepository.marcarUsado(token, ahora, t)
+    await usuariosRepository.cerrarSesiones(usuario.id, t)
     return usuario
   })
-  // las sesiones viven en memoria, fuera de la transacción: se cierran solo si el cambio se guardó
-  sesionesRepository.cerrarTodas(usuario.id)
   return { correo: usuario.correo }
 }
 

@@ -1,9 +1,8 @@
 import { beforeEach, describe, expect, it } from 'vitest'
-import { pool } from '../src/db/pool.js'
 import { categoriasRepository, subcategoriasRepository } from '../src/repositories/categorias.repository.js'
 import { CATALOGO_MESSAGES } from '../src/utils/catalogoValidators.js'
 import { CAMILA, JULIO, LUCIA, api, ingresar, usarBaseDePrueba } from './ayuda.js'
-import { actualizarTicket, conSesion, contarFilas, restaurarCatalogo } from './ayudaCatalogo.js'
+import { actualizarTicket, cambiarEstadoDeCuenta, conSesion, contarFilas, db, restaurarCatalogo } from './ayudaCatalogo.js'
 
 usarBaseDePrueba()
 
@@ -85,7 +84,7 @@ describe('GET /api/categorias (p12)', () => {
   })
 
   it('cuenta los tickets de una subcategoría cuando el ticket la indica', async () => {
-    await actualizarTicket('tck-00147', { subcategoria_id: 'sub-01' })
+    await actualizarTicket('tck-00147', { subcategoriaId: 'sub-01' })
 
     const [, audiovisuales] = await listar()
     const proyector = audiovisuales.subcategorias.find((subcategoria) => subcategoria.id === 'sub-01')
@@ -266,11 +265,11 @@ describe('POST /api/categorias (p13)', () => {
     expect((await tecnico.post('/api/categorias', nueva)).status).toBe(403)
 
     // si bloquean a la supervisora, su sesión deja de servir
-    await pool.query("UPDATE usuarios SET estado = 'bloqueado' WHERE id = 'usr-003'")
+    await cambiarEstadoDeCuenta('usr-003', 'bloqueado')
     try {
       expect((await supervisora.post('/api/categorias', nueva)).status).toBe(401)
     } finally {
-      await pool.query("UPDATE usuarios SET estado = 'activo' WHERE id = 'usr-003'")
+      await cambiarEstadoDeCuenta('usr-003', 'activo')
     }
     expect(await contarFilas('categorias')).toBe(7)
   })
@@ -431,7 +430,7 @@ describe('confirmación al desactivar con tickets en curso (p12)', () => {
   })
 
   it('también la pide para una subcategoría con tickets en curso', async () => {
-    await actualizarTicket('tck-00147', { subcategoria_id: 'sub-01' })
+    await actualizarTicket('tck-00147', { subcategoriaId: 'sub-01' })
 
     expect((await desactivar('sub-01')).body).toMatchObject({ code: 'OPEN_TICKETS', details: { ticketsEnCurso: 1 } })
   })
@@ -475,17 +474,17 @@ describe('DELETE /api/categorias/:id (p12)', () => {
 
   it('elimina con ella las habilitaciones de la categoría', async () => {
     const { id } = (await supervisora.post('/api/categorias', nueva)).body
-    await pool.query("INSERT INTO habilitaciones (id, tecnico_id, categoria_id) VALUES ('hab-011', 'usr-002', ?)", [id])
+    await db.habilitacion.create({ id: 'hab-011', tecnicoId: 'usr-002', categoriaId: id })
 
     expect((await supervisora.delete(`/api/categorias/${id}`)).status).toBe(200)
 
-    const [quedan] = await pool.query('SELECT id FROM habilitaciones WHERE categoria_id = ?', [id])
+    const quedan = await db.habilitacion.findAll({ where: { categoriaId: id } })
     expect(quedan).toEqual([])
     expect(await contarFilas('habilitaciones')).toBe(10)
   })
 
   it('no elimina una subcategoría con tickets', async () => {
-    await actualizarTicket('tck-00147', { subcategoria_id: 'sub-01' })
+    await actualizarTicket('tck-00147', { subcategoriaId: 'sub-01' })
 
     const respuesta = await supervisora.delete('/api/categorias/sub-01')
 

@@ -1,3 +1,4 @@
+import { esDuplicado } from '../repositories/RepositoryBase.js'
 import { claveDeNombre } from '../utils/catalogoValidators.js'
 import { ServiceError } from '../utils/ServiceError.js'
 
@@ -43,7 +44,7 @@ export async function sinDuplicados(operacion, error) {
   try {
     return await operacion()
   } catch (causa) {
-    if (causa.code === 'ER_DUP_ENTRY') throw error
+    if (esDuplicado(causa)) throw error
     throw causa
   }
 }

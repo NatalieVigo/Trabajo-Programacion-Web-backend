@@ -1,92 +1,46 @@
-import { pool } from '../db/pool.js'
+import { RepositoryBase, db } from './RepositoryBase.js'
 
-const SELECT_USUARIO = 'SELECT u.* FROM usuarios u'
+// HU-1: cuentas. t es la transacción opcional (ver RepositoryBase).
+class UsuariosRepository extends RepositoryBase {
+  constructor() {
+    super(db.usuario)
+  }
 
-// la columna JSON llega como texto en MariaDB (XAMPP) y ya convertida en MySQL
-const leerLista = (valor) => (typeof valor === 'string' ? JSON.parse(valor) : (valor ?? []))
+  buscarPorCorreo(correo, t) {
+    return this.buscarUno({ where: { correo } }, t)
+  }
 
-// de columnas de MySQL a los nombres del contrato de datos
-function aUsuario(fila) {
-  if (!fila) return null
-  return {
-    id: fila.id,
-    nombres: fila.nombres,
-    apellidos: fila.apellidos,
-    correo: fila.correo,
-    telefono: fila.telefono,
-    rol: fila.rol,
-    unidad: fila.unidad,
-    vinculo: fila.vinculo,
-    especialidades: leerLista(fila.especialidades),
-    ambienteHabitualId: fila.ambiente_habitual_id,
-    estado: fila.estado,
-    motivoBloqueo: fila.motivo_bloqueo,
-    passwordHash: fila.password_hash,
-    intentosFallidos: fila.intentos_fallidos,
-    bloqueadoHasta: fila.bloqueado_hasta,
-    aceptaTerminos: fila.acepta_terminos,
-    invitacionId: fila.invitacion_id,
-    ultimoAccesoEn: fila.ultimo_acceso_en,
-    creadoEn: fila.creado_en,
-    actualizadoEn: fila.actualizado_en,
+  async insertar(usuario, t) {
+    await this.crear(usuario, t)
+  }
+
+  async guardarIntentos(id, { intentosFallidos, bloqueadoHasta }, t) {
+    await this.actualizar({ id }, { intentosFallidos, bloqueadoHasta }, t)
+  }
+
+  // un ingreso correcto limpia los intentos fallidos
+  async registrarAcceso(id, fecha, t) {
+    await this.actualizar({ id }, { intentosFallidos: 0, bloqueadoHasta: null, ultimoAccesoEn: fecha }, t)
+  }
+
+  async actualizarPerfil(id, perfil, fecha, t) {
+    const { nombres, apellidos, telefono, unidad, ambienteHabitualId } = perfil
+    await this.actualizar({ id }, { nombres, apellidos, telefono, unidad, ambienteHabitualId, actualizadoEn: fecha }, t)
+  }
+
+  async actualizarPassword(id, passwordHash, fecha, t) {
+    await this.actualizar({ id }, { passwordHash, actualizadoEn: fecha }, t)
+  }
+
+  // los tokens llevan la versión de sesión de su cuenta: al subirla, todos los anteriores dejan de servir
+  async cerrarSesiones(id, t) {
+    await this.modelo.increment('versionSesion', { where: { id }, ...this.opciones(t) })
+  }
+
+  // al restablecer también se quita el bloqueo por intentos (no el del supervisor)
+  async restablecerPassword(id, passwordHash, fecha, t) {
+    await this.actualizar({ id }, { passwordHash, intentosFallidos: 0, bloqueadoHasta: null, actualizadoEn: fecha }, t)
   }
 }
 
-// db puede ser el pool o la conexión de una transacción
-export const usuariosRepository = {
-  async buscarPorId(id, db = pool) {
-    const [filas] = await db.query(`${SELECT_USUARIO} WHERE u.id = ?`, [id])
-    return aUsuario(filas[0])
-  },
-
-  async buscarPorCorreo(correo, db = pool) {
-    const [filas] = await db.query(`${SELECT_USUARIO} WHERE u.correo = ?`, [correo])
-    return aUsuario(filas[0])
-  },
-
-  async insertar(usuario, db = pool) {
-    await db.query(
-      `INSERT INTO usuarios (id, nombres, apellidos, correo, telefono, rol, unidad, vinculo, especialidades,
-        ambiente_habitual_id, estado, password_hash, acepta_terminos, invitacion_id, creado_en, actualizado_en)
-       VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
-      [usuario.id, usuario.nombres, usuario.apellidos, usuario.correo, usuario.telefono, usuario.rol, usuario.unidad,
-        usuario.vinculo, JSON.stringify(usuario.especialidades), usuario.ambienteHabitualId, usuario.estado,
-        usuario.passwordHash, usuario.aceptaTerminos, usuario.invitacionId, usuario.creadoEn, usuario.actualizadoEn],
-    )
-  },
-
-  async guardarIntentos(id, { intentosFallidos, bloqueadoHasta }, db = pool) {
-    await db.query('UPDATE usuarios SET intentos_fallidos = ?, bloqueado_hasta = ? WHERE id = ?', [
-      intentosFallidos, bloqueadoHasta, id,
-    ])
-  },
-
-  // un ingreso correcto limpia los intentos fallidos
-  async registrarAcceso(id, fecha, db = pool) {
-    await db.query(
-      'UPDATE usuarios SET intentos_fallidos = 0, bloqueado_hasta = NULL, ultimo_acceso_en = ? WHERE id = ?',
-      [fecha, id],
-    )
-  },
-
-  async actualizarPerfil(id, perfil, fecha, db = pool) {
-    await db.query(
-      `UPDATE usuarios SET nombres = ?, apellidos = ?, telefono = ?, unidad = ?, ambiente_habitual_id = ?,
-        actualizado_en = ? WHERE id = ?`,
-      [perfil.nombres, perfil.apellidos, perfil.telefono, perfil.unidad, perfil.ambienteHabitualId, fecha, id],
-    )
-  },
-
-  async actualizarPassword(id, passwordHash, fecha, db = pool) {
-    await db.query('UPDATE usuarios SET password_hash = ?, actualizado_en = ? WHERE id = ?', [passwordHash, fecha, id])
-  },
-
-  // al restablecer también se quita el bloqueo por intentos (no el del supervisor)
-  async restablecerPassword(id, passwordHash, fecha, db = pool) {
-    await db.query(
-      `UPDATE usuarios SET password_hash = ?, intentos_fallidos = 0, bloqueado_hasta = NULL, actualizado_en = ?
-       WHERE id = ?`,
-      [passwordHash, fecha, id],
-    )
-  },
-}
+export const usuariosRepository = new UsuariosRepository()

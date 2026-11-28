@@ -1,21 +1,23 @@
-import { pool } from '../db/pool.js'
+import { RepositoryBase, db } from './RepositoryBase.js'
 
-const aHabilitacion = (fila) => ({ id: fila.id, tecnicoId: fila.tecnico_id, categoriaId: fila.categoria_id })
+// HU-2: técnicos habilitados por categoría (p16). t es la transacción opcional (ver RepositoryBase).
+const habilitaciones = new RepositoryBase(db.habilitacion)
 
-// técnicos habilitados por categoría (p16); db puede ser el pool o la conexión de una transacción
 export const habilitacionesRepository = {
-  async listar({ tecnicoId } = {}, db = pool) {
-    const [filas] = tecnicoId
-      ? await db.query('SELECT id, tecnico_id, categoria_id FROM habilitaciones WHERE tecnico_id = ?', [tecnicoId])
-      : await db.query('SELECT id, tecnico_id, categoria_id FROM habilitaciones')
-    return filas.map(aHabilitacion)
+  listar({ tecnicoId } = {}, t) {
+    return habilitaciones.listar({ where: tecnicoId ? { tecnicoId } : {}, order: [['id', 'ASC']] }, t)
   },
 
-  async insertar({ id, tecnicoId, categoriaId }, db = pool) {
-    await db.query('INSERT INTO habilitaciones (id, tecnico_id, categoria_id) VALUES (?, ?, ?)', [id, tecnicoId, categoriaId])
+  async insertar({ id, tecnicoId, categoriaId }, t) {
+    await habilitaciones.crear({ id, tecnicoId, categoriaId }, t)
   },
 
-  async eliminar(id, db = pool) {
-    await db.query('DELETE FROM habilitaciones WHERE id = ?', [id])
+  async eliminar(id, t) {
+    await habilitaciones.eliminar({ id }, t)
+  },
+
+  // ids del contrato de datos, como 'hab-011'
+  nuevoId(t) {
+    return habilitaciones.siguienteId('hab', t)
   },
 }

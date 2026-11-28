@@ -1,7 +1,6 @@
 import { beforeEach, describe, expect, it } from 'vitest'
-import { pool } from '../src/db/pool.js'
 import { JULIO, LUCIA, api, ingresar, usarBaseDePrueba } from './ayuda.js'
-import { conSesion, contarFilas, restaurarCatalogo } from './ayudaCatalogo.js'
+import { cambiarEstadoDeCuenta, conSesion, contarFilas, db, restaurarCatalogo } from './ayudaCatalogo.js'
 
 usarBaseDePrueba()
 
@@ -15,10 +14,8 @@ beforeEach(async () => {
 })
 
 async function habilitadasDe(tecnicoId) {
-  const [filas] = await pool.query('SELECT categoria_id FROM habilitaciones WHERE tecnico_id = ? ORDER BY categoria_id', [
-    tecnicoId,
-  ])
-  return filas.map((fila) => fila.categoria_id)
+  const filas = await db.habilitacion.findAll({ where: { tecnicoId }, order: [['categoriaId', 'ASC']] })
+  return filas.map((fila) => fila.categoriaId)
 }
 
 describe('GET /api/habilitaciones (p16)', () => {
@@ -56,13 +53,13 @@ describe('GET /api/habilitaciones (p16)', () => {
   })
 
   it('no incluye a los técnicos bloqueados ni a los supervisores', async () => {
-    await pool.query("UPDATE usuarios SET estado = 'bloqueado' WHERE id = 'usr-008'")
+    await cambiarEstadoDeCuenta('usr-008', 'bloqueado')
     try {
       const { tecnicos } = (await supervisora.get('/api/habilitaciones')).body
 
       expect(tecnicos.map(({ id }) => id)).toEqual(['usr-009', JULIO_ID, SANDRA_ID])
     } finally {
-      await pool.query("UPDATE usuarios SET estado = 'activo' WHERE id = 'usr-008'")
+      await cambiarEstadoDeCuenta('usr-008', 'activo')
     }
   })
 })

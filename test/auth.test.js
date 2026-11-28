@@ -100,6 +100,17 @@ describe('sesión y protección de rutas', () => {
     expect((await api().get('/api/cuenta').set(conToken(token))).status).toBe(401)
   })
 
+  it('cerrar sesión la cierra en todos los equipos, y al volver a ingresar el token nuevo sirve', async () => {
+    const enLaPc = await ingresar(CAMILA)
+    const enElCelular = await ingresar({ ...CAMILA, recordar: true })
+
+    expect((await api().post('/api/auth/logout').set(conToken(enLaPc))).status).toBe(204)
+    expect((await api().get('/api/cuenta').set(conToken(enElCelular))).status).toBe(401)
+
+    const nuevo = await ingresar(CAMILA)
+    expect((await api().get('/api/cuenta').set(conToken(nuevo))).status).toBe(200)
+  })
+
   it('la sesión vence a las 8 horas', async () => {
     const token = await ingresar(CAMILA)
 
