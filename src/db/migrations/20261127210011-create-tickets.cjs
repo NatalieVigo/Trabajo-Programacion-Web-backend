@@ -1,6 +1,7 @@
 'use strict'
 
-// HU-3 (provisional): solo las columnas que leen HU-1 y HU-2 (tickets por categoría, subcategoría y ambiente);
+// HU-3 (provisional): solo las columnas que leen HU-1 y HU-2 (tickets por categoría, subcategoría y ambiente)
+// y las que usa HU-4 en la cola (asunto, prioridad, tiempo esperado y fecha de registro);
 // el responsable de HU-3 completa el resto.
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
@@ -28,12 +29,17 @@ module.exports = {
         allowNull: false,
         references: { model: 'ambientes', key: 'id' },
       },
+      asunto: { type: Sequelize.STRING(120), allowNull: false, defaultValue: '' },
       asignado_a: {
         type: Sequelize.STRING(10),
         allowNull: true,
         references: { model: 'usuarios', key: 'id' },
       },
       estado: { type: Sequelize.STRING(20), allowNull: false },
+      // HU-4 cambia la prioridad desde la cola; al hacerlo fija el tiempo esperado de esa prioridad
+      prioridad: { type: Sequelize.ENUM('critica', 'alta', 'media', 'baja'), allowNull: false, defaultValue: 'media' },
+      tiempo_esperado_horas: { type: Sequelize.SMALLINT.UNSIGNED, allowNull: true },
+      creado_en: { type: Sequelize.DATE, allowNull: false, defaultValue: Sequelize.literal('CURRENT_TIMESTAMP') },
       cerrado_en: { type: Sequelize.DATE, allowNull: true },
     })
   },
