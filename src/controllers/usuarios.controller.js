@@ -1,20 +1,18 @@
 import * as administracionUsuariosService from '../services/administracionUsuarios.service.js'
 
-export async function listarUsuarios(req, res) {
-  const usuarios = await administracionUsuariosService.listarUsuarios(req.query)
-  res.json(usuarios)
+// HU-7: solo el supervisor llega a estas rutas; req.usuario es su cuenta (ver autenticar)
+export async function listarCuentas(req, res) {
+  res.json(await administracionUsuariosService.listarCuentas())
 }
 
-export async function obtenerUsuario(req, res) {
-  const usuario = await administracionUsuariosService.obtenerDetalleUsuario(req.params.id)
-  res.json(usuario)
+export async function obtenerFicha(req, res) {
+  res.json(await administracionUsuariosService.obtenerFichaCuenta(req.params.id))
 }
 
-export async function cambiarEstado(req, res) {
-  const usuario = await administracionUsuariosService.cambiarEstadoUsuario(
-    req.params.id,
-    req.body ?? {},
-    req.usuario,
-  )
-  res.json(usuario)
+export async function bloquear(req, res) {
+  res.json(await administracionUsuariosService.bloquearCuenta(req.params.id, req.body ?? {}, req.usuario))
+}
+
+export async function desbloquear(req, res) {
+  res.json(await administracionUsuariosService.desbloquearCuenta(req.params.id))
 }
