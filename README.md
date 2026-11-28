@@ -75,7 +75,7 @@ Son las 17 tablas del `seed.json` de la entrega 1. En MySQL se escriben en minú
 | HU-6 Encuesta de satisfacción | encuestas |
 | HU-7 Métricas y usuarios | unidades, vinculos |
 
-`tickets` conserva los campos compartidos por HU-1, HU-2 y HU-4, y HU-3 añade los datos del reporte. `bitacora` guarda los comentarios públicos y las notas internas de la atención (HU-5), además de la nota interna que escribe HU-4 al asignar. `encuestas` incluye los campos que HU-1 necesita para mostrar las encuestas pendientes.
+`tickets` conserva los campos compartidos por HU-1, HU-2 y HU-4, y HU-3 añade los datos del reporte. `bitacora` guarda los comentarios públicos y las notas internas de la atención (HU-5), además de la nota interna que escribe HU-4 al asignar. `encuestas` (HU-6) guarda una respuesta por ticket cerrado; HU-1 la lee para mostrar las encuestas pendientes y HU-7 su puntaje para la satisfacción por técnico.
 
 ### Tablas compartidas
 
@@ -195,6 +195,22 @@ Al crear, cancelar o reabrir un ticket se registra el evento de estado en `histo
 - Cerrar: `{ solucion }`, de 10 a 600 caracteres. Solo el técnico asignado, con el ticket en atención o resuelto. Guarda `cerradoEn`; desde ahí quien lo reportó puede responder la encuesta (HU-6).
 - Cada cambio de estado y el cierre dejan su evento en `historial` (tipo `estado`). Los tiempos no cuentan las esperas y se comparan con el tiempo esperado del ticket, de su subcategoría o de su categoría.
 
+## HU-6 Encuesta de satisfacción
+
+| Método | Ruta                          | Sesión     | Mockup |
+| ------ | ----------------------------- | ---------- | ------ |
+| GET    | /api/encuestas                | Cualquiera | p28    |
+| GET    | /api/encuestas/satisfaccion   | Supervisor | p29    |
+| GET    | /api/encuestas/:codigo        | Cualquiera | p27    |
+| PUT    | /api/encuestas/:codigo        | Cualquiera | p27    |
+
+- `:codigo` es el código del ticket, como `TCK-2026-00131`. Solo quien reportó el ticket ve y responde su encuesta; para los demás responde 404.
+- Responder: `{ puntajeGeneral, rapidez, trato, solucion, comentario }`, los puntajes enteros del 1 al 5 y el comentario opcional de hasta 500 caracteres. Solo con el ticket cerrado y hasta 7 días después del cierre (el mismo plazo con que HU-1 la muestra como pendiente). Responde 201 al crearla.
+- Hay una sola respuesta por ticket: volver a enviarla la edita (200) hasta 7 días después de responderla; luego responde 409 `SURVEY_EDIT_EXPIRED`.
+- `GET /api/encuestas/:codigo` devuelve `{ encuesta, abierta, plazoHasta }`: la encuesta o `null`, si hoy se puede responder o editar y hasta cuándo.
+- Mis encuestas: las respondidas, de la más reciente a la más antigua, con el técnico, si todavía se pueden editar y el promedio que dio la persona.
+- Satisfacción: `?desde=AAAA-MM-DD&hasta=AAAA-MM-DD&puntaje=todos|1_3|4_5`. Promedia el puntaje general y los aspectos de las encuestas respondidas en el periodo por técnico (el asignado al ticket) y por categoría, y lista los comentarios filtrados por puntaje. La tasa de respuesta es la parte de los tickets cerrados en el periodo que ya tienen encuesta.
+
 ## HU-7 Métricas y usuarios
 
 | Método | Ruta                          | Sesión     | Mockup |
@@ -209,6 +225,6 @@ Al crear, cancelar o reabrir un ticket se registra el evento de estado en `histo
 - Las métricas reciben el periodo como `?desde=AAAA-MM-DD&hasta=AAAA-MM-DD`, en días de Lima; si falta, la fecha no existe o el fin va antes del inicio, responden 400.
 - Tablero: tickets del periodo, abiertos y sin asignar (cifras de ahora), tiempo promedio de atención sin las esperas, tickets fuera del tiempo esperado y la variación frente al periodo anterior de la misma duración. Trae la distribución por estado, por categoría y los seis ambientes con más tickets.
 - Carga por técnico: cada técnico activo con sus tickets en curso, en espera, los resueltos del periodo (cuentan para quien tenía el ticket al resolverlo) y su promedio de atención. El aviso sugiere repartir los tickets críticos con un técnico habilitado en esa categoría.
-- La satisfacción por técnico y en la ficha usa el `puntaje` y `respondidaEn` de `encuestas`; hasta que HU-6 agregue esas columnas sale `null`.
+- La satisfacción por técnico y en la ficha es el promedio del `puntaje` de `encuestas` (HU-6); sin encuestas sale `null`.
 - Bloquear: `{ motivo }`, hasta 240 caracteres. No se puede bloquear la propia cuenta ni a quien tiene tickets críticos en curso (409). Guarda el motivo en `motivoBloqueo` y cierra las sesiones de la cuenta; desde ahí no puede ingresar (HU-1 responde 403 `ACCOUNT_BLOCKED`).
 - Desbloquear borra el motivo. Si la cuenta ya cambió de estado, ambas operaciones responden 409 `ACCOUNT_CHANGED`.
