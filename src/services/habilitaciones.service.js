@@ -1,4 +1,4 @@
-import { enTransaccion, siguienteId } from '../db/pool.js'
+import { enTransaccion } from '../repositories/RepositoryBase.js'
 import { categoriasRepository } from '../repositories/categorias.repository.js'
 import { habilitacionesRepository } from '../repositories/habilitaciones.repository.js'
 import { usosCatalogoRepository } from '../repositories/usosCatalogo.repository.js'
@@ -70,18 +70,18 @@ export async function guardarMatriz(cambios) {
   }
 
   // todo o nada: si algo falla, ningún técnico queda a medias
-  await enTransaccion(async (db) => {
+  await enTransaccion(async (t) => {
     for (const [tecnicoId, ids] of entradas) {
       const deseadas = new Set(ids)
-      const actuales = await habilitacionesRepository.listar({ tecnicoId }, db)
+      const actuales = await habilitacionesRepository.listar({ tecnicoId }, t)
       for (const { id, categoriaId } of actuales) {
-        if (!deseadas.has(categoriaId)) await habilitacionesRepository.eliminar(id, db)
+        if (!deseadas.has(categoriaId)) await habilitacionesRepository.eliminar(id, t)
       }
       const yaHabilitadas = new Set(actuales.map(({ categoriaId }) => categoriaId))
       for (const categoriaId of deseadas) {
         if (yaHabilitadas.has(categoriaId)) continue
-        const id = await siguienteId(db, 'habilitaciones', 'hab')
-        await habilitacionesRepository.insertar({ id, tecnicoId, categoriaId }, db)
+        const id = await habilitacionesRepository.nuevoId(t)
+        await habilitacionesRepository.insertar({ id, tecnicoId, categoriaId }, t)
       }
     }
   })

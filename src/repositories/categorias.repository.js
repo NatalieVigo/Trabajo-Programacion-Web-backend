@@ -1,102 +1,78 @@
-import { pool } from '../db/pool.js'
+import { RepositoryBase, db } from './RepositoryBase.js'
 
-const COLUMNAS = 'id, nombre, descripcion, activa, prioridad_por_defecto, tiempo_esperado_horas'
+// HU-2: categorías y subcategorías (p12 y p13). t es la transacción opcional (ver RepositoryBase).
+const categorias = new RepositoryBase(db.categoria)
+const subcategorias = new RepositoryBase(db.subcategoria)
 
-// de columnas de MySQL a los nombres del contrato de datos
-function aCategoria(fila) {
-  if (!fila) return null
-  return {
-    id: fila.id,
-    nombre: fila.nombre,
-    descripcion: fila.descripcion,
-    activa: fila.activa,
-    prioridadPorDefecto: fila.prioridad_por_defecto,
-    tiempoEsperadoHoras: fila.tiempo_esperado_horas,
-  }
-}
+const CAMPOS = ['nombre', 'descripcion', 'activa', 'prioridadPorDefecto', 'tiempoEsperadoHoras']
 
-const aSubcategoria = (fila) => (fila ? { ...aCategoria(fila), categoriaId: fila.categoria_id } : null)
+// solo los campos de la tabla, aunque el objeto traiga otros
+const soloCampos = (datos, campos) => Object.fromEntries(campos.map((campo) => [campo, datos[campo]]))
 
-const valores = (campos) => [
-  campos.nombre, campos.descripcion, campos.activa, campos.prioridadPorDefecto, campos.tiempoEsperadoHoras,
-]
+const POR_ID = [['id', 'ASC']]
 
-// db puede ser el pool o la conexión de una transacción
 export const categoriasRepository = {
-  async listar({ soloActivas = false } = {}, db = pool) {
-    const [filas] = await db.query(`SELECT ${COLUMNAS} FROM categorias ${soloActivas ? 'WHERE activa = TRUE' : ''}`)
-    return filas.map(aCategoria)
+  listar({ soloActivas = false } = {}, t) {
+    return categorias.listar({ where: soloActivas ? { activa: true } : {}, order: POR_ID }, t)
   },
 
-  async buscar(id, db = pool) {
-    const [filas] = await db.query(`SELECT ${COLUMNAS} FROM categorias WHERE id = ?`, [id])
-    return aCategoria(filas[0])
+  buscar(id, t) {
+    return categorias.buscarPorId(id, t)
   },
 
-  async insertar(categoria, db = pool) {
-    await db.query(
-      `INSERT INTO categorias (${COLUMNAS}) VALUES (?, ?, ?, ?, ?, ?)`,
-      [categoria.id, ...valores(categoria)],
-    )
+  async insertar(categoria, t) {
+    await categorias.crear(soloCampos(categoria, ['id', ...CAMPOS]), t)
   },
 
-  async actualizar(id, campos, db = pool) {
-    await db.query(
-      `UPDATE categorias SET nombre = ?, descripcion = ?, activa = ?, prioridad_por_defecto = ?,
-        tiempo_esperado_horas = ? WHERE id = ?`,
-      [...valores(campos), id],
-    )
+  async actualizar(id, campos, t) {
+    await categorias.actualizar({ id }, soloCampos(campos, CAMPOS), t)
   },
 
-  async cambiarEstado(id, activa, db = pool) {
-    await db.query('UPDATE categorias SET activa = ? WHERE id = ?', [activa, id])
+  async cambiarEstado(id, activa, t) {
+    await categorias.actualizar({ id }, { activa }, t)
   },
 
   // sus habilitaciones se borran solas (ON DELETE CASCADE)
-  async eliminar(id, db = pool) {
-    await db.query('DELETE FROM categorias WHERE id = ?', [id])
+  async eliminar(id, t) {
+    await categorias.eliminar({ id }, t)
+  },
+
+  // ids del contrato de datos, como 'cat-08'
+  nuevoId(t) {
+    return categorias.siguienteId('cat', t, 2)
   },
 }
 
 export const subcategoriasRepository = {
-  async listar({ categoriaId, soloActivas = false } = {}, db = pool) {
-    const condiciones = []
-    const parametros = []
-    if (categoriaId) {
-      condiciones.push('categoria_id = ?')
-      parametros.push(categoriaId)
-    }
-    if (soloActivas) condiciones.push('activa = TRUE')
-    const donde = condiciones.length > 0 ? `WHERE ${condiciones.join(' AND ')}` : ''
-    const [filas] = await db.query(`SELECT ${COLUMNAS}, categoria_id FROM subcategorias ${donde}`, parametros)
-    return filas.map(aSubcategoria)
+  listar({ categoriaId, soloActivas = false } = {}, t) {
+    const where = {}
+    if (categoriaId) where.categoriaId = categoriaId
+    if (soloActivas) where.activa = true
+    return subcategorias.listar({ where, order: POR_ID }, t)
   },
 
-  async buscar(id, db = pool) {
-    const [filas] = await db.query(`SELECT ${COLUMNAS}, categoria_id FROM subcategorias WHERE id = ?`, [id])
-    return aSubcategoria(filas[0])
+  buscar(id, t) {
+    return subcategorias.buscarPorId(id, t)
   },
 
-  async insertar(subcategoria, db = pool) {
-    await db.query(
-      `INSERT INTO subcategorias (${COLUMNAS}, categoria_id) VALUES (?, ?, ?, ?, ?, ?, ?)`,
-      [subcategoria.id, ...valores(subcategoria), subcategoria.categoriaId],
-    )
+  async insertar(subcategoria, t) {
+    await subcategorias.crear(soloCampos(subcategoria, ['id', 'categoriaId', ...CAMPOS]), t)
   },
 
-  async actualizar(id, campos, db = pool) {
-    await db.query(
-      `UPDATE subcategorias SET nombre = ?, descripcion = ?, activa = ?, prioridad_por_defecto = ?,
-        tiempo_esperado_horas = ?, categoria_id = ? WHERE id = ?`,
-      [...valores(campos), campos.categoriaId, id],
-    )
+  async actualizar(id, campos, t) {
+    await subcategorias.actualizar({ id }, soloCampos(campos, ['categoriaId', ...CAMPOS]), t)
   },
 
-  async cambiarEstado(id, activa, db = pool) {
-    await db.query('UPDATE subcategorias SET activa = ? WHERE id = ?', [activa, id])
+  async cambiarEstado(id, activa, t) {
+    await subcategorias.actualizar({ id }, { activa }, t)
   },
 
-  async eliminar(id, db = pool) {
-    await db.query('DELETE FROM subcategorias WHERE id = ?', [id])
+  async eliminar(id, t) {
+    await subcategorias.eliminar({ id }, t)
+  },
+
+  // como 'sub-21'
+  nuevoId(t) {
+    return subcategorias.siguienteId('sub', t, 2)
   },
 }

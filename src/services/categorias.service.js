@@ -1,4 +1,4 @@
-import { enTransaccion, siguienteId } from '../db/pool.js'
+import { enTransaccion } from '../repositories/RepositoryBase.js'
 import { categoriasRepository, subcategoriasRepository } from '../repositories/categorias.repository.js'
 import { usosCatalogoRepository } from '../repositories/usosCatalogo.repository.js'
 import { CATALOGO_MESSAGES, parseHoras, validateCategoria } from '../utils/catalogoValidators.js'
@@ -165,14 +165,14 @@ export async function crear(datos) {
   // la transacción evita que dos altas a la vez tomen el mismo id
   const id = await sinDuplicados(
     () =>
-      enTransaccion(async (db) => {
+      enTransaccion(async (t) => {
         if (!padreId) {
-          const categoria = { id: await siguienteId(db, 'categorias', 'cat', 2), ...campos }
-          await categoriasRepository.insertar(categoria, db)
+          const categoria = { id: await categoriasRepository.nuevoId(t), ...campos }
+          await categoriasRepository.insertar(categoria, t)
           return categoria.id
         }
-        const subcategoria = { id: await siguienteId(db, 'subcategorias', 'sub', 2), categoriaId: padreId, ...campos }
-        await subcategoriasRepository.insertar(subcategoria, db)
+        const subcategoria = { id: await subcategoriasRepository.nuevoId(t), categoriaId: padreId, ...campos }
+        await subcategoriasRepository.insertar(subcategoria, t)
         return subcategoria.id
       }),
     nombreTomado(mensajeNombreTomado(padreId)),

@@ -1,4 +1,4 @@
-import { enTransaccion, siguienteId } from '../db/pool.js'
+import { enTransaccion } from '../repositories/RepositoryBase.js'
 import { ambientesRepository, pabellonesRepository, sedesRepository } from '../repositories/ubicaciones.repository.js'
 import { usosCatalogoRepository } from '../repositories/usosCatalogo.repository.js'
 import {
@@ -79,9 +79,9 @@ export async function crearSede(datos) {
   const campos = await validarSede(datos ?? {})
   const id = await sinDuplicados(
     () =>
-      enTransaccion(async (db) => {
-        const sede = { id: await siguienteId(db, 'sedes', 'sed', 2), ...campos }
-        await sedesRepository.insertar(sede, db)
+      enTransaccion(async (t) => {
+        const sede = { id: await sedesRepository.nuevoId(t), ...campos }
+        await sedesRepository.insertar(sede, t)
         return sede.id
       }),
     nombreTomado(CATALOGO_MESSAGES.sedeTaken),
@@ -122,9 +122,9 @@ export async function crearPabellon(datos) {
   const campos = await validarPabellon(pick(datos ?? {}, CAMPOS_PABELLON))
   const id = await sinDuplicados(
     () =>
-      enTransaccion(async (db) => {
-        const pabellon = { id: await siguienteId(db, 'pabellones', 'pab', 2), ...campos }
-        await pabellonesRepository.insertar(pabellon, db)
+      enTransaccion(async (t) => {
+        const pabellon = { id: await pabellonesRepository.nuevoId(t), ...campos }
+        await pabellonesRepository.insertar(pabellon, t)
         return pabellon.id
       }),
     nombreTomado(CATALOGO_MESSAGES.pabellonTaken),
@@ -216,9 +216,9 @@ export async function crearAmbiente(datos) {
   const campos = await validarAmbiente(pick(datos ?? {}, CAMPOS_AMBIENTE))
   const id = await sinDuplicados(
     () =>
-      enTransaccion(async (db) => {
-        const ambiente = { id: await siguienteId(db, 'ambientes', 'amb', 2), ...campos }
-        await ambientesRepository.insertar(ambiente, db)
+      enTransaccion(async (t) => {
+        const ambiente = { id: await ambientesRepository.nuevoId(t), ...campos }
+        await ambientesRepository.insertar(ambiente, t)
         return ambiente.id
       }),
     codigoTomado(),
