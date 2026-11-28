@@ -65,7 +65,7 @@ Son las 17 tablas del `seed.json` de la entrega 1. En SQL se escriben en minúsc
 | HU-6 Encuesta de satisfacción | encuestas |
 | HU-7 Métricas y usuarios | unidades, vinculos |
 
-Por ahora `tickets` (HU-3) tiene solo las columnas que leen HU-1 y HU-2, y `encuestas` (HU-6) solo las que lee HU-1. Cada responsable reemplaza su archivo de `database/esquema` y de `database/semilla` por su versión completa.
+Por ahora `tickets` (HU-3) tiene solo las columnas que leen HU-1, HU-2 y HU-4, `bitacora` (HU-5) solo las que escribe HU-4, y `encuestas` (HU-6) solo las que lee HU-1. Cada responsable reemplaza su archivo de `database/esquema` y de `database/semilla` por su versión completa.
 
 ### Tablas compartidas
 
@@ -132,3 +132,21 @@ Las sesiones no se guardan en la base: el token dice de quién es y cuándo venc
 - Lo que está en uso no se elimina (`409 IN_USE`, con el motivo); en su lugar se puede desactivar.
 - `PUT /api/habilitaciones` recibe `{ "usr-002": ["cat-01", "cat-07"] }`; los técnicos que no vienen no cambian.
 - Para contar los tickets por categoría, subcategoría y ambiente, HU-2 agregó `categoria_id`, `subcategoria_id` y `ambiente_id` a `tickets`; el responsable de HU-3 las conserva al completar la tabla.
+
+## HU-4 Cola y asignación
+
+| Método | Ruta                                  | Sesión     | Mockup |
+| ------ | ------------------------------------- | ---------- | ------ |
+| GET    | /api/cola                             | Supervisor | p22, p23 |
+| GET    | /api/cola/bandeja                     | Técnico    | p24    |
+| POST   | /api/cola/asignaciones                | Supervisor | p22 (lote), p23 |
+| PATCH  | /api/cola/prioridad                   | Supervisor | p22 (lote), p23 |
+| POST   | /api/cola/devoluciones                | Supervisor | p22 (lote), p23 |
+| POST   | /api/cola/:ticketId/autoasignacion    | Técnico    | p24    |
+
+- Las acciones del supervisor reciben `{ ids: ["tck-00147", ...] }` y son todo o nada: si un ticket no cumple, no se cambia ninguno.
+- Asignar: `{ ids, tecnicoId, nota }`. El técnico debe estar activo y habilitado en la categoría de cada ticket. Si el ticket ya tenía técnico es una reasignación y la nota es el motivo (mínimo 10 caracteres). La nota se guarda también en la bitácora como nota interna.
+- Cambiar prioridad: `{ ids, prioridad, motivo }`, con motivo de 10 a 240 caracteres. Fija el tiempo esperado de la nueva prioridad (crítica 2 h, alta 8 h, media 24 h, baja 72 h).
+- Devolver a la cola: `{ ids }`. El ticket queda abierto y sin técnico.
+- Cada acción deja su evento en `historial` (tipos `asignacion` y `prioridad`; la devolución agrega además el estado `abierto`).
+- Para la cola, HU-4 agregó a `tickets` las columnas `asunto`, `prioridad`, `tiempo_esperado_horas` y `creado_en`; el responsable de HU-3 las conserva al completar la tabla.

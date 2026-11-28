@@ -3,6 +3,8 @@ import mysql from 'mysql2/promise'
 import { cargarCuentas } from './semilla/hu1-cuentas.js'
 import { cargarCatalogo } from './semilla/hu2-catalogo.js'
 import { cargarTickets } from './semilla/hu3-tickets.js'
+import { cargarHistorial } from './semilla/hu4-historial.js'
+import { cargarBitacora } from './semilla/hu5-bitacora.js'
 import { cargarEncuestas } from './semilla/hu6-encuestas.js'
 import { cargarUnidades } from './semilla/hu7-unidades.js'
 
@@ -11,7 +13,7 @@ const ESQUEMA = new URL('./esquema/', import.meta.url)
 const SEED = new URL('./seed.json', import.meta.url)
 
 // mismo orden que los archivos del esquema
-const CARGAS = [cargarCatalogo, cargarUnidades, cargarCuentas, cargarTickets, cargarEncuestas]
+const CARGAS = [cargarCatalogo, cargarUnidades, cargarCuentas, cargarTickets, cargarEncuestas, cargarHistorial, cargarBitacora]
 
 // Borra la base, la crea con los archivos de database/esquema y carga el seed.
 export async function reiniciarBase({ host, port, user, password, database }) {

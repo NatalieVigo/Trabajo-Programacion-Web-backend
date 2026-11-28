@@ -2,6 +2,7 @@ import { Router } from 'express'
 import ambientesRoutes from './ambientes.routes.js'
 import authRoutes from './auth.routes.js'
 import categoriasRoutes from './categorias.routes.js'
+import colaRoutes from './cola.routes.js'
 import cuentaRoutes from './cuenta.routes.js'
 import habilitacionesRoutes from './habilitaciones.routes.js'
 import invitacionesRoutes from './invitaciones.routes.js'
@@ -24,3 +25,6 @@ rutas.use('/sedes', sedesRoutes)
 rutas.use('/pabellones', pabellonesRoutes)
 rutas.use('/ambientes', ambientesRoutes)
 rutas.use('/habilitaciones', habilitacionesRoutes)
+
+// HU-4 Cola y asignación
+rutas.use('/cola', colaRoutes)
