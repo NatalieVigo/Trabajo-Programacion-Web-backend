@@ -1,9 +1,11 @@
 'use strict'
 
-// HU-6 (provisional): solo las columnas que lee HU-1; el responsable de HU-6 completa el resto.
+// HU-6 Encuesta de satisfacción: una por ticket cerrado, con el puntaje general, los aspectos y el comentario.
+// HU-1 lee las encuestas para mostrar las pendientes y HU-7 sus puntajes para la satisfacción por técnico.
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
   async up(queryInterface, Sequelize) {
+    const puntaje = () => ({ type: Sequelize.TINYINT.UNSIGNED, allowNull: false })
     await queryInterface.createTable('encuestas', {
       id: { type: Sequelize.STRING(10), primaryKey: true },
       ticket_id: {
@@ -17,6 +19,13 @@ module.exports = {
         allowNull: false,
         references: { model: 'usuarios', key: 'id' },
       },
+      puntaje: puntaje(),
+      rapidez: puntaje(),
+      trato: puntaje(),
+      solucion: puntaje(),
+      comentario: { type: Sequelize.STRING(500), allowNull: false, defaultValue: '' },
+      respondida_en: { type: Sequelize.DATE, allowNull: false },
+      editada_en: { type: Sequelize.DATE, allowNull: true },
     })
   },
   async down(queryInterface) {

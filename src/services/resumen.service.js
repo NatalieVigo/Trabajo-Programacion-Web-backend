@@ -1,4 +1,6 @@
 import { resumenRepository } from '../repositories/resumen.repository.js'
+import { hoyEnLima } from '../utils/fechaLima.js'
+import { instantesDelPeriodo } from '../utils/periodo.js'
 
 // la encuesta se puede responder hasta 7 días después del cierre
 const PLAZO_ENCUESTA_MS = 7 * 24 * 60 * 60 * 1000
@@ -13,7 +15,7 @@ async function encuestasPendientes(usuarioId) {
   }))
 }
 
-// Solo lo que muestran los mockups de HU-1: la bienvenida (p05) y la cabecera y el menú del usuario (p10 y p11).
+// La bienvenida (p05) y los contadores de la cabecera y del menú de cada rol.
 const CONTADORES_POR_ROL = {
   async usuario(usuarioId) {
     const [tickets, pendientes, respondidas] = await Promise.all([
@@ -29,10 +31,26 @@ const CONTADORES_POR_ROL = {
     }
   },
   async tecnico(usuarioId) {
-    return { asignados: await resumenRepository.contarAsignados(usuarioId) }
+    const asignados = await resumenRepository.ticketsAsignados(usuarioId)
+    const conEstado = (estado) => asignados.filter((ticket) => ticket.estado === estado)
+    // los que siguen resueltos y pasaron a resuelto hoy (en Lima)
+    const hoy = hoyEnLima()
+    const { inicio, fin } = instantesDelPeriodo({ desde: hoy, hasta: hoy })
+    const resueltos = conEstado('resuelto').map(({ id }) => id)
+    return {
+      asignados: asignados.length,
+      enAtencion: conEstado('en_atencion').length,
+      enEspera: conEstado('en_espera').length,
+      resueltosHoy: await resumenRepository.contarResueltosEntre(resueltos, inicio, fin),
+    }
   },
   async supervisor() {
-    return { colaSinAsignar: await resumenRepository.contarColaSinAsignar() }
+    const [colaSinAsignar, colaTotal, usuariosTotal] = await Promise.all([
+      resumenRepository.contarColaSinAsignar(),
+      resumenRepository.contarNoCerrados(),
+      resumenRepository.contarUsuarios(),
+    ])
+    return { colaSinAsignar, colaTotal, usuariosTotal }
   },
 }
 

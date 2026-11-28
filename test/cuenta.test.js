@@ -1,4 +1,4 @@
-import { beforeEach, describe, expect, it } from 'vitest'
+import { beforeEach, describe, expect, it, vi } from 'vitest'
 import { CAMILA, JULIO, LUCIA, api, conToken, ingresar, usarBaseDePrueba } from './ayuda.js'
 
 usarBaseDePrueba()
@@ -81,12 +81,21 @@ describe('resumen y contadores', () => {
     })
   })
 
-  it('técnico y supervisor reciben su propio contador', async () => {
+  it('técnico y supervisor reciben los contadores de su menú', async () => {
     const tecnico = await api().get('/api/cuenta/contadores').set(conToken(await ingresar(JULIO)))
     const supervisor = await api().get('/api/cuenta/contadores').set(conToken(await ingresar(LUCIA)))
 
-    expect(Object.keys(tecnico.body)).toEqual(['asignados'])
-    expect(supervisor.body).toEqual({ colaSinAsignar: 2 })
+    expect(tecnico.body).toEqual({ asignados: 8, enAtencion: 1, enEspera: 1, resueltosHoy: 0 })
+    // en cola: abiertos o reabiertos sin técnico; en la cola de atención, todos los que no están cerrados
+    expect(supervisor.body).toEqual({ colaSinAsignar: 2, colaTotal: 6, usuariosTotal: 10 })
+  })
+
+  it('resueltos hoy cuenta los tickets del técnico que pasaron a resuelto en el día de Lima', async () => {
+    // TCK-2026-00141 pasó a resuelto el 29/09 a las 16:10 en Lima
+    vi.setSystemTime('2026-09-29T23:00:00.000Z')
+    const tecnico = await api().get('/api/cuenta/contadores').set(conToken(await ingresar(JULIO)))
+
+    expect(tecnico.body.resueltosHoy).toBe(1)
   })
 })
 

@@ -5,12 +5,15 @@ import authRoutes from './auth.routes.js'
 import categoriasRoutes from './categorias.routes.js'
 import colaRoutes from './cola.routes.js'
 import cuentaRoutes from './cuenta.routes.js'
+import encuestasRoutes from './encuestas.routes.js'
 import habilitacionesRoutes from './habilitaciones.routes.js'
 import invitacionesRoutes from './invitaciones.routes.js'
+import metricasRoutes from './metricas.routes.js'
 import pabellonesRoutes from './pabellones.routes.js'
 import sedesRoutes from './sedes.routes.js'
 import solicitudesAccesoRoutes from './solicitudesAcceso.routes.js'
 import ticketsRoutes from './tickets.routes.js'
+import usuariosRoutes from './usuarios.routes.js'
 
 // Todas las rutas de la API; cada historia agrega aquí las suyas.
 export const rutas = Router()
@@ -36,3 +39,10 @@ rutas.use('/cola', colaRoutes)
 
 // HU-5 Atención y cierre
 rutas.use('/atencion', atencionRoutes)
+
+// HU-6 Encuesta de satisfacción
+rutas.use('/encuestas', encuestasRoutes)
+
+// HU-7 Métricas y gestión de usuarios
+rutas.use('/metricas', metricasRoutes)
+rutas.use('/usuarios', usuariosRoutes)
